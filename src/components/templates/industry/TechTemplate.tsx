@@ -97,7 +97,7 @@ export function TechTemplate({ cv }: { cv: CV }) {
             </div>
           )}
         </header>
-        <div className="space-y-5">
+        <div className="my-auto space-y-5">
           {main.map((k) => {
             if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="// samenvatting" />;
             if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="// werkervaring" />;

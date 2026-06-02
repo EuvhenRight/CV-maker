@@ -175,7 +175,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
           ))}
         </div>
       </header>
-      <div className="space-y-4 px-10">{cv.sectionOrder.map(render)}</div>
+      <div className="my-auto space-y-4 px-10">{cv.sectionOrder.map(render)}</div>
       <div className="px-10 pb-10">
         <PageFooter accent={accent} />
       </div>

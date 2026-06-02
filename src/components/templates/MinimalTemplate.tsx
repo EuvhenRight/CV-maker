@@ -156,7 +156,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
           ))}
         </div>
       </header>
-      <div className="mt-4 space-y-4">
+      <div className="my-auto space-y-4 pt-4">
         {cv.sectionOrder.map((k) => renderSection(k))}
       </div>
       <PageFooter accent={accent} />

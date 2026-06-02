@@ -19,7 +19,7 @@ export function ModernTemplate({ cv }: TemplateProps) {
           <div className="text-[13px] text-neutral-700">{cv.personal.title}</div>
         )}
       </header>
-      <div className="grid grid-cols-[1fr_220px] gap-6">
+      <div className="my-auto grid grid-cols-[1fr_220px] gap-6">
         <div className="space-y-4">
           {main.map((k) => (
             <MainBlock key={k} k={k} cv={cv} accent={accent} />

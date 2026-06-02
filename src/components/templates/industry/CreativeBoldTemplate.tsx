@@ -70,14 +70,16 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
         </div>
       </header>
       <div className="grid flex-1 grid-cols-[1fr_200px] gap-6 px-10 pb-10">
-        <div className="flex flex-col space-y-5">
-          {main.map((k) => {
-            if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} />;
-            if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
-            if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
-            if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
-            return null;
-          })}
+        <div className="flex flex-col">
+          <div className="my-auto space-y-5">
+            {main.map((k) => {
+              if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} />;
+              if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
+              if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
+              if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+              return null;
+            })}
+          </div>
           <PageFooter accent={accent} />
         </div>
         <aside className="space-y-5 border-l pl-5" style={{ borderColor: `${accent}33` }}>

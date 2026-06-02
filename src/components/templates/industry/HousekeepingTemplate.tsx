@@ -37,7 +37,7 @@ export function HousekeepingTemplate({ cv }: { cv: CV }) {
           </div>
         </div>
       </header>
-      <div className="space-y-5">
+      <div className="my-auto space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
       <PageFooter accent={accent} />
