@@ -4,6 +4,7 @@ import {
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
+  PageFooter,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -25,8 +26,8 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
   const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
 
   return (
-    <article className="grid grid-cols-[1fr_210px] gap-6 text-[#1a1a1a]">
-      <div className="space-y-4">
+    <article className="grid flex-1 grid-cols-[1fr_210px] gap-6 p-10 text-[#1a1a1a]">
+      <div className="flex flex-col space-y-4">
         <header>
           <h1 className="font-display text-[26px] font-bold leading-tight">
             {cv.personal.fullName || "Jouw naam"}
@@ -50,6 +51,7 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
           if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
           return null;
         })}
+        <PageFooter accent={accent} />
       </div>
       <aside
         className="space-y-5 rounded-lg p-4"

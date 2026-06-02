@@ -79,6 +79,5 @@ h6 {
     margin: 0 !important;
     width: 210mm !important;
     min-height: 297mm !important;
-    page-break-after: avoid;
   }
 }

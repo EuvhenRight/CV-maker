@@ -1,12 +1,12 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PhotoFrame, type BlockOpts } from "../blocks";
+import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
 
 export function RetailTemplate({ cv }: { cv: CV }) {
   const accent = cv.accentColor;
   const opts: BlockOpts = { accent, heading: "bold-large" };
 
   return (
-    <article className="text-[#1a1a1a]">
+    <article className="flex flex-1 flex-col p-10 text-[#1a1a1a]">
       <header className="mb-5 grid grid-cols-[110px_1fr] gap-5">
         <PhotoFrame
           src={cv.personal.photo}
@@ -19,7 +19,7 @@ export function RetailTemplate({ cv }: { cv: CV }) {
             className="font-display text-[11px] font-bold uppercase tracking-[0.2em]"
             style={{ color: accent }}
           >
-            Customer Experience
+            Klantcontact
           </div>
           <h1 className="font-display text-[28px] font-extrabold leading-tight">
             {cv.personal.fullName || "Jouw naam"}
@@ -46,6 +46,7 @@ export function RetailTemplate({ cv }: { cv: CV }) {
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
+      <PageFooter accent={accent} />
     </article>
   );
 }

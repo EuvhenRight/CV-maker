@@ -4,6 +4,7 @@ import {
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
+  PageFooter,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -25,7 +26,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
   const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
 
   return (
-    <article className="grid grid-cols-[210px_1fr] gap-6 text-[#1a1a1a]">
+    <article className="grid flex-1 grid-cols-[210px_1fr] gap-6 p-10 text-[#1a1a1a]">
       <aside className="space-y-5">
         <PhotoFrame
           src={cv.personal.photo}
@@ -49,7 +50,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
           </div>
         ))}
       </aside>
-      <div className="space-y-5">
+      <div className="flex flex-col space-y-5">
         <header className="border-b pb-2" style={{ borderColor: accent }}>
           <h1 className="font-display text-[28px] font-bold leading-tight">
             {cv.personal.fullName || "Jouw naam"}
@@ -67,6 +68,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
           if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
           return null;
         })}
+        <PageFooter accent={accent} />
       </div>
     </article>
   );

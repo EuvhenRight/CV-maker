@@ -18,8 +18,9 @@ export function CVPreview({ scale }: { scale: number }) {
           style={{
             width: "794px",
             minHeight: "1123px",
-            padding: "40px",
             color: "#171717",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <CVTemplate cv={cv} />

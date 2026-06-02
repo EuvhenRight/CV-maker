@@ -1,5 +1,5 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PhotoFrame, type BlockOpts } from "../blocks";
+import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
 import { contactLine } from "../shared";
 
 export function ConstructionTemplate({ cv }: { cv: CV }) {
@@ -11,9 +11,9 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
   };
 
   return (
-    <article className="text-[#1a1a1a]">
+    <article className="flex flex-1 flex-col text-[#1a1a1a]">
       <header
-        className="-mx-10 -mt-10 mb-5 flex items-center gap-5 px-10 py-6 text-white"
+        className="mb-5 flex items-center gap-5 px-10 py-8 text-white"
         style={{ background: "#1f2933" }}
       >
         <PhotoFrame
@@ -41,8 +41,11 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
           </div>
         </div>
       </header>
-      <div className="space-y-5">
-        {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
+      <div className="flex flex-1 flex-col px-10 pb-10">
+        <div className="space-y-5">
+          {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
+        </div>
+        <PageFooter accent={accent} />
       </div>
     </article>
   );

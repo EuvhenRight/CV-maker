@@ -4,6 +4,7 @@ import {
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
+  PageFooter,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -34,19 +35,15 @@ export function TechTemplate({ cv }: { cv: CV }) {
 
   return (
     <article
-      className="grid"
+      className="grid flex-1"
       style={{
         gridTemplateColumns: "230px 1fr",
         gap: "0",
-        marginLeft: "-40px",
-        marginRight: "-40px",
-        marginTop: "-40px",
-        minHeight: "calc(100% + 80px)",
       }}
     >
       <aside
         className="flex flex-col gap-5 p-6 text-[12px] text-white"
-        style={{ background: "#101418", minHeight: "100%" }}
+        style={{ background: "#101418" }}
       >
         <div className="flex justify-center">
           <PhotoFrame
@@ -83,7 +80,7 @@ export function TechTemplate({ cv }: { cv: CV }) {
           </div>
         ))}
       </aside>
-      <div className="p-8">
+      <div className="flex flex-col p-8">
         <header className="mb-5">
           <div
             className="font-mono text-[11px] uppercase tracking-[0.2em]"
@@ -114,6 +111,7 @@ export function TechTemplate({ cv }: { cv: CV }) {
             Vul je contactgegevens in voor de zijbalk.
           </div>
         )}
+        <PageFooter accent={accent} />
       </div>
     </article>
   );

@@ -1,5 +1,6 @@
 import type { SectionKey } from "@/lib/cv-types";
 import { contactLine, dateRange, nonEmpty, type TemplateProps } from "./shared";
+import { PageFooter } from "./blocks";
 
 export function MinimalTemplate({ cv }: TemplateProps) {
   const accent = cv.accentColor;
@@ -141,7 +142,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
   };
 
   return (
-    <article className="font-sans text-neutral-900">
+    <article className="flex flex-1 flex-col p-10 font-sans text-neutral-900">
       <header className="border-b border-neutral-200 pb-3">
         <h1 className="text-2xl font-bold leading-tight">
           {cv.personal.fullName || "Jouw naam"}
@@ -158,6 +159,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
       <div className="mt-4 space-y-4">
         {cv.sectionOrder.map((k) => renderSection(k))}
       </div>
+      <PageFooter accent={accent} />
     </article>
   );
 }

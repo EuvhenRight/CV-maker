@@ -1,5 +1,6 @@
 import type { SectionKey } from "@/lib/cv-types";
 import { contactLine, dateRange, nonEmpty, type TemplateProps } from "./shared";
+import { PageFooter } from "./blocks";
 
 export function CorporateTemplate({ cv }: TemplateProps) {
   const accent = cv.accentColor;
@@ -122,7 +123,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
   };
 
   return (
-    <article className="text-neutral-900" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+    <article className="flex flex-1 flex-col p-10 text-neutral-900" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
       <header className="mb-4 text-center">
         <h1 className="text-[26px] font-bold uppercase tracking-[0.08em]">
           {cv.personal.fullName || "Jouw naam"}
@@ -136,6 +137,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         <div className="mt-2 h-[2px] w-full" style={{ background: accent }} />
       </header>
       <div className="space-y-4">{cv.sectionOrder.map(render)}</div>
+      <PageFooter accent={accent} />
     </article>
   );
 }

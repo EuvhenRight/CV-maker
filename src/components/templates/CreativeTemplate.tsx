@@ -1,5 +1,6 @@
 import type { SectionKey } from "@/lib/cv-types";
-import { contactLine, dateRange, nonEmpty, type TemplateProps } from "./shared";
+import { contactLine, dateRange, nonEmpty, textOn, softTextOn, type TemplateProps } from "./shared";
+import { PageFooter } from "./blocks";
 
 export function CreativeTemplate({ cv }: TemplateProps) {
   const accent = cv.accentColor;
@@ -149,25 +150,35 @@ export function CreativeTemplate({ cv }: TemplateProps) {
     }
   };
 
+  const headerText = textOn(accent);
+  const headerMuted = softTextOn(accent);
   return (
-    <article className="font-sans text-neutral-900">
+    <article className="flex flex-1 flex-col font-sans text-neutral-900">
       <header
-        className="-mx-10 -mt-10 mb-5 px-10 pb-5 pt-8 text-white"
-        style={{ background: accent }}
+        className="mb-5 px-10 pb-5 pt-10"
+        style={{ background: accent, color: headerText }}
       >
         <h1 className="text-[28px] font-extrabold leading-tight">
           {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
-          <div className="text-[14px] opacity-90">{cv.personal.title}</div>
+          <div className="text-[14px]" style={{ color: headerMuted }}>
+            {cv.personal.title}
+          </div>
         )}
-        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] opacity-90">
+        <div
+          className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px]"
+          style={{ color: headerMuted }}
+        >
           {contactLine(cv).map((c, i) => (
             <span key={i}>{c}</span>
           ))}
         </div>
       </header>
-      <div className="space-y-4">{cv.sectionOrder.map(render)}</div>
+      <div className="space-y-4 px-10">{cv.sectionOrder.map(render)}</div>
+      <div className="px-10 pb-10">
+        <PageFooter accent={accent} />
+      </div>
     </article>
   );
 }

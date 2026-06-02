@@ -1,5 +1,5 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PhotoFrame, type BlockOpts } from "../blocks";
+import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
 import { contactLine } from "../shared";
 
 export function HospitalityTemplate({ cv }: { cv: CV }) {
@@ -8,7 +8,7 @@ export function HospitalityTemplate({ cv }: { cv: CV }) {
 
   return (
     <article
-      className="text-[#1a1a1a]"
+      className="flex flex-1 flex-col p-10 text-[#1a1a1a]"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
     >
       <header className="mb-5 flex flex-col items-center text-center">
@@ -37,6 +37,7 @@ export function HospitalityTemplate({ cv }: { cv: CV }) {
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
+      <PageFooter accent={accent} />
     </article>
   );
 }

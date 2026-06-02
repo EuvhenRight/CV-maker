@@ -400,6 +400,29 @@ export function CertificationsBlock({
   );
 }
 
+export function PageFooter({
+  accent,
+  variant = "light",
+}: {
+  accent: string;
+  variant?: "light" | "dark";
+}) {
+  const lineColor = variant === "dark" ? "rgba(255,255,255,0.25)" : `${accent}55`;
+  const textColor = variant === "dark" ? "rgba(255,255,255,0.55)" : "#a8a8a8";
+  return (
+    <div className="mt-auto pt-5">
+      <div className="h-px w-full" style={{ background: lineColor }} />
+      <div
+        className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.16em]"
+        style={{ color: textColor }}
+      >
+        <span>Gemaakt met MaakMijnCV</span>
+        <span>cybersoek.nl</span>
+      </div>
+    </div>
+  );
+}
+
 export function PhotoFrame({
   src,
   size = 96,

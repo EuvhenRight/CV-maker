@@ -1,5 +1,5 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PhotoFrame, type BlockOpts } from "../blocks";
+import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
 import { contactLine } from "../shared";
 
 export function EducationTemplate({ cv }: { cv: CV }) {
@@ -12,7 +12,7 @@ export function EducationTemplate({ cv }: { cv: CV }) {
 
   return (
     <article
-      className="text-[#2a2a2a]"
+      className="flex flex-1 flex-col p-10 text-[#2a2a2a]"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
     >
       <header
@@ -45,6 +45,7 @@ export function EducationTemplate({ cv }: { cv: CV }) {
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
+      <PageFooter accent={accent} />
     </article>
   );
 }

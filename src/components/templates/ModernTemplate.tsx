@@ -1,5 +1,6 @@
 import type { SectionKey } from "@/lib/cv-types";
 import { dateRange, nonEmpty, type TemplateProps } from "./shared";
+import { PageFooter } from "./blocks";
 
 const SIDEBAR_KEYS = new Set<SectionKey>(["skills", "languages", "certifications"]);
 
@@ -9,7 +10,7 @@ export function ModernTemplate({ cv }: TemplateProps) {
   const side = cv.sectionOrder.filter((k) => SIDEBAR_KEYS.has(k));
 
   return (
-    <article className="font-sans text-neutral-900">
+    <article className="flex flex-1 flex-col p-10 font-sans text-neutral-900">
       <header className="mb-4 rounded-md p-4" style={{ background: `${accent}10` }}>
         <h1 className="text-2xl font-bold leading-tight" style={{ color: accent }}>
           {cv.personal.fullName || "Jouw naam"}
@@ -43,6 +44,7 @@ export function ModernTemplate({ cv }: TemplateProps) {
           ))}
         </aside>
       </div>
+      <PageFooter accent={accent} />
     </article>
   );
 }
@@ -71,7 +73,7 @@ function MainBlock({
   if (k === "summary") {
     return (
       <section>
-        <H accent={accent}>Summary</H>
+        <H accent={accent}>Samenvatting</H>
         <p className="text-[12px] leading-relaxed text-neutral-700">{cv.summary}</p>
       </section>
     );
@@ -79,7 +81,7 @@ function MainBlock({
   if (k === "experience") {
     return (
       <section>
-        <H accent={accent}>Experience</H>
+        <H accent={accent}>Werkervaring</H>
         <div className="space-y-3">
           {cv.experience.map((e) => (
             <div key={e.id}>
@@ -111,7 +113,7 @@ function MainBlock({
   if (k === "education") {
     return (
       <section>
-        <H accent={accent}>Education</H>
+        <H accent={accent}>Opleiding</H>
         <div className="space-y-2">
           {cv.education.map((ed) => (
             <div key={ed.id}>
@@ -133,7 +135,7 @@ function MainBlock({
   if (k === "projects") {
     return (
       <section>
-        <H accent={accent}>Projects</H>
+        <H accent={accent}>Projecten</H>
         <div className="space-y-2">
           {cv.projects.map((p) => (
             <div key={p.id}>
@@ -170,7 +172,7 @@ function SideBlock({
   if (k === "skills") {
     return (
       <div className="space-y-1">
-        <H accent={accent}>Skills</H>
+        <H accent={accent}>Vaardigheden</H>
         {cv.skills.map((s) => (
           <div key={s.id}>
             {s.category && (
@@ -185,7 +187,7 @@ function SideBlock({
   if (k === "languages") {
     return (
       <div className="space-y-0.5">
-        <H accent={accent}>Languages</H>
+        <H accent={accent}>Talen</H>
         {cv.languages.map((l) => (
           <div key={l.id}>
             <span className="font-semibold text-neutral-800">{l.name}</span>
@@ -198,7 +200,7 @@ function SideBlock({
   if (k === "certifications") {
     return (
       <div className="space-y-1">
-        <H accent={accent}>Certifications</H>
+        <H accent={accent}>Certificaten</H>
         {cv.certifications.map((c) => (
           <div key={c.id}>
             <div className="font-semibold text-neutral-800">{c.name}</div>

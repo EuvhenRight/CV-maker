@@ -4,6 +4,7 @@ import {
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
+  PageFooter,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -29,9 +30,9 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
   const endColor = headerText === "#1A1919" ? "#3a3a3a" : "#1a1a1a";
 
   return (
-    <article className="text-[#1a1a1a]">
+    <article className="flex flex-1 flex-col text-[#1a1a1a]">
       <header
-        className="-mx-10 -mt-10 mb-5 px-10 pb-8 pt-10"
+        className="mb-5 px-10 pb-8 pt-10"
         style={{
           background: `linear-gradient(135deg, ${accent} 0%, ${accent}cc 60%, ${endColor} 100%)`,
           color: headerText,
@@ -68,8 +69,8 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
           </div>
         </div>
       </header>
-      <div className="grid grid-cols-[1fr_200px] gap-6">
-        <div className="space-y-5">
+      <div className="grid flex-1 grid-cols-[1fr_200px] gap-6 px-10 pb-10">
+        <div className="flex flex-col space-y-5">
           {main.map((k) => {
             if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} />;
             if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
@@ -77,6 +78,7 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
             if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
             return null;
           })}
+          <PageFooter accent={accent} />
         </div>
         <aside className="space-y-5 border-l pl-5" style={{ borderColor: `${accent}33` }}>
           {side.map((k) => (

@@ -1,5 +1,5 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PhotoFrame, type BlockOpts } from "../blocks";
+import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
 import { contactLine, textOn, softTextOn } from "../shared";
 
 export function DeliveryTemplate({ cv }: { cv: CV }) {
@@ -9,9 +9,9 @@ export function DeliveryTemplate({ cv }: { cv: CV }) {
   const headerMuted = softTextOn(accent);
 
   return (
-    <article className="text-[#1a1919]">
+    <article className="flex flex-1 flex-col text-[#1a1919]">
       <header
-        className="-mx-10 -mt-10 mb-5 flex items-center gap-5 px-10 pb-5 pt-7"
+        className="mb-5 flex items-center gap-5 px-10 pb-5 pt-10"
         style={{ background: accent, color: headerText }}
       >
         <PhotoFrame
@@ -42,8 +42,11 @@ export function DeliveryTemplate({ cv }: { cv: CV }) {
           </div>
         </div>
       </header>
-      <div className="grid grid-cols-1 gap-5">
-        {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
+      <div className="flex flex-1 flex-col px-10 pb-10">
+        <div className="grid grid-cols-1 gap-5">
+          {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
+        </div>
+        <PageFooter accent={accent} />
       </div>
     </article>
   );
