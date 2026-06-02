@@ -25,18 +25,18 @@ export function Builder() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-neutral-50">
+    <div className="flex min-h-screen flex-col bg-[#F0EFEA]">
       <Toolbar />
       <div className="no-print grid flex-1 grid-cols-1 gap-0 lg:grid-cols-[minmax(0,560px)_1fr]">
-        <aside className="border-r border-neutral-200 bg-white">
+        <aside className="border-r border-[#e8e6df] bg-white">
           <div className="mx-auto max-w-2xl space-y-4 p-5">
             {!hydrated && (
-              <div className="rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-700">
+              <div className="rounded-md bg-[#FFF6E6] px-3 py-2 text-xs text-[#8a6a00]">
                 Loading your saved CV…
               </div>
             )}
             <EditorPanel />
-            <p className="pt-3 text-center text-xs text-neutral-400">
+            <p className="pt-3 text-center text-xs text-[#9a9a9a]">
               Autosaved locally · No account needed
             </p>
           </div>

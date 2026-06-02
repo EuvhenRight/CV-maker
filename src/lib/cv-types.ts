@@ -1,4 +1,18 @@
-export type TemplateId = "minimal" | "modern" | "corporate" | "creative";
+export type TemplateId =
+  | "minimal"
+  | "modern"
+  | "corporate"
+  | "creative"
+  | "tech"
+  | "delivery"
+  | "housekeeping"
+  | "hospitality"
+  | "healthcare"
+  | "construction"
+  | "retail"
+  | "education"
+  | "creative-bold"
+  | "admin";
 
 export interface PersonalInfo {
   fullName: string;
@@ -8,6 +22,7 @@ export interface PersonalInfo {
   location: string;
   website: string;
   linkedin: string;
+  photo: string;
 }
 
 export interface ExperienceItem {

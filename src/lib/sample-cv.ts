@@ -10,6 +10,7 @@ export function makeEmptyCV(): CV {
       location: "",
       website: "",
       linkedin: "",
+      photo: "",
     },
     summary: "",
     experience: [],
@@ -20,7 +21,7 @@ export function makeEmptyCV(): CV {
     certifications: [],
     sectionOrder: [...ALL_SECTIONS],
     template: "minimal",
-    accentColor: "#4f46e5",
+    accentColor: "#F77B69",
   };
 }
 
@@ -34,6 +35,7 @@ export function makeSampleCV(): CV {
       location: "Amsterdam, NL",
       website: "alexmorgan.design",
       linkedin: "linkedin.com/in/alexmorgan",
+      photo: "",
     },
     summary:
       "Product designer with 7+ years building consumer and B2B SaaS. Led design systems for two Series-B startups, shipped 30+ features end-to-end, and partner closely with engineering and PM to ship measurable outcomes.",
@@ -113,7 +115,7 @@ export function makeSampleCV(): CV {
       },
     ],
     sectionOrder: [...ALL_SECTIONS],
-    template: "minimal",
-    accentColor: "#4f46e5",
+    template: "tech",
+    accentColor: "#F77B69",
   };
 }

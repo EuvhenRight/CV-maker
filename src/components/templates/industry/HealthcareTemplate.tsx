@@ -1,0 +1,82 @@
+import type { CV, SectionKey } from "@/lib/cv-types";
+import {
+  CertificationsBlock,
+  EducationBlock,
+  ExperienceBlock,
+  LanguagesBlock,
+  PhotoFrame,
+  ProjectsBlock,
+  SkillsBlock,
+  SummaryBlock,
+  type BlockOpts,
+} from "../blocks";
+
+const SIDE: SectionKey[] = ["skills", "languages", "certifications"];
+
+export function HealthcareTemplate({ cv }: { cv: CV }) {
+  const accent = cv.accentColor;
+  const opts: BlockOpts = { accent, heading: "underline" };
+  const sideOpts: BlockOpts = {
+    accent,
+    heading: "side-bar",
+    textColor: "#2a2a2a",
+  };
+  const main = cv.sectionOrder.filter((k) => !SIDE.includes(k));
+  const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
+
+  return (
+    <article className="grid grid-cols-[1fr_210px] gap-6 text-[#1a1a1a]">
+      <div className="space-y-4">
+        <header>
+          <h1 className="font-display text-[26px] font-bold leading-tight">
+            {cv.personal.fullName || "Your Name"}
+          </h1>
+          {cv.personal.title && (
+            <div className="text-[14px]" style={{ color: accent }}>
+              {cv.personal.title}
+            </div>
+          )}
+          <div className="mt-2 flex flex-wrap gap-x-3 text-[11px] text-[#555]">
+            {cv.personal.email && <span>{cv.personal.email}</span>}
+            {cv.personal.phone && <span>{cv.personal.phone}</span>}
+            {cv.personal.location && <span>{cv.personal.location}</span>}
+            {cv.personal.linkedin && <span>{cv.personal.linkedin}</span>}
+          </div>
+        </header>
+        {main.map((k) => {
+          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profile" />;
+          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Clinical Experience" />;
+          if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
+          if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+          return null;
+        })}
+      </div>
+      <aside
+        className="space-y-5 rounded-lg p-4"
+        style={{ background: "#f0f6fb" }}
+      >
+        <div className="flex justify-center">
+          <PhotoFrame
+            src={cv.personal.photo}
+            size={130}
+            shape="circle"
+            borderColor={accent}
+          />
+        </div>
+        {side.map((k) => (
+          <div key={k}>
+            {k === "skills" && (
+              <SkillsBlock cv={cv} opts={sideOpts} title="Competencies" />
+            )}
+            {k === "languages" && (
+              <LanguagesBlock cv={cv} opts={sideOpts} stacked />
+            )}
+            {k === "certifications" && (
+              <CertificationsBlock cv={cv} opts={sideOpts} title="Licenses" />
+            )}
+          </div>
+        ))}
+      </aside>
+    </article>
+  );
+}

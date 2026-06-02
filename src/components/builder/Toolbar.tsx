@@ -6,15 +6,24 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { useCVStore } from "@/lib/store";
-import { TEMPLATE_META } from "@/components/templates";
+import { TEMPLATE_IDS, TEMPLATE_META } from "@/components/templates";
 import type { TemplateId } from "@/lib/cv-types";
 
-const ACCENTS = ["#4f46e5", "#0f766e", "#b91c1c", "#0369a1", "#171717"];
+const ACCENTS = [
+  "#F77B69",
+  "#E15F4B",
+  "#0087FF",
+  "#A3CBA9",
+  "#1F2933",
+  "#B91C1C",
+];
 
 export function Toolbar() {
   const template = useCVStore((s) => s.cv.template);
@@ -24,36 +33,54 @@ export function Toolbar() {
   const reset = useCVStore((s) => s.reset);
   const loadSample = useCVStore((s) => s.loadSample);
 
+  const classic = TEMPLATE_IDS.filter(
+    (id) => TEMPLATE_META[id].category === "classic",
+  );
+  const industry = TEMPLATE_IDS.filter(
+    (id) => TEMPLATE_META[id].category === "industry",
+  );
+
   return (
-    <div className="no-print sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-neutral-200 bg-white/90 px-4 py-3 backdrop-blur">
+    <div className="no-print sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-[#e8e6df] bg-[#F0EFEA]/90 px-4 py-3 backdrop-blur">
       <Link
         href="/"
-        className="text-sm font-bold tracking-tight text-neutral-900"
+        className="font-display text-lg font-bold tracking-tight text-[#1A1919]"
       >
-        Make<span className="text-indigo-600">MyCV</span>
+        Make<span className="text-[#F77B69]">MyCV</span>
       </Link>
 
       <div className="flex items-center gap-2">
-        <span className="text-xs text-neutral-500">Template</span>
+        <span className="text-xs text-[#6b6b6b]">Template</span>
         <Select
           value={template}
           onValueChange={(v) => setTemplate(v as TemplateId)}
         >
-          <SelectTrigger className="h-9 w-[140px]">
+          <SelectTrigger className="h-9 w-[200px] rounded-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {(Object.keys(TEMPLATE_META) as TemplateId[]).map((id) => (
-              <SelectItem key={id} value={id}>
-                {TEMPLATE_META[id].name}
-              </SelectItem>
-            ))}
+            <SelectGroup>
+              <SelectLabel>Classic (no photo)</SelectLabel>
+              {classic.map((id) => (
+                <SelectItem key={id} value={id}>
+                  {TEMPLATE_META[id].name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel>Industry (with photo)</SelectLabel>
+              {industry.map((id) => (
+                <SelectItem key={id} value={id}>
+                  {TEMPLATE_META[id].name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
           </SelectContent>
         </Select>
       </div>
 
       <div className="flex items-center gap-2">
-        <span className="text-xs text-neutral-500">Accent</span>
+        <span className="text-xs text-[#6b6b6b]">Accent</span>
         <div className="flex items-center gap-1">
           {ACCENTS.map((c) => (
             <button
@@ -61,11 +88,11 @@ export function Toolbar() {
               type="button"
               aria-label={`Accent ${c}`}
               onClick={() => setAccent(c)}
-              className="h-6 w-6 rounded-full border border-neutral-200 transition-transform hover:scale-110"
+              className="h-6 w-6 rounded-full border border-[#e8e6df] transition-transform hover:scale-110"
               style={{
                 background: c,
-                outline: accent === c ? "2px solid #111" : undefined,
-                outlineOffset: 1,
+                outline: accent === c ? "2px solid #1A1919" : undefined,
+                outlineOffset: 2,
               }}
             />
           ))}
@@ -75,7 +102,7 @@ export function Toolbar() {
       <div className="ml-auto flex items-center gap-2">
         <Button variant="ghost" size="sm" onClick={loadSample}>
           <Wand2 className="h-4 w-4" />
-          Load sample
+          Sample
         </Button>
         <Button
           variant="ghost"

@@ -33,12 +33,12 @@ export function SectionShell({
         transition,
         opacity: isDragging ? 0.5 : 1,
       }}
-      className="rounded-lg border border-neutral-200 bg-white shadow-sm"
+      className="rounded-lg border border-[#e8e6df] bg-white shadow-sm"
     >
       <div className="flex items-center gap-1 px-2 py-2">
         <button
           type="button"
-          className="cursor-grab touch-none rounded p-1 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700 active:cursor-grabbing"
+          className="cursor-grab touch-none rounded p-1 text-neutral-400 hover:bg-[#f0efea] hover:text-neutral-700 active:cursor-grabbing"
           aria-label="Drag to reorder section"
           {...attributes}
           {...listeners}
@@ -48,7 +48,7 @@ export function SectionShell({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex flex-1 items-center justify-between rounded px-2 py-1 text-left hover:bg-neutral-50"
+          className="flex flex-1 items-center justify-between rounded px-2 py-1 text-left hover:bg-[#fafaf7]"
         >
           <span className="flex items-center gap-2 text-sm font-semibold text-neutral-900">
             {open ? (
@@ -58,14 +58,14 @@ export function SectionShell({
             )}
             {title}
             {typeof count === "number" && (
-              <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[11px] font-medium text-neutral-600">
+              <span className="rounded-full bg-[#f0efea] px-2 py-0.5 text-[11px] font-medium text-neutral-600">
                 {count}
               </span>
             )}
           </span>
         </button>
       </div>
-      <div className={cn("border-t border-neutral-100 px-4 pb-4 pt-3", !open && "hidden")}>
+      <div className={cn("border-t border-[#f0efea] px-4 pb-4 pt-3", !open && "hidden")}>
         {children}
       </div>
     </div>

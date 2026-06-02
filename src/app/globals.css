@@ -1,27 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f0efea;
+  --foreground: #1a1919;
+  --brand: #f77b69;
+  --brand-dark: #e15f4b;
+  --accent: #0087ff;
+  --sage: #a3cba9;
+  --surface: #ffffff;
+  --muted: #6b6b6b;
+  --line: #e8e6df;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-accent: var(--accent);
+  --color-sage: var(--sage);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-noto), system-ui, sans-serif;
+  --font-poppins: var(--font-poppins);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family:
-    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: var(--font-noto), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
   -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-poppins), sans-serif;
 }
 
 .print-only {
@@ -50,7 +77,6 @@ body {
   .cv-page {
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 40px !important;
     width: 210mm !important;
     min-height: 297mm !important;
     page-break-after: avoid;

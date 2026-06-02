@@ -261,9 +261,22 @@ export const useCVStore = create<CVStore>()(
     }),
     {
       name: "makemycv:cv",
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ cv: s.cv }),
+      migrate: (persisted: unknown, version) => {
+        const p = persisted as { cv?: Partial<CV> } | null;
+        if (!p?.cv) return { cv: makeEmptyCV() };
+        const cv: CV = {
+          ...makeEmptyCV(),
+          ...p.cv,
+          personal: { ...makeEmptyCV().personal, ...(p.cv.personal ?? {}) },
+        };
+        if (version < 2 && (cv.accentColor === "#4f46e5" || !cv.accentColor)) {
+          cv.accentColor = "#F77B69";
+        }
+        return { cv };
+      },
       onRehydrateStorage: () => (state) => {
         state?.setHydrated(true);
       },
