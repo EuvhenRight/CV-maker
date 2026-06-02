@@ -2,7 +2,6 @@
 
 import { Textarea } from "@/components/ui/textarea";
 import { useCVStore } from "@/lib/store";
-import { AIStubButton } from "../AIStubButton";
 
 export function SummarySection() {
   const summary = useCVStore((s) => s.cv.summary);
@@ -15,9 +14,8 @@ export function SummarySection() {
         placeholder="2–4 zinnen over wie je bent, wat je hebt opgeleverd en wat je wilt gaan doen."
         onChange={(e) => setSummary(e.target.value)}
       />
-      <div className="flex items-center justify-between text-xs text-[#7a7a7a]">
-        <span>{summary.length} tekens · mik op 300–600.</span>
-        <AIStubButton label="Genereer samenvatting" />
+      <div className="text-xs text-[#7a7a7a]">
+        {summary.length} tekens · mik op 300–600.
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCVStore } from "@/lib/store";
-import { AIStubButton } from "../AIStubButton";
 
 export function ExperienceSection() {
   const items = useCVStore((s) => s.cv.experience);
@@ -93,10 +92,7 @@ export function ExperienceSection() {
             </div>
           </div>
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label>Punten</Label>
-              <AIStubButton label="Verbeter punten" />
-            </div>
+            <Label>Punten</Label>
             {exp.bullets.map((b, bi) => (
               <div key={bi} className="flex items-start gap-2">
                 <span className="mt-2 text-[#aaa]">•</span>
