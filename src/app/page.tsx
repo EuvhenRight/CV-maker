@@ -233,9 +233,6 @@ export default function HomePage() {
               cybersoek.nl
             </a>
           </div>
-          <div className="font-display text-[#8a8a8a]">
-            Next.js · Tailwind · shadcn/ui
-          </div>
         </div>
       </footer>
     </div>
