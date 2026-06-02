@@ -50,7 +50,7 @@ export function Toolbar() {
           className="inline-block h-3 w-3 rounded-full"
           style={{ background: "#A3CBA9" }}
         />
-        Cybersoek
+        Maak<span className="text-[#7FA689]">MijnCV</span>
       </Link>
 
       <div className="flex items-center gap-2">

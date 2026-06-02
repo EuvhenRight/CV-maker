@@ -53,7 +53,7 @@ export default function HomePage() {
               className="inline-block h-3.5 w-3.5 rounded-full"
               style={{ background: "#A3CBA9" }}
             />
-            Cybersoek
+            Maak<span className="text-[#7FA689]">MijnCV</span>
           </Link>
           <nav className="flex items-center gap-5 text-sm text-[#3a3a3a]">
             <a
@@ -223,7 +223,7 @@ export default function HomePage() {
       <footer className="border-t border-[#e8e6df] bg-[#F0EFEA]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-xs text-[#7a7a7a]">
           <div>
-            © {new Date().getFullYear()} Cybersoek · CV-tool voor{" "}
+            © {new Date().getFullYear()} MaakMijnCV · CV-tool voor{" "}
             <a
               href="https://cybersoek.nl"
               target="_blank"

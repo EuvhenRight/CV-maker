@@ -1,7 +1,7 @@
 import { Builder } from "@/components/builder/Builder";
 
 export const metadata = {
-  title: "Editor — Cybersoek CV",
+  title: "Editor — MaakMijnCV",
   description: "Bewerk je CV met live voorbeeld.",
 };
 
