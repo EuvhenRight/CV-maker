@@ -8,7 +8,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
     switch (k) {
       case "summary":
         return (
-          <Block key={k} title="About" accent={accent}>
+          <Block key={k} title="Over mij" accent={accent}>
             <p className="text-[12px] leading-relaxed text-neutral-700">
               {cv.summary}
             </p>
@@ -16,7 +16,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "experience":
         return (
-          <Block key={k} title="Experience" accent={accent}>
+          <Block key={k} title="Werkervaring" accent={accent}>
             <div className="space-y-3">
               {cv.experience.map((e) => (
                 <div key={e.id} className="relative pl-4">
@@ -52,7 +52,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "education":
         return (
-          <Block key={k} title="Education" accent={accent}>
+          <Block key={k} title="Opleiding" accent={accent}>
             <div className="space-y-2">
               {cv.education.map((ed) => (
                 <div key={ed.id}>
@@ -72,7 +72,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "skills":
         return (
-          <Block key={k} title="Skills" accent={accent}>
+          <Block key={k} title="Vaardigheden" accent={accent}>
             <div className="flex flex-wrap gap-1.5">
               {cv.skills.flatMap((s) =>
                 s.items
@@ -94,7 +94,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "projects":
         return (
-          <Block key={k} title="Projects" accent={accent}>
+          <Block key={k} title="Projecten" accent={accent}>
             <div className="space-y-2">
               {cv.projects.map((p) => (
                 <div key={p.id}>
@@ -119,7 +119,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "languages":
         return (
-          <Block key={k} title="Languages" accent={accent}>
+          <Block key={k} title="Talen" accent={accent}>
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-[12px]">
               {cv.languages.map((l) => (
                 <span key={l.id}>
@@ -132,7 +132,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         );
       case "certifications":
         return (
-          <Block key={k} title="Certifications" accent={accent}>
+          <Block key={k} title="Certificaten" accent={accent}>
             <div className="space-y-0.5 text-[12px]">
               {cv.certifications.map((c) => (
                 <div key={c.id}>
@@ -156,7 +156,7 @@ export function CreativeTemplate({ cv }: TemplateProps) {
         style={{ background: accent }}
       >
         <h1 className="text-[28px] font-extrabold leading-tight">
-          {cv.personal.fullName || "Your Name"}
+          {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
           <div className="text-[14px] opacity-90">{cv.personal.title}</div>

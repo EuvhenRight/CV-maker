@@ -33,14 +33,14 @@ export function PersonalSection() {
     <div className="space-y-4">
       <PhotoUpload />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {field("fullName", "Full name", "Jane Doe")}
-        {field("title", "Job title", "Senior Software Engineer")}
-        {field("email", "Email", "jane@example.com", "email")}
-        {field("phone", "Phone", "+31 6 12 34 56 78", "tel")}
-        {field("location", "Location", "Amsterdam, NL")}
-        {field("website", "Website", "janedoe.dev")}
+        {field("fullName", "Volledige naam", "Sanne de Vries")}
+        {field("title", "Functietitel", "Senior Softwareontwikkelaar")}
+        {field("email", "E-mail", "sanne@voorbeeld.nl", "email")}
+        {field("phone", "Telefoon", "+31 6 12 34 56 78", "tel")}
+        {field("location", "Woonplaats", "Amsterdam, NL")}
+        {field("website", "Website", "sannedevries.nl")}
         <div className="sm:col-span-2">
-          {field("linkedin", "LinkedIn", "linkedin.com/in/janedoe")}
+          {field("linkedin", "LinkedIn", "linkedin.com/in/sannedevries")}
         </div>
       </div>
     </div>

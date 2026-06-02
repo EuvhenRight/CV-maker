@@ -24,7 +24,7 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
         />
         <div className="flex-1">
           <h1 className="font-display text-[30px] font-extrabold uppercase leading-tight tracking-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div

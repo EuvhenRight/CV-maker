@@ -23,7 +23,7 @@ export function HousekeepingTemplate({ cv }: { cv: CV }) {
             className="font-display text-[26px] font-bold leading-tight"
             style={{ color: accent }}
           >
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div className="text-[13px] text-[#5a5a5a]">

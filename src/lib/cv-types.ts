@@ -94,13 +94,13 @@ export const ALL_SECTIONS: SectionKey[] = [
 ];
 
 export const SECTION_LABELS: Record<SectionKey, string> = {
-  summary: "Summary",
-  experience: "Experience",
-  education: "Education",
-  skills: "Skills",
-  projects: "Projects",
-  languages: "Languages",
-  certifications: "Certifications",
+  summary: "Samenvatting",
+  experience: "Werkervaring",
+  education: "Opleiding",
+  skills: "Vaardigheden",
+  projects: "Projecten",
+  languages: "Talen",
+  certifications: "Certificaten",
 };
 
 export interface CV {

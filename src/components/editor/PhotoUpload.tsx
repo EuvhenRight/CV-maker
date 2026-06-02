@@ -57,7 +57,7 @@ export function PhotoUpload() {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={photo}
-            alt="Profile"
+            alt="Profielfoto"
             className="h-full w-full object-cover"
           />
         ) : (
@@ -81,7 +81,11 @@ export function PhotoUpload() {
           disabled={busy}
         >
           <Camera className="h-3.5 w-3.5" />
-          {busy ? "Uploading…" : photo ? "Replace photo" : "Upload photo"}
+          {busy
+            ? "Uploaden…"
+            : photo
+              ? "Foto vervangen"
+              : "Foto uploaden"}
         </Button>
         {photo && (
           <Button
@@ -91,11 +95,11 @@ export function PhotoUpload() {
             className="text-[#6b6b6b]"
           >
             <Trash2 className="h-3.5 w-3.5" />
-            Remove
+            Verwijderen
           </Button>
         )}
         <span className="text-[11px] text-[#9a9a9a]">
-          Recommended: square, head-and-shoulders, &lt; 1 MB.
+          Aanbevolen: vierkant, hoofd en schouders, &lt; 1 MB.
         </span>
       </div>
     </div>

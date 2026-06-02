@@ -52,7 +52,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
       <div className="space-y-5">
         <header className="border-b pb-2" style={{ borderColor: accent }}>
           <h1 className="font-display text-[28px] font-bold leading-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div className="text-[14px]" style={{ color: accent }}>
@@ -61,7 +61,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
           )}
         </header>
         {main.map((k) => {
-          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profile" />;
+          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
           if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
           if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
           if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;

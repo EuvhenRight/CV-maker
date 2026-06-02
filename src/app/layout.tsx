@@ -15,9 +15,9 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "MakeMyCV — Maak je CV in 5 minuten",
+  title: "Cybersoek CV — Maak je CV in 5 minuten",
   description:
-    "Kies een recruiter-goedgekeurd template, vul je gegevens in, download een professionele PDF. Inclusief foto. Geen account nodig.",
+    "Kies een recruiter-goedgekeurd template, vul je gegevens in en download een professionele PDF. Inclusief foto. Geen account nodig.",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="nl"
       className={`${poppins.variable} ${notoSans.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#F0EFEA] text-[#1A1919]">{children}</body>

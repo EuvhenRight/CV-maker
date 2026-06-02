@@ -32,12 +32,12 @@ export function Builder() {
           <div className="mx-auto max-w-2xl space-y-4 p-5">
             {!hydrated && (
               <div className="rounded-md bg-[#FFF6E6] px-3 py-2 text-xs text-[#8a6a00]">
-                Loading your saved CV…
+                Je opgeslagen CV wordt geladen…
               </div>
             )}
             <EditorPanel />
             <p className="pt-3 text-center text-xs text-[#9a9a9a]">
-              Autosaved locally · No account needed
+              Lokaal opgeslagen · Geen account nodig
             </p>
           </div>
         </aside>

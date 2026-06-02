@@ -92,7 +92,7 @@ export function TechTemplate({ cv }: { cv: CV }) {
             $ whoami
           </div>
           <h1 className="font-display text-[28px] font-extrabold leading-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div className="text-[14px]" style={{ color: accent }}>
@@ -102,16 +102,16 @@ export function TechTemplate({ cv }: { cv: CV }) {
         </header>
         <div className="space-y-5">
           {main.map((k) => {
-            if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="// summary" />;
-            if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="// experience" />;
-            if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} title="// education" />;
-            if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} title="// projects" />;
+            if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="// samenvatting" />;
+            if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="// werkervaring" />;
+            if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} title="// opleiding" />;
+            if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} title="// projecten" />;
             return null;
           })}
         </div>
         {contactLine(cv).length === 0 && (
           <div className="mt-6 text-[11px] text-[#9a9a9a]">
-            Add your contact details for the sidebar.
+            Vul je contactgegevens in voor de zijbalk.
           </div>
         )}
       </div>

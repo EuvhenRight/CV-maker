@@ -273,7 +273,7 @@ export const useCVStore = create<CVStore>()(
           personal: { ...makeEmptyCV().personal, ...(p.cv.personal ?? {}) },
         };
         if (version < 2 && (cv.accentColor === "#4f46e5" || !cv.accentColor)) {
-          cv.accentColor = "#F77B69";
+          cv.accentColor = "#A3CBA9";
         }
         return { cv };
       },

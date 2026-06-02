@@ -22,7 +22,7 @@ export function RetailTemplate({ cv }: { cv: CV }) {
             Customer Experience
           </div>
           <h1 className="font-display text-[28px] font-extrabold leading-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div className="text-[14px] text-[#555]">{cv.personal.title}</div>

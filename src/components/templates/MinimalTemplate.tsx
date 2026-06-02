@@ -8,7 +8,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
     switch (key) {
       case "summary":
         return (
-          <Section key={key} title="Summary" accent={accent}>
+          <Section key={key} title="Samenvatting" accent={accent}>
             <p className="text-[12px] leading-relaxed text-neutral-700">
               {cv.summary}
             </p>
@@ -16,7 +16,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "experience":
         return (
-          <Section key={key} title="Experience" accent={accent}>
+          <Section key={key} title="Werkervaring" accent={accent}>
             <div className="space-y-3">
               {cv.experience.map((e) => (
                 <div key={e.id}>
@@ -46,7 +46,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "education":
         return (
-          <Section key={key} title="Education" accent={accent}>
+          <Section key={key} title="Opleiding" accent={accent}>
             <div className="space-y-2">
               {cv.education.map((ed) => (
                 <div key={ed.id}>
@@ -71,7 +71,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "skills":
         return (
-          <Section key={key} title="Skills" accent={accent}>
+          <Section key={key} title="Vaardigheden" accent={accent}>
             <div className="space-y-1">
               {cv.skills.map((s) => (
                 <div key={s.id} className="text-[12px] text-neutral-700">
@@ -88,7 +88,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "projects":
         return (
-          <Section key={key} title="Projects" accent={accent}>
+          <Section key={key} title="Projecten" accent={accent}>
             <div className="space-y-2">
               {cv.projects.map((p) => (
                 <div key={p.id}>
@@ -110,7 +110,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "languages":
         return (
-          <Section key={key} title="Languages" accent={accent}>
+          <Section key={key} title="Talen" accent={accent}>
             <div className="text-[12px] text-neutral-700">
               {cv.languages
                 .map((l) => (l.level ? `${l.name} (${l.level})` : l.name))
@@ -120,7 +120,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
         );
       case "certifications":
         return (
-          <Section key={key} title="Certifications" accent={accent}>
+          <Section key={key} title="Certificaten" accent={accent}>
             <div className="space-y-1">
               {cv.certifications.map((c) => (
                 <div
@@ -144,7 +144,7 @@ export function MinimalTemplate({ cv }: TemplateProps) {
     <article className="font-sans text-neutral-900">
       <header className="border-b border-neutral-200 pb-3">
         <h1 className="text-2xl font-bold leading-tight">
-          {cv.personal.fullName || "Your Name"}
+          {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
           <div className="text-[13px] text-neutral-600">{cv.personal.title}</div>

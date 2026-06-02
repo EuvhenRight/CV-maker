@@ -12,7 +12,7 @@ export function ModernTemplate({ cv }: TemplateProps) {
     <article className="font-sans text-neutral-900">
       <header className="mb-4 rounded-md p-4" style={{ background: `${accent}10` }}>
         <h1 className="text-2xl font-bold leading-tight" style={{ color: accent }}>
-          {cv.personal.fullName || "Your Name"}
+          {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
           <div className="text-[13px] text-neutral-700">{cv.personal.title}</div>

@@ -12,12 +12,12 @@ export function SummarySection() {
       <Textarea
         rows={5}
         value={summary}
-        placeholder="2–4 sentences on who you are, what you've shipped, and what you want to do next."
+        placeholder="2–4 zinnen over wie je bent, wat je hebt opgeleverd en wat je wilt gaan doen."
         onChange={(e) => setSummary(e.target.value)}
       />
-      <div className="flex items-center justify-between text-xs text-neutral-500">
-        <span>{summary.length} chars · aim for 300–600.</span>
-        <AIStubButton label="Generate summary" />
+      <div className="flex items-center justify-between text-xs text-[#7a7a7a]">
+        <span>{summary.length} tekens · mik op 300–600.</span>
+        <AIStubButton label="Genereer samenvatting" />
       </div>
     </div>
   );

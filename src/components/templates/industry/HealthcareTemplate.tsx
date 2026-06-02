@@ -29,7 +29,7 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
       <div className="space-y-4">
         <header>
           <h1 className="font-display text-[26px] font-bold leading-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div className="text-[14px]" style={{ color: accent }}>
@@ -44,8 +44,8 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
           </div>
         </header>
         {main.map((k) => {
-          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profile" />;
-          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Clinical Experience" />;
+          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
+          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Klinische werkervaring" />;
           if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
           if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
           return null;
@@ -66,13 +66,13 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
         {side.map((k) => (
           <div key={k}>
             {k === "skills" && (
-              <SkillsBlock cv={cv} opts={sideOpts} title="Competencies" />
+              <SkillsBlock cv={cv} opts={sideOpts} title="Competenties" />
             )}
             {k === "languages" && (
               <LanguagesBlock cv={cv} opts={sideOpts} stacked />
             )}
             {k === "certifications" && (
-              <CertificationsBlock cv={cv} opts={sideOpts} title="Licenses" />
+              <CertificationsBlock cv={cv} opts={sideOpts} title="Diplomas en licenties" />
             )}
           </div>
         ))}

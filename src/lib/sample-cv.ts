@@ -21,57 +21,57 @@ export function makeEmptyCV(): CV {
     certifications: [],
     sectionOrder: [...ALL_SECTIONS],
     template: "minimal",
-    accentColor: "#F77B69",
+    accentColor: "#A3CBA9",
   };
 }
 
 export function makeSampleCV(): CV {
   return {
     personal: {
-      fullName: "Alex Morgan",
-      title: "Senior Product Designer",
-      email: "alex.morgan@example.com",
-      phone: "+1 (555) 123-4567",
+      fullName: "Sanne de Vries",
+      title: "Senior Productontwerper",
+      email: "sanne.devries@example.nl",
+      phone: "+31 6 12 34 56 78",
       location: "Amsterdam, NL",
-      website: "alexmorgan.design",
-      linkedin: "linkedin.com/in/alexmorgan",
+      website: "sannedevries.nl",
+      linkedin: "linkedin.com/in/sannedevries",
       photo: "",
     },
     summary:
-      "Product designer with 7+ years building consumer and B2B SaaS. Led design systems for two Series-B startups, shipped 30+ features end-to-end, and partner closely with engineering and PM to ship measurable outcomes.",
+      "Productontwerper met 7+ jaar ervaring in consumenten- en B2B SaaS. Bouwde design systems bij twee Series-B startups, leverde 30+ features op en werk nauw samen met engineering en product om meetbare resultaten te behalen.",
     experience: [
       {
         id: "exp1",
         company: "Northwind Labs",
-        role: "Senior Product Designer",
+        role: "Senior Productontwerper",
         location: "Amsterdam, NL",
         startDate: "Jan 2023",
         endDate: "",
         current: true,
         bullets: [
-          "Led redesign of core dashboard used by 40k+ weekly active users, lifting task-completion rate by 28%.",
-          "Owned design system across 4 squads; reduced design–dev handoff time by ~35%.",
-          "Mentored 3 mid-level designers via weekly crits and pairing sessions.",
+          "Leidde de redesign van het kerndashboard met 40.000+ wekelijkse gebruikers — taakvoltooiing steeg met 28%.",
+          "Verantwoordelijk voor het design system over 4 teams; verkortte design–dev overdracht met ~35%.",
+          "Begeleidde 3 mid-level ontwerpers via wekelijkse crits en pairing-sessies.",
         ],
       },
       {
         id: "exp2",
         company: "Lumen SaaS",
-        role: "Product Designer",
+        role: "Productontwerper",
         location: "Remote",
         startDate: "Jun 2020",
         endDate: "Dec 2022",
         current: false,
         bullets: [
-          "Shipped onboarding flow that increased activation 18% and reduced support tickets 22%.",
-          "Ran 30+ moderated user interviews to validate pricing redesign.",
+          "Lanceerde onboarding-flow die activatie met 18% verhoogde en supporttickets met 22% verlaagde.",
+          "Voerde 30+ moderated user interviews uit voor de prijsstelling-redesign.",
         ],
       },
     ],
     education: [
       {
         id: "edu1",
-        school: "Delft University of Technology",
+        school: "TU Delft",
         degree: "MSc",
         field: "Design for Interaction",
         startDate: "2016",
@@ -82,28 +82,30 @@ export function makeSampleCV(): CV {
     skills: [
       {
         id: "sk1",
-        category: "Design",
-        items: "Figma, Design systems, Prototyping, User research, Accessibility",
+        category: "Ontwerp",
+        items:
+          "Figma, Design systems, Prototyping, Gebruikersonderzoek, Toegankelijkheid",
       },
       {
         id: "sk2",
-        category: "Collaboration",
-        items: "Cross-functional leadership, Mentoring, Workshop facilitation",
+        category: "Samenwerking",
+        items:
+          "Cross-functioneel leiderschap, Mentoring, Workshop-facilitatie",
       },
     ],
     projects: [
       {
         id: "pr1",
         name: "Open Design Tokens",
-        link: "github.com/alex/odt",
+        link: "github.com/sanne/odt",
         description:
-          "Open-source toolkit converting Figma variables to multi-platform design tokens. 1.2k stars.",
+          "Open-source toolkit die Figma-variabelen omzet naar multi-platform design tokens. 1.2k sterren.",
         bullets: [],
       },
     ],
     languages: [
-      { id: "ln1", name: "English", level: "Native" },
-      { id: "ln2", name: "Dutch", level: "Professional" },
+      { id: "ln1", name: "Nederlands", level: "Moedertaal" },
+      { id: "ln2", name: "Engels", level: "Vloeiend" },
     ],
     certifications: [
       {
@@ -116,6 +118,6 @@ export function makeSampleCV(): CV {
     ],
     sectionOrder: [...ALL_SECTIONS],
     template: "tech",
-    accentColor: "#F77B69",
+    accentColor: "#A3CBA9",
   };
 }

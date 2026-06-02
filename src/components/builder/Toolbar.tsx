@@ -17,10 +17,10 @@ import { TEMPLATE_IDS, TEMPLATE_META } from "@/components/templates";
 import type { TemplateId } from "@/lib/cv-types";
 
 const ACCENTS = [
-  "#F77B69",
-  "#E15F4B",
-  "#0087FF",
   "#A3CBA9",
+  "#7FA689",
+  "#0087FF",
+  "#F77B69",
   "#1F2933",
   "#B91C1C",
 ];
@@ -44,9 +44,13 @@ export function Toolbar() {
     <div className="no-print sticky top-0 z-30 flex flex-wrap items-center gap-3 border-b border-[#e8e6df] bg-[#F0EFEA]/90 px-4 py-3 backdrop-blur">
       <Link
         href="/"
-        className="font-display text-lg font-bold tracking-tight text-[#1A1919]"
+        className="flex items-center gap-2 font-display text-lg font-bold tracking-tight text-[#1A1919]"
       >
-        Make<span className="text-[#F77B69]">MyCV</span>
+        <span
+          className="inline-block h-3 w-3 rounded-full"
+          style={{ background: "#A3CBA9" }}
+        />
+        Cybersoek
       </Link>
 
       <div className="flex items-center gap-2">
@@ -55,12 +59,12 @@ export function Toolbar() {
           value={template}
           onValueChange={(v) => setTemplate(v as TemplateId)}
         >
-          <SelectTrigger className="h-9 w-[200px] rounded-full">
+          <SelectTrigger className="h-9 w-[210px] rounded-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Classic (no photo)</SelectLabel>
+              <SelectLabel>Klassiek (zonder foto)</SelectLabel>
               {classic.map((id) => (
                 <SelectItem key={id} value={id}>
                   {TEMPLATE_META[id].name}
@@ -68,7 +72,7 @@ export function Toolbar() {
               ))}
             </SelectGroup>
             <SelectGroup>
-              <SelectLabel>Industry (with photo)</SelectLabel>
+              <SelectLabel>Branche (met foto)</SelectLabel>
               {industry.map((id) => (
                 <SelectItem key={id} value={id}>
                   {TEMPLATE_META[id].name}
@@ -102,17 +106,18 @@ export function Toolbar() {
       <div className="ml-auto flex items-center gap-2">
         <Button variant="ghost" size="sm" onClick={loadSample}>
           <Wand2 className="h-4 w-4" />
-          Sample
+          Voorbeeld
         </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => {
-            if (confirm("Clear all CV data? This cannot be undone.")) reset();
+            if (confirm("Alle CV-gegevens wissen? Dit kan niet ongedaan worden gemaakt."))
+              reset();
           }}
         >
           <RotateCcw className="h-4 w-4" />
-          Reset
+          Wissen
         </Button>
         <Button variant="outline" size="sm" onClick={() => window.print()}>
           <FilePlus className="h-4 w-4" />

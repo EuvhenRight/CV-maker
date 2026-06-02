@@ -19,40 +19,40 @@ export function ExperienceSection() {
       {items.map((exp, idx) => (
         <div
           key={exp.id}
-          className="space-y-3 rounded-md border border-dashed border-neutral-200 p-3"
+          className="space-y-3 rounded-md border border-dashed border-[#e8e6df] p-3"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium uppercase tracking-wide text-neutral-500">
-              Role #{idx + 1}
+            <span className="text-xs font-medium uppercase tracking-wide text-[#7a7a7a]">
+              Functie #{idx + 1}
             </span>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => remove(exp.id)}
-              aria-label="Remove role"
+              aria-label="Functie verwijderen"
             >
-              <Trash2 className="h-4 w-4 text-neutral-500" />
+              <Trash2 className="h-4 w-4 text-[#7a7a7a]" />
             </Button>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label>Role</Label>
+              <Label>Functie</Label>
               <Input
                 value={exp.role}
                 onChange={(e) => update(exp.id, { role: e.target.value })}
-                placeholder="Senior Engineer"
+                placeholder="Senior Ontwikkelaar"
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Company</Label>
+              <Label>Bedrijf</Label>
               <Input
                 value={exp.company}
                 onChange={(e) => update(exp.id, { company: e.target.value })}
-                placeholder="Acme Corp"
+                placeholder="Acme B.V."
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Location</Label>
+              <Label>Locatie</Label>
               <Input
                 value={exp.location}
                 onChange={(e) => update(exp.id, { location: e.target.value })}
@@ -60,22 +60,24 @@ export function ExperienceSection() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Dates</Label>
+              <Label>Periode</Label>
               <div className="flex items-center gap-2">
                 <Input
                   value={exp.startDate}
-                  onChange={(e) => update(exp.id, { startDate: e.target.value })}
+                  onChange={(e) =>
+                    update(exp.id, { startDate: e.target.value })
+                  }
                   placeholder="Jan 2022"
                 />
-                <span className="text-neutral-400">→</span>
+                <span className="text-[#aaa]">→</span>
                 <Input
-                  value={exp.current ? "Present" : exp.endDate}
+                  value={exp.current ? "Heden" : exp.endDate}
                   onChange={(e) => update(exp.id, { endDate: e.target.value })}
-                  placeholder="Mar 2024"
+                  placeholder="Mrt 2024"
                   disabled={exp.current}
                 />
               </div>
-              <label className="flex items-center gap-2 text-xs text-neutral-600">
+              <label className="flex items-center gap-2 text-xs text-[#666]">
                 <input
                   type="checkbox"
                   checked={exp.current}
@@ -86,22 +88,22 @@ export function ExperienceSection() {
                     })
                   }
                 />
-                I currently work here
+                Ik werk hier nu
               </label>
             </div>
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>Bullets</Label>
-              <AIStubButton label="Improve bullets" />
+              <Label>Punten</Label>
+              <AIStubButton label="Verbeter punten" />
             </div>
             {exp.bullets.map((b, bi) => (
               <div key={bi} className="flex items-start gap-2">
-                <span className="mt-2 text-neutral-400">•</span>
+                <span className="mt-2 text-[#aaa]">•</span>
                 <Textarea
                   rows={2}
                   value={b}
-                  placeholder="What you did, the impact, the numbers."
+                  placeholder="Wat je deed, de impact, de cijfers."
                   onChange={(e) => {
                     const next = [...exp.bullets];
                     next[bi] = e.target.value;
@@ -117,9 +119,9 @@ export function ExperienceSection() {
                       bullets: exp.bullets.filter((_, i) => i !== bi),
                     })
                   }
-                  aria-label="Remove bullet"
+                  aria-label="Punt verwijderen"
                 >
-                  <Trash2 className="h-3.5 w-3.5 text-neutral-400" />
+                  <Trash2 className="h-3.5 w-3.5 text-[#aaa]" />
                 </Button>
               </div>
             ))}
@@ -129,14 +131,14 @@ export function ExperienceSection() {
               onClick={() => update(exp.id, { bullets: [...exp.bullets, ""] })}
             >
               <Plus className="h-3.5 w-3.5" />
-              Add bullet
+              Punt toevoegen
             </Button>
           </div>
         </div>
       ))}
       <Button variant="outline" onClick={add}>
         <Plus className="h-4 w-4" />
-        Add work experience
+        Werkervaring toevoegen
       </Button>
     </div>
   );

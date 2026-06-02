@@ -18,24 +18,24 @@ export function ProjectsSection() {
       {items.map((pr) => (
         <div
           key={pr.id}
-          className="space-y-3 rounded-md border border-dashed border-neutral-200 p-3"
+          className="space-y-3 rounded-md border border-dashed border-[#e8e6df] p-3"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+            <span className="text-xs font-medium uppercase tracking-wide text-[#7a7a7a]">
               Project
             </span>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => remove(pr.id)}
-              aria-label="Remove project"
+              aria-label="Project verwijderen"
             >
-              <Trash2 className="h-4 w-4 text-neutral-500" />
+              <Trash2 className="h-4 w-4 text-[#7a7a7a]" />
             </Button>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label>Name</Label>
+              <Label>Naam</Label>
               <Input
                 value={pr.name}
                 onChange={(e) => update(pr.id, { name: e.target.value })}
@@ -47,24 +47,24 @@ export function ProjectsSection() {
               <Input
                 value={pr.link}
                 onChange={(e) => update(pr.id, { link: e.target.value })}
-                placeholder="github.com/you/repo"
+                placeholder="github.com/jij/project"
               />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Description</Label>
+            <Label>Beschrijving</Label>
             <Textarea
               rows={2}
               value={pr.description}
               onChange={(e) => update(pr.id, { description: e.target.value })}
-              placeholder="One-line description. Add metrics if you can."
+              placeholder="Eén zin met impact. Voeg cijfers toe als je ze hebt."
             />
           </div>
         </div>
       ))}
       <Button variant="outline" onClick={add}>
         <Plus className="h-4 w-4" />
-        Add project
+        Project toevoegen
       </Button>
     </div>
   );

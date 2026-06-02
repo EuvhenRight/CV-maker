@@ -10,6 +10,7 @@ import {
   SummaryBlock,
   type BlockOpts,
 } from "../blocks";
+import { textOn, softTextOn } from "../shared";
 
 const SIDE: SectionKey[] = ["skills", "languages", "certifications"];
 
@@ -23,14 +24,17 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
   };
   const main = cv.sectionOrder.filter((k) => !SIDE.includes(k));
   const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
+  const headerText = textOn(accent);
+  const headerMuted = softTextOn(accent);
+  const endColor = headerText === "#1A1919" ? "#3a3a3a" : "#1a1a1a";
 
   return (
     <article className="text-[#1a1a1a]">
       <header
         className="-mx-10 -mt-10 mb-5 px-10 pb-8 pt-10"
         style={{
-          background: `linear-gradient(135deg, ${accent} 0%, ${accent}cc 60%, #1a1a1a 100%)`,
-          color: "#ffffff",
+          background: `linear-gradient(135deg, ${accent} 0%, ${accent}cc 60%, ${endColor} 100%)`,
+          color: headerText,
         }}
       >
         <div className="flex items-center gap-5">
@@ -38,18 +42,24 @@ export function CreativeBoldTemplate({ cv }: { cv: CV }) {
             src={cv.personal.photo}
             size={130}
             shape="circle"
-            borderColor="#ffffff"
+            borderColor={headerText}
           />
           <div>
             <h1 className="font-display text-[34px] font-extrabold leading-tight">
-              {cv.personal.fullName || "Your Name"}
+              {cv.personal.fullName || "Jouw naam"}
             </h1>
             {cv.personal.title && (
-              <div className="text-[15px] font-medium opacity-95">
+              <div
+                className="text-[15px] font-medium"
+                style={{ color: headerMuted }}
+              >
                 {cv.personal.title}
               </div>
             )}
-            <div className="mt-2 flex flex-wrap gap-x-3 text-[11px] opacity-90">
+            <div
+              className="mt-2 flex flex-wrap gap-x-3 text-[11px]"
+              style={{ color: headerMuted }}
+            >
               {cv.personal.email && <span>{cv.personal.email}</span>}
               {cv.personal.phone && <span>{cv.personal.phone}</span>}
               {cv.personal.location && <span>{cv.personal.location}</span>}

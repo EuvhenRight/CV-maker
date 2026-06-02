@@ -27,7 +27,7 @@ export function EducationTemplate({ cv }: { cv: CV }) {
         />
         <div>
           <h1 className="text-[26px] font-bold leading-tight">
-            {cv.personal.fullName || "Your Name"}
+            {cv.personal.fullName || "Jouw naam"}
           </h1>
           {cv.personal.title && (
             <div

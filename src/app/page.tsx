@@ -8,10 +8,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import {
-  TEMPLATE_IDS,
-  TEMPLATE_META,
-} from "@/components/templates";
+import { TEMPLATE_IDS, TEMPLATE_META } from "@/components/templates";
 
 const FEATURES = [
   {
@@ -21,13 +18,13 @@ const FEATURES = [
   },
   {
     icon: ShieldCheck,
-    title: "Recruiter & ATS proof",
-    body: "Templates volgen de structuur die ATS-systemen verwachten — geen broken layouts.",
+    title: "Recruiter & ATS-proof",
+    body: "Templates volgen de structuur die ATS-systemen verwachten — geen rare layouts.",
   },
   {
     icon: Camera,
     title: "Met of zonder foto",
-    body: "10 industrie-templates met portret. 4 klassieke ATS-pure templates zonder foto.",
+    body: "10 branche-templates met portret. 4 klassieke ATS-pure templates zonder foto.",
   },
   {
     icon: FileText,
@@ -50,16 +47,20 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link
             href="/"
-            className="font-display text-lg font-bold tracking-tight"
+            className="flex items-center gap-2 font-display text-lg font-bold tracking-tight"
           >
-            Make<span className="text-[#F77B69]">MyCV</span>
+            <span
+              className="inline-block h-3.5 w-3.5 rounded-full"
+              style={{ background: "#A3CBA9" }}
+            />
+            Cybersoek
           </Link>
           <nav className="flex items-center gap-5 text-sm text-[#3a3a3a]">
             <a
               href="#features"
               className="hidden hover:text-[#1A1919] sm:inline"
             >
-              Features
+              Functies
             </a>
             <a
               href="#templates"
@@ -69,9 +70,9 @@ export default function HomePage() {
             </a>
             <Link
               href="/builder"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#F77B69] px-4 py-1.5 font-display text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#e15f4b]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#A3CBA9] px-4 py-1.5 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
             >
-              Open builder
+              Open editor
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </nav>
@@ -82,22 +83,22 @@ export default function HomePage() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e6df] bg-white px-3 py-1 text-xs font-medium text-[#3a3a3a]">
-              <Sparkles className="h-3.5 w-3.5 text-[#F77B69]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#7FA689]" />
               Een CV waar recruiters bij stilstaan
             </span>
             <h1 className="font-display mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">
               Een werk-klaar CV in{" "}
-              <span className="text-[#F77B69]">vijf minuten</span>.
+              <span className="text-[#7FA689]">vijf minuten</span>.
             </h1>
             <p className="mt-4 max-w-xl text-base text-[#444]">
               Kies uit 14 templates — van strak voor IT tot warm voor zorg en
-              gastvrijheid. Vul je gegevens in, voeg een foto toe, en download
-              een professionele PDF.
+              horeca. Vul je gegevens in, voeg een foto toe en download een
+              professionele PDF.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link
                 href="/builder"
-                className="inline-flex items-center gap-2 rounded-full bg-[#F77B69] px-5 py-3 font-display text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#e15f4b]"
+                className="inline-flex items-center gap-2 rounded-full bg-[#A3CBA9] px-5 py-3 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
               >
                 Start gratis
                 <ArrowRight className="h-4 w-4" />
@@ -116,10 +117,10 @@ export default function HomePage() {
                 "Auto-opslag",
                 "ATS-vriendelijk",
                 "Met foto",
-                "PDF export",
+                "PDF-export",
               ].map((x) => (
                 <li key={x} className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#A3CBA9]" />
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#7FA689]" />
                   {x}
                 </li>
               ))}
@@ -134,10 +135,10 @@ export default function HomePage() {
       <section id="features" className="border-y border-[#e8e6df] bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h2 className="font-display text-2xl font-bold tracking-tight">
-            Minimaliseer moeite. Maximaliseer kans op een baan.
+            Minder moeite. Meer kans op een baan.
           </h2>
           <p className="mt-2 max-w-xl text-sm text-[#555]">
-            Elk onderdeel is ontworpen om de afstand tussen jou en je volgende
+            Elk onderdeel is bedacht om de afstand tussen jou en je volgende
             baan te verkleinen.
           </p>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -146,8 +147,8 @@ export default function HomePage() {
                 key={f.title}
                 className="rounded-2xl border border-[#e8e6df] bg-[#F0EFEA] p-5"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F77B69]/15 text-[#F77B69]">
-                  <f.icon className="h-4.5 w-4.5" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#A3CBA9]/25 text-[#5b8166]">
+                  <f.icon className="h-4 w-4" />
                 </div>
                 <h3 className="font-display mt-3 text-sm font-bold">
                   {f.title}
@@ -166,7 +167,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between">
             <div>
               <h2 className="font-display text-2xl font-bold tracking-tight">
-                Templates voor 10 industrieën.
+                Templates voor 10 branches.
               </h2>
               <p className="mt-2 max-w-xl text-sm text-[#555]">
                 Elk template volgt de standaard van die branche. Allemaal met
@@ -175,9 +176,9 @@ export default function HomePage() {
             </div>
             <Link
               href="/builder"
-              className="hidden text-sm font-semibold text-[#F77B69] hover:underline sm:inline"
+              className="hidden text-sm font-semibold text-[#7FA689] hover:underline sm:inline"
             >
-              Open builder →
+              Open editor →
             </Link>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -205,14 +206,15 @@ export default function HomePage() {
               Klaar om je CV te versturen?
             </h3>
             <p className="text-sm text-[#cbcbcb]">
-              Geen account. Lokale opslag. Print naar PDF wanneer je tevreden bent.
+              Geen account. Lokale opslag. Print naar PDF wanneer je tevreden
+              bent.
             </p>
           </div>
           <Link
             href="/builder"
-            className="inline-flex items-center gap-2 rounded-full bg-[#F77B69] px-5 py-3 font-display text-sm font-semibold text-white shadow-sm hover:bg-[#e15f4b]"
+            className="inline-flex items-center gap-2 rounded-full bg-[#A3CBA9] px-5 py-3 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
           >
-            Open de builder
+            Open de editor
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -221,12 +223,12 @@ export default function HomePage() {
       <footer className="border-t border-[#e8e6df] bg-[#F0EFEA]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-xs text-[#7a7a7a]">
           <div>
-            © {new Date().getFullYear()} MakeMyCV · Gebouwd voor{" "}
+            © {new Date().getFullYear()} Cybersoek · CV-tool voor{" "}
             <a
               href="https://cybersoek.nl"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#F77B69] hover:underline"
+              className="text-[#7FA689] hover:underline"
             >
               cybersoek.nl
             </a>
@@ -250,9 +252,9 @@ function TemplateCard({ id }: { id: keyof typeof TEMPLATE_META }) {
       <div className="relative aspect-[210/297] overflow-hidden bg-[#F8F8F8]">
         <TemplateThumb id={id} />
         {meta.hasPhoto && (
-          <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#F77B69] px-2 py-0.5 text-[10px] font-semibold text-white shadow-sm">
+          <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#A3CBA9] px-2 py-0.5 text-[10px] font-semibold text-[#1A1919] shadow-sm">
             <Camera className="h-2.5 w-2.5" />
-            Photo
+            Foto
           </span>
         )}
       </div>
@@ -271,34 +273,34 @@ function TemplateCard({ id }: { id: keyof typeof TEMPLATE_META }) {
 function HeroPreview() {
   return (
     <div className="relative mx-auto w-full max-w-md">
-      <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#F77B69]/20 blur-2xl" />
+      <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#A3CBA9]/30 blur-2xl" />
       <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-[#A3CBA9]/30 blur-2xl" />
       <div className="relative overflow-hidden rounded-2xl border border-[#e8e6df] bg-white shadow-xl">
         <div className="grid grid-cols-[80px_1fr]">
           <div className="space-y-2 bg-[#1F2933] p-4 text-white">
-            <div className="mx-auto h-12 w-12 rounded-full bg-[#F77B69]" />
+            <div className="mx-auto h-12 w-12 rounded-full bg-[#A3CBA9]" />
             <div className="space-y-1">
               <div className="h-1 w-full rounded bg-white/40" />
               <div className="h-1 w-4/5 rounded bg-white/30" />
               <div className="h-1 w-3/4 rounded bg-white/30" />
             </div>
             <div className="mt-3 space-y-0.5">
-              <div className="h-1.5 w-1/2 rounded bg-[#F77B69]" />
+              <div className="h-1.5 w-1/2 rounded bg-[#A3CBA9]" />
               <div className="h-1 w-full rounded bg-white/30" />
               <div className="h-1 w-3/4 rounded bg-white/30" />
             </div>
           </div>
           <div className="space-y-2 p-4">
             <div className="h-3 w-2/3 rounded bg-[#1A1919]" />
-            <div className="h-1.5 w-1/2 rounded bg-[#F77B69]" />
+            <div className="h-1.5 w-1/2 rounded bg-[#A3CBA9]" />
             <div className="mt-3 space-y-1">
-              <div className="h-1.5 w-1/3 rounded bg-[#F77B69]" />
+              <div className="h-1.5 w-1/3 rounded bg-[#A3CBA9]" />
               <div className="h-1 w-full rounded bg-[#e8e6df]" />
               <div className="h-1 w-5/6 rounded bg-[#e8e6df]" />
               <div className="h-1 w-3/4 rounded bg-[#e8e6df]" />
             </div>
             <div className="mt-3 space-y-1">
-              <div className="h-1.5 w-1/3 rounded bg-[#F77B69]" />
+              <div className="h-1.5 w-1/3 rounded bg-[#A3CBA9]" />
               <div className="h-1 w-full rounded bg-[#e8e6df]" />
               <div className="h-1 w-2/3 rounded bg-[#e8e6df]" />
             </div>
@@ -315,20 +317,20 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="grid h-full grid-cols-[40%_1fr]">
           <div className="space-y-1.5 bg-[#101418] p-2 text-white">
-            <div className="mx-auto h-8 w-8 rounded-full bg-[#F77B69]" />
-            <div className="h-0.5 w-2/3 rounded bg-[#F77B69]" />
+            <div className="mx-auto h-8 w-8 rounded-full bg-[#A3CBA9]" />
+            <div className="h-0.5 w-2/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-white/30" />
             <div className="h-0.5 w-5/6 rounded bg-white/30" />
             <div className="mt-1 flex flex-wrap gap-0.5">
-              <span className="h-1 w-4 rounded-full bg-[#F77B69]/60" />
-              <span className="h-1 w-3 rounded-full bg-[#F77B69]/60" />
-              <span className="h-1 w-5 rounded-full bg-[#F77B69]/60" />
+              <span className="h-1 w-4 rounded-full bg-[#A3CBA9]/60" />
+              <span className="h-1 w-3 rounded-full bg-[#A3CBA9]/60" />
+              <span className="h-1 w-5 rounded-full bg-[#A3CBA9]/60" />
             </div>
           </div>
           <div className="space-y-1 p-2">
             <div className="h-2 w-3/4 rounded bg-[#1A1919]" />
-            <div className="h-1 w-1/2 rounded bg-[#F77B69]" />
-            <div className="mt-1.5 h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/2 rounded bg-[#A3CBA9]" />
+            <div className="mt-1.5 h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -337,15 +339,15 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
     case "delivery":
       return (
         <div className="flex h-full flex-col">
-          <div className="flex items-center gap-1.5 bg-[#F77B69] p-2 text-white">
+          <div className="flex items-center gap-1.5 bg-[#A3CBA9] p-2 text-[#1A1919]">
             <div className="h-6 w-6 rounded-md bg-white" />
             <div className="flex-1 space-y-0.5">
-              <div className="h-1.5 w-3/4 rounded bg-white" />
-              <div className="h-0.5 w-1/2 rounded bg-white/70" />
+              <div className="h-1.5 w-3/4 rounded bg-[#1A1919]" />
+              <div className="h-0.5 w-1/2 rounded bg-[#1A1919]/60" />
             </div>
           </div>
           <div className="flex-1 space-y-1 p-2">
-            <div className="h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -357,12 +359,12 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
           <div className="flex items-center gap-1.5 rounded-xl bg-[#F4F1EA] p-1.5">
             <div className="h-6 w-6 rounded-full border-2 border-[#A3CBA9] bg-white" />
             <div className="flex-1 space-y-0.5">
-              <div className="h-1.5 w-3/4 rounded bg-[#F77B69]" />
+              <div className="h-1.5 w-3/4 rounded bg-[#7FA689]" />
               <div className="h-0.5 w-1/2 rounded bg-[#888]" />
             </div>
           </div>
           <div className="mt-1.5 space-y-1">
-            <div className="h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -371,10 +373,10 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
     case "hospitality":
       return (
         <div className="flex h-full flex-col items-center p-2">
-          <div className="h-7 w-7 rounded-full border-2 border-[#F77B69] bg-white" />
+          <div className="h-7 w-7 rounded-full border-2 border-[#A3CBA9] bg-white" />
           <div className="mt-1 h-1.5 w-2/3 rounded bg-[#1A1919]" />
-          <div className="h-0.5 w-1/3 rounded bg-[#F77B69]" />
-          <div className="mt-1 h-px w-8 bg-[#F77B69]" />
+          <div className="h-0.5 w-1/3 rounded bg-[#A3CBA9]" />
+          <div className="mt-1 h-px w-8 bg-[#A3CBA9]" />
           <div className="mt-1.5 w-full space-y-0.5">
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
@@ -401,14 +403,14 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="flex h-full flex-col">
           <div className="flex items-center gap-1.5 bg-[#1F2933] p-2 text-white">
-            <div className="h-7 w-7 rounded-sm border-2 border-[#F77B69] bg-white" />
+            <div className="h-7 w-7 rounded-sm border-2 border-[#A3CBA9] bg-white" />
             <div className="flex-1 space-y-0.5">
               <div className="h-1.5 w-full rounded bg-white" />
-              <div className="h-0.5 w-1/2 rounded bg-[#F77B69]" />
+              <div className="h-0.5 w-1/2 rounded bg-[#A3CBA9]" />
             </div>
           </div>
           <div className="flex-1 space-y-1 p-2">
-            <div className="inline-block h-1.5 w-1/4 rounded-full bg-[#F77B69]" />
+            <div className="inline-block h-1.5 w-1/4 rounded-full bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -418,15 +420,15 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="flex h-full flex-col p-2">
           <div className="flex gap-1.5">
-            <div className="h-7 w-7 rounded-md border-2 border-[#F77B69] bg-white" />
+            <div className="h-7 w-7 rounded-md border-2 border-[#A3CBA9] bg-white" />
             <div className="flex-1 space-y-0.5">
-              <div className="h-0.5 w-1/3 rounded bg-[#F77B69]" />
+              <div className="h-0.5 w-1/3 rounded bg-[#A3CBA9]" />
               <div className="h-1.5 w-2/3 rounded bg-[#1A1919]" />
               <div className="h-0.5 w-1/2 rounded bg-[#888]" />
             </div>
           </div>
-          <div className="my-1 h-1 w-full rounded-full bg-[#F77B69]/30">
-            <div className="h-full w-3/5 rounded-full bg-[#F77B69]" />
+          <div className="my-1 h-1 w-full rounded-full bg-[#A3CBA9]/30">
+            <div className="h-full w-3/5 rounded-full bg-[#A3CBA9]" />
           </div>
           <div className="space-y-0.5">
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
@@ -438,14 +440,14 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="flex h-full flex-col p-2">
           <div className="flex items-center gap-1.5 rounded bg-[#FAF6EE] p-1.5">
-            <div className="h-7 w-7 rounded-md border-2 border-[#F77B69] bg-white" />
+            <div className="h-7 w-7 rounded-md border-2 border-[#A3CBA9] bg-white" />
             <div className="flex-1 space-y-0.5">
               <div className="h-1.5 w-3/4 rounded bg-[#1A1919]" />
-              <div className="h-0.5 w-1/2 rounded bg-[#F77B69]" />
+              <div className="h-0.5 w-1/2 rounded bg-[#7FA689]" />
             </div>
           </div>
           <div className="mt-1.5 space-y-0.5">
-            <div className="h-0.5 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-0.5 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -455,29 +457,29 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="flex h-full flex-col">
           <div
-            className="flex items-center gap-1.5 p-2 text-white"
+            className="flex items-center gap-1.5 p-2 text-[#1A1919]"
             style={{
               background:
-                "linear-gradient(135deg,#F77B69 0%,#e15f4b 60%,#1A1919 100%)",
+                "linear-gradient(135deg,#A3CBA9 0%,#7FA689 60%,#1A1919 100%)",
             }}
           >
-            <div className="h-7 w-7 rounded-full border-2 border-white bg-white/40" />
+            <div className="h-7 w-7 rounded-full border-2 border-[#1A1919] bg-white/60" />
             <div className="flex-1 space-y-0.5">
-              <div className="h-2 w-3/4 rounded bg-white" />
-              <div className="h-0.5 w-1/2 rounded bg-white/80" />
+              <div className="h-2 w-3/4 rounded bg-[#1A1919]" />
+              <div className="h-0.5 w-1/2 rounded bg-[#1A1919]/70" />
             </div>
           </div>
           <div className="grid flex-1 grid-cols-[1fr_38%] gap-1 p-2">
             <div className="space-y-0.5">
-              <div className="h-1 w-1/3 rounded bg-[#F77B69]" />
+              <div className="h-1 w-1/3 rounded bg-[#A3CBA9]" />
               <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
               <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
             </div>
-            <div className="space-y-0.5 border-l border-[#F77B69]/30 pl-1">
+            <div className="space-y-0.5 border-l border-[#A3CBA9]/30 pl-1">
               <div className="flex flex-wrap gap-0.5">
-                <span className="h-1 w-3 rounded-full bg-[#F77B69]/40" />
-                <span className="h-1 w-4 rounded-full bg-[#F77B69]/40" />
-                <span className="h-1 w-3 rounded-full bg-[#F77B69]/40" />
+                <span className="h-1 w-3 rounded-full bg-[#A3CBA9]/50" />
+                <span className="h-1 w-4 rounded-full bg-[#A3CBA9]/50" />
+                <span className="h-1 w-3 rounded-full bg-[#A3CBA9]/50" />
               </div>
             </div>
           </div>
@@ -487,15 +489,15 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="grid h-full grid-cols-[38%_1fr] gap-1 p-2">
           <div className="space-y-1">
-            <div className="mx-auto h-10 w-10 rounded-md border-2 border-[#F77B69] bg-white" />
+            <div className="mx-auto h-10 w-10 rounded-md border-2 border-[#A3CBA9] bg-white" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-3/4 rounded bg-[#e8e6df]" />
-            <div className="mt-1 h-0.5 w-1/2 rounded bg-[#F77B69]" />
+            <div className="mt-1 h-0.5 w-1/2 rounded bg-[#A3CBA9]" />
           </div>
           <div className="space-y-1">
             <div className="h-2 w-2/3 rounded bg-[#1A1919]" />
-            <div className="h-1 w-1/2 rounded bg-[#F77B69]" />
-            <div className="mt-1 h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/2 rounded bg-[#A3CBA9]" />
+            <div className="mt-1 h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -505,13 +507,13 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
       return (
         <div className="grid h-full grid-cols-[1fr_42%] gap-1 p-2">
           <div className="space-y-1">
-            <div className="h-1.5 w-2/3 rounded bg-[#F77B69]" />
+            <div className="h-1.5 w-2/3 rounded bg-[#A3CBA9]" />
             <div className="h-1 w-1/2 rounded bg-[#e8e6df]" />
             <div className="mt-1 h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
           <div className="space-y-0.5 border-l border-[#e8e6df] pl-1">
-            <div className="h-1 w-3/4 rounded bg-[#F77B69]/70" />
+            <div className="h-1 w-3/4 rounded bg-[#A3CBA9]/70" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-2/3 rounded bg-[#e8e6df]" />
           </div>
@@ -522,9 +524,9 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
         <div className="flex h-full flex-col items-center p-2">
           <div className="h-1.5 w-1/2 rounded bg-[#1A1919]" />
           <div className="mt-0.5 h-0.5 w-1/3 rounded bg-[#888]" />
-          <div className="mt-1 h-px w-full bg-[#F77B69]" />
+          <div className="mt-1 h-px w-full bg-[#A3CBA9]" />
           <div className="mt-1.5 w-full space-y-0.5">
-            <div className="h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
           </div>
@@ -533,18 +535,18 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
     case "creative":
       return (
         <div className="flex h-full flex-col">
-          <div className="h-6 bg-[#F77B69] p-1.5">
+          <div className="h-6 bg-[#A3CBA9] p-1.5">
             <div className="h-1.5 w-1/2 rounded bg-white" />
             <div className="mt-0.5 h-0.5 w-1/3 rounded bg-white/70" />
           </div>
           <div className="flex-1 space-y-1 p-2">
-            <div className="h-1 w-1/3 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/3 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
             <div className="mt-1 flex gap-0.5">
-              <span className="h-1 w-4 rounded-full bg-[#F77B69]/30" />
-              <span className="h-1 w-3 rounded-full bg-[#F77B69]/30" />
-              <span className="h-1 w-5 rounded-full bg-[#F77B69]/30" />
+              <span className="h-1 w-4 rounded-full bg-[#A3CBA9]/30" />
+              <span className="h-1 w-3 rounded-full bg-[#A3CBA9]/30" />
+              <span className="h-1 w-5 rounded-full bg-[#A3CBA9]/30" />
             </div>
           </div>
         </div>
@@ -557,10 +559,10 @@ function TemplateThumb({ id }: { id: keyof typeof TEMPLATE_META }) {
           <div className="mt-0.5 h-1 w-1/3 rounded bg-[#888]" />
           <div className="mt-2 h-px w-full bg-[#e8e6df]" />
           <div className="mt-2 space-y-0.5">
-            <div className="h-1 w-1/4 rounded bg-[#F77B69]" />
+            <div className="h-1 w-1/4 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-5/6 rounded bg-[#e8e6df]" />
-            <div className="mt-1 h-1 w-1/4 rounded bg-[#F77B69]" />
+            <div className="mt-1 h-1 w-1/4 rounded bg-[#A3CBA9]" />
             <div className="h-0.5 w-full rounded bg-[#e8e6df]" />
             <div className="h-0.5 w-2/3 rounded bg-[#e8e6df]" />
           </div>

@@ -19,7 +19,7 @@ export function HospitalityTemplate({ cv }: { cv: CV }) {
           borderColor={accent}
         />
         <h1 className="mt-3 text-[28px] font-bold uppercase tracking-[0.12em]">
-          {cv.personal.fullName || "Your Name"}
+          {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
           <div

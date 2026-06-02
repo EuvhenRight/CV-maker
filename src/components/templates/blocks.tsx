@@ -93,7 +93,7 @@ export function Heading({
 export function SummaryBlock({
   cv,
   opts,
-  title = "Summary",
+  title = "Samenvatting",
 }: {
   cv: CV;
   opts: BlockOpts;
@@ -116,7 +116,7 @@ export function SummaryBlock({
 export function ExperienceBlock({
   cv,
   opts,
-  title = "Experience",
+  title = "Werkervaring",
   compact = false,
 }: {
   cv: CV;
@@ -176,7 +176,7 @@ export function ExperienceBlock({
 export function EducationBlock({
   cv,
   opts,
-  title = "Education",
+  title = "Opleiding",
 }: {
   cv: CV;
   opts: BlockOpts;
@@ -224,7 +224,7 @@ export function EducationBlock({
 export function SkillsBlock({
   cv,
   opts,
-  title = "Skills",
+  title = "Vaardigheden",
   chips = false,
   inline = false,
 }: {
@@ -277,7 +277,7 @@ export function SkillsBlock({
 export function ProjectsBlock({
   cv,
   opts,
-  title = "Projects",
+  title = "Projecten",
 }: {
   cv: CV;
   opts: BlockOpts;
@@ -322,7 +322,7 @@ export function ProjectsBlock({
 export function LanguagesBlock({
   cv,
   opts,
-  title = "Languages",
+  title = "Talen",
   stacked = false,
 }: {
   cv: CV;
@@ -364,7 +364,7 @@ export function LanguagesBlock({
 export function CertificationsBlock({
   cv,
   opts,
-  title = "Certifications",
+  title = "Certificaten",
 }: {
   cv: CV;
   opts: BlockOpts;

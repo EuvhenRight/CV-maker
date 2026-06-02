@@ -8,13 +8,13 @@ export function CorporateTemplate({ cv }: TemplateProps) {
     switch (k) {
       case "summary":
         return (
-          <Block key={k} title="Professional Summary" accent={accent}>
+          <Block key={k} title="Profielsamenvatting" accent={accent}>
             <p className="text-[12px] leading-relaxed">{cv.summary}</p>
           </Block>
         );
       case "experience":
         return (
-          <Block key={k} title="Professional Experience" accent={accent}>
+          <Block key={k} title="Werkervaring" accent={accent}>
             <div className="space-y-3">
               {cv.experience.map((e) => (
                 <div key={e.id}>
@@ -44,7 +44,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         );
       case "education":
         return (
-          <Block key={k} title="Education" accent={accent}>
+          <Block key={k} title="Opleiding" accent={accent}>
             <div className="space-y-2">
               {cv.education.map((ed) => (
                 <div key={ed.id}>
@@ -65,7 +65,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         );
       case "skills":
         return (
-          <Block key={k} title="Core Competencies" accent={accent}>
+          <Block key={k} title="Kerncompetenties" accent={accent}>
             <div className="space-y-1 text-[12px]">
               {cv.skills.map((s) => (
                 <div key={s.id}>
@@ -78,7 +78,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         );
       case "projects":
         return (
-          <Block key={k} title="Selected Projects" accent={accent}>
+          <Block key={k} title="Geselecteerde projecten" accent={accent}>
             <div className="space-y-2 text-[12px]">
               {cv.projects.map((p) => (
                 <div key={p.id}>
@@ -96,7 +96,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         );
       case "languages":
         return (
-          <Block key={k} title="Languages" accent={accent}>
+          <Block key={k} title="Talen" accent={accent}>
             <div className="text-[12px]">
               {cv.languages
                 .map((l) => (l.level ? `${l.name} (${l.level})` : l.name))
@@ -106,7 +106,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         );
       case "certifications":
         return (
-          <Block key={k} title="Certifications" accent={accent}>
+          <Block key={k} title="Certificaten" accent={accent}>
             <div className="space-y-0.5 text-[12px]">
               {cv.certifications.map((c) => (
                 <div key={c.id}>
@@ -125,7 +125,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
     <article className="text-neutral-900" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
       <header className="mb-4 text-center">
         <h1 className="text-[26px] font-bold uppercase tracking-[0.08em]">
-          {cv.personal.fullName || "Your Name"}
+          {cv.personal.fullName || "Jouw naam"}
         </h1>
         {cv.personal.title && (
           <div className="text-[13px] italic">{cv.personal.title}</div>

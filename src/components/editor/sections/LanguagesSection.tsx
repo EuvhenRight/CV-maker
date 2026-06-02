@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useCVStore } from "@/lib/store";
 
-const LEVELS = ["Native", "Fluent", "Professional", "Intermediate", "Basic"];
+const LEVELS = ["Moedertaal", "Vloeiend", "Professioneel", "Gemiddeld", "Basis"];
 
 export function LanguagesSection() {
   const items = useCVStore((s) => s.cv.languages);
@@ -26,24 +26,24 @@ export function LanguagesSection() {
       {items.map((ln) => (
         <div
           key={ln.id}
-          className="grid grid-cols-[1fr_1fr_auto] items-end gap-2 rounded-md border border-dashed border-neutral-200 p-3"
+          className="grid grid-cols-[1fr_1fr_auto] items-end gap-2 rounded-md border border-dashed border-[#e8e6df] p-3"
         >
           <div className="space-y-1.5">
-            <Label>Language</Label>
+            <Label>Taal</Label>
             <Input
               value={ln.name}
               onChange={(e) => update(ln.id, { name: e.target.value })}
-              placeholder="English"
+              placeholder="Nederlands"
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Level</Label>
+            <Label>Niveau</Label>
             <Select
               value={ln.level}
               onValueChange={(v) => update(ln.id, { level: v })}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select" />
+                <SelectValue placeholder="Kies" />
               </SelectTrigger>
               <SelectContent>
                 {LEVELS.map((l) => (
@@ -58,15 +58,15 @@ export function LanguagesSection() {
             variant="ghost"
             size="icon"
             onClick={() => remove(ln.id)}
-            aria-label="Remove language"
+            aria-label="Taal verwijderen"
           >
-            <Trash2 className="h-4 w-4 text-neutral-500" />
+            <Trash2 className="h-4 w-4 text-[#7a7a7a]" />
           </Button>
         </div>
       ))}
       <Button variant="outline" onClick={add}>
         <Plus className="h-4 w-4" />
-        Add language
+        Taal toevoegen
       </Button>
     </div>
   );
