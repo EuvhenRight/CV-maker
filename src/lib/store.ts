@@ -260,7 +260,7 @@ export const useCVStore = create<CVStore>()(
       loadSample: () => set({ cv: makeSampleCV() }),
     }),
     {
-      name: "makemycv:cv",
+      name: "cybersoek:cv",
       version: 2,
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ cv: s.cv }),
