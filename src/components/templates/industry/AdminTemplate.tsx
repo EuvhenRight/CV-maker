@@ -50,7 +50,7 @@ export function AdminTemplate({ cv }: { cv: CV }) {
           </div>
         ))}
       </aside>
-      <div className="flex flex-col">
+      <div className="flex flex-col space-y-5">
         <header className="border-b pb-2" style={{ borderColor: accent }}>
           <h1 className="font-display text-[28px] font-bold leading-tight">
             {cv.personal.fullName || "Jouw naam"}
@@ -61,15 +61,13 @@ export function AdminTemplate({ cv }: { cv: CV }) {
             </div>
           )}
         </header>
-        <div className="my-auto space-y-5 pt-5">
-          {main.map((k) => {
-            if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
-            if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
-            if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
-            if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
-            return null;
-          })}
-        </div>
+        {main.map((k) => {
+          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
+          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
+          if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
+          if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+          return null;
+        })}
         <PageFooter accent={accent} />
       </div>
     </article>

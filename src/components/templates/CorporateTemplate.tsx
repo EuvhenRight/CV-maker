@@ -136,7 +136,7 @@ export function CorporateTemplate({ cv }: TemplateProps) {
         </div>
         <div className="mt-2 h-[2px] w-full" style={{ background: accent }} />
       </header>
-      <div className="my-auto space-y-4">{cv.sectionOrder.map(render)}</div>
+      <div className="space-y-4">{cv.sectionOrder.map(render)}</div>
       <PageFooter accent={accent} />
     </article>
   );

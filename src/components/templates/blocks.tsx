@@ -410,7 +410,7 @@ export function PageFooter({
   const lineColor = variant === "dark" ? "rgba(255,255,255,0.25)" : `${accent}55`;
   const textColor = variant === "dark" ? "rgba(255,255,255,0.55)" : "#a8a8a8";
   return (
-    <div className="pt-5">
+    <div className="mt-auto pt-5">
       <div className="h-px w-full" style={{ background: lineColor }} />
       <div
         className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.16em]"

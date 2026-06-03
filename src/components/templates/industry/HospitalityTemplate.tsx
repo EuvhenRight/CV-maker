@@ -34,7 +34,7 @@ export function HospitalityTemplate({ cv }: { cv: CV }) {
           {contactLine(cv).join("  ·  ")}
         </div>
       </header>
-      <div className="my-auto space-y-5">
+      <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
       <PageFooter accent={accent} />

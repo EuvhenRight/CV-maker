@@ -42,7 +42,7 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
         </div>
       </header>
       <div className="flex flex-1 flex-col px-10 pb-10">
-        <div className="my-auto space-y-5">
+        <div className="space-y-5">
           {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
         </div>
         <PageFooter accent={accent} />

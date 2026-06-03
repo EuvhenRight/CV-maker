@@ -27,7 +27,7 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
 
   return (
     <article className="grid flex-1 grid-cols-[1fr_210px] gap-6 p-10 text-[#1a1a1a]">
-      <div className="flex flex-col">
+      <div className="flex flex-col space-y-4">
         <header>
           <h1 className="font-display text-[26px] font-bold leading-tight">
             {cv.personal.fullName || "Jouw naam"}
@@ -44,15 +44,13 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
             {cv.personal.linkedin && <span>{cv.personal.linkedin}</span>}
           </div>
         </header>
-        <div className="my-auto space-y-4 pt-4">
-          {main.map((k) => {
-            if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
-            if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Klinische werkervaring" />;
-            if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
-            if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
-            return null;
-          })}
-        </div>
+        {main.map((k) => {
+          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
+          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Klinische werkervaring" />;
+          if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
+          if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+          return null;
+        })}
         <PageFooter accent={accent} />
       </div>
       <aside

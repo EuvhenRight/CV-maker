@@ -43,7 +43,7 @@ export function DeliveryTemplate({ cv }: { cv: CV }) {
         </div>
       </header>
       <div className="flex flex-1 flex-col px-10 pb-10">
-        <div className="my-auto grid grid-cols-1 gap-5">
+        <div className="grid grid-cols-1 gap-5">
           {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
         </div>
         <PageFooter accent={accent} />
