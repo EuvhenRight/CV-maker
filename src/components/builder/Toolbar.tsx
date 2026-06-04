@@ -61,9 +61,11 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
       window.print();
       return;
     }
+    const trimmed = fileName?.trim();
+    const downloadName = trimmed ? `CV_${trimmed}` : "CV";
     try {
       setDownloading(true);
-      await downloadCVAsPdf(node, { fileName: fileName?.trim() || "cv" });
+      await downloadCVAsPdf(node, { fileName: downloadName });
     } catch (err) {
       console.error(err);
       alert(t("toolbar.downloadError"));
