@@ -54,12 +54,6 @@ export interface ProjectItem {
   bullets: string[];
 }
 
-export interface SkillGroup {
-  id: string;
-  category: string;
-  items: string;
-}
-
 export interface LanguageItem {
   id: string;
   name: string;
@@ -79,6 +73,7 @@ export type SectionKey =
   | "experience"
   | "education"
   | "skills"
+  | "strengths"
   | "projects"
   | "languages"
   | "certifications";
@@ -88,27 +83,19 @@ export const ALL_SECTIONS: SectionKey[] = [
   "experience",
   "education",
   "skills",
+  "strengths",
   "projects",
   "languages",
   "certifications",
 ];
-
-export const SECTION_LABELS: Record<SectionKey, string> = {
-  summary: "Samenvatting",
-  experience: "Werkervaring",
-  education: "Opleiding",
-  skills: "Vaardigheden",
-  projects: "Projecten",
-  languages: "Talen",
-  certifications: "Certificaten",
-};
 
 export interface CV {
   personal: PersonalInfo;
   summary: string;
   experience: ExperienceItem[];
   education: EducationItem[];
-  skills: SkillGroup[];
+  skills: string[];
+  strengths: string[];
   projects: ProjectItem[];
   languages: LanguageItem[];
   certifications: CertificationItem[];

@@ -1,13 +1,27 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
-import { contactLine } from "../shared";
+import type { Locale } from "@/lib/i18n";
+import {
+  ContactRows,
+  defaultRenderer,
+  PageFooter,
+  PhotoFrame,
+  type BlockOpts,
+} from "../blocks";
+import { placeholderName } from "../shared";
 
-export function EducationTemplate({ cv }: { cv: CV }) {
+export function EducationTemplate({
+  cv,
+  lang = "nl",
+}: {
+  cv: CV;
+  lang?: Locale;
+}) {
   const accent = cv.accentColor;
   const opts: BlockOpts = {
     accent,
     heading: "serif-caps",
     textColor: "#2a2a2a",
+    lang,
   };
 
   return (
@@ -16,7 +30,7 @@ export function EducationTemplate({ cv }: { cv: CV }) {
       style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
     >
       <header
-        className="mb-5 flex items-center gap-5 rounded-md p-4"
+        className="mb-5 flex flex-wrap items-center gap-5 rounded-md p-4"
         style={{ background: "#FAF6EE", border: `1px solid ${accent}22` }}
       >
         <PhotoFrame
@@ -24,28 +38,35 @@ export function EducationTemplate({ cv }: { cv: CV }) {
           size={112}
           shape="rounded"
           borderColor={accent}
+          lang={lang}
         />
-        <div>
-          <h1 className="text-[26px] font-bold leading-tight">
-            {cv.personal.fullName || "Jouw naam"}
+        <div className="min-w-0 flex-1">
+          <h1 className="text-[26px] font-bold leading-tight break-words">
+            {cv.personal.fullName || placeholderName(lang)}
           </h1>
           {cv.personal.title && (
             <div
-              className="text-[14px] italic"
+              className="text-[14px] italic break-words"
               style={{ color: accent }}
             >
               {cv.personal.title}
             </div>
           )}
-          <div className="mt-2 text-[11px] text-[#666]">
-            {contactLine(cv).join("  ·  ")}
+          <div className="mt-2">
+            <ContactRows
+              cv={cv}
+              lang={lang}
+              layout="inline"
+              color="#666"
+              accent={accent}
+            />
           </div>
         </div>
       </header>
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
-      <PageFooter accent={accent} />
+      <PageFooter accent={accent} lang={lang} />
     </article>
   );
 }

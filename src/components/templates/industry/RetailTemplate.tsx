@@ -1,9 +1,24 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
+import { translate, type Locale } from "@/lib/i18n";
+import {
+  ContactRows,
+  defaultRenderer,
+  PageFooter,
+  PhotoFrame,
+  type BlockOpts,
+} from "../blocks";
+import { placeholderName } from "../shared";
 
-export function RetailTemplate({ cv }: { cv: CV }) {
+export function RetailTemplate({
+  cv,
+  lang = "nl",
+}: {
+  cv: CV;
+  lang?: Locale;
+}) {
   const accent = cv.accentColor;
-  const opts: BlockOpts = { accent, heading: "bold-large" };
+  const t = (k: string) => translate(lang, k);
+  const opts: BlockOpts = { accent, heading: "bold-large", lang };
 
   return (
     <article className="flex flex-1 flex-col p-10 text-[#1a1a1a]">
@@ -13,24 +28,31 @@ export function RetailTemplate({ cv }: { cv: CV }) {
           size={110}
           shape="rounded"
           borderColor={accent}
+          lang={lang}
         />
-        <div>
+        <div className="min-w-0">
           <div
-            className="font-display text-[11px] font-bold uppercase tracking-[0.2em]"
+            className="font-display text-[11px] font-bold uppercase tracking-[0.2em] break-words"
             style={{ color: accent }}
           >
-            Klantcontact
+            {t("tpl.retail.tagline")}
           </div>
-          <h1 className="font-display text-[28px] font-extrabold leading-tight">
-            {cv.personal.fullName || "Jouw naam"}
+          <h1 className="font-display text-[28px] font-extrabold leading-tight break-words">
+            {cv.personal.fullName || placeholderName(lang)}
           </h1>
           {cv.personal.title && (
-            <div className="text-[14px] text-[#555]">{cv.personal.title}</div>
+            <div className="text-[14px] text-[#555] break-words">
+              {cv.personal.title}
+            </div>
           )}
-          <div className="mt-2 flex flex-wrap gap-x-3 text-[11px] text-[#666]">
-            {cv.personal.email && <span>{cv.personal.email}</span>}
-            {cv.personal.phone && <span>{cv.personal.phone}</span>}
-            {cv.personal.location && <span>{cv.personal.location}</span>}
+          <div className="mt-2">
+            <ContactRows
+              cv={cv}
+              lang={lang}
+              layout="inline"
+              color="#666"
+              accent={accent}
+            />
           </div>
         </div>
       </header>
@@ -46,7 +68,7 @@ export function RetailTemplate({ cv }: { cv: CV }) {
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>
-      <PageFooter accent={accent} />
+      <PageFooter accent={accent} lang={lang} />
     </article>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Noto_Sans } from "next/font/google";
 import "./globals.css";
+import { LocaleProvider } from "@/lib/i18n";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -30,7 +31,9 @@ export default function RootLayout({
       lang="nl"
       className={`${poppins.variable} ${notoSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#F0EFEA] text-[#1A1919]">{children}</body>
+      <body className="min-h-full bg-[#F0EFEA] text-[#1A1919]">
+        <LocaleProvider>{children}</LocaleProvider>
+      </body>
     </html>
   );
 }

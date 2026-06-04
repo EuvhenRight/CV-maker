@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCVStore } from "@/lib/store";
+import { useT } from "@/lib/i18n";
 
 export function ExperienceSection() {
   const items = useCVStore((s) => s.cv.experience);
   const add = useCVStore((s) => s.addExperience);
   const update = useCVStore((s) => s.updateExperience);
   const remove = useCVStore((s) => s.removeExperience);
+  const t = useT();
 
   return (
     <div className="space-y-4">
@@ -20,38 +22,38 @@ export function ExperienceSection() {
           key={exp.id}
           className="space-y-3 rounded-md border border-dashed border-[#e8e6df] p-3"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-medium uppercase tracking-wide text-[#7a7a7a]">
-              Functie #{idx + 1}
+              {t("exp.entry")} #{idx + 1}
             </span>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => remove(exp.id)}
-              aria-label="Functie verwijderen"
+              aria-label={t("exp.removeAria")}
             >
               <Trash2 className="h-4 w-4 text-[#7a7a7a]" />
             </Button>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label>Functie</Label>
+              <Label>{t("exp.role")}</Label>
               <Input
                 value={exp.role}
                 onChange={(e) => update(exp.id, { role: e.target.value })}
-                placeholder="Senior Ontwikkelaar"
+                placeholder={t("exp.role.ph")}
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Bedrijf</Label>
+              <Label>{t("exp.company")}</Label>
               <Input
                 value={exp.company}
                 onChange={(e) => update(exp.id, { company: e.target.value })}
-                placeholder="Acme B.V."
+                placeholder={t("exp.company.ph")}
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Locatie</Label>
+              <Label>{t("exp.location")}</Label>
               <Input
                 value={exp.location}
                 onChange={(e) => update(exp.id, { location: e.target.value })}
@@ -59,20 +61,20 @@ export function ExperienceSection() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Periode</Label>
+              <Label>{t("exp.period")}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   value={exp.startDate}
                   onChange={(e) =>
                     update(exp.id, { startDate: e.target.value })
                   }
-                  placeholder="Jan 2022"
+                  placeholder={t("exp.start.ph")}
                 />
                 <span className="text-[#aaa]">→</span>
                 <Input
-                  value={exp.current ? "Heden" : exp.endDate}
+                  value={exp.current ? t("exp.currentShort") : exp.endDate}
                   onChange={(e) => update(exp.id, { endDate: e.target.value })}
-                  placeholder="Mrt 2024"
+                  placeholder={t("exp.end.ph")}
                   disabled={exp.current}
                 />
               </div>
@@ -87,19 +89,19 @@ export function ExperienceSection() {
                     })
                   }
                 />
-                Ik werk hier nu
+                {t("exp.current")}
               </label>
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Punten</Label>
+            <Label>{t("exp.bullets")}</Label>
             {exp.bullets.map((b, bi) => (
               <div key={bi} className="flex items-start gap-2">
                 <span className="mt-2 text-[#aaa]">•</span>
                 <Textarea
                   rows={2}
                   value={b}
-                  placeholder="Wat je deed, de impact, de cijfers."
+                  placeholder={t("exp.bullet.ph")}
                   onChange={(e) => {
                     const next = [...exp.bullets];
                     next[bi] = e.target.value;
@@ -115,7 +117,7 @@ export function ExperienceSection() {
                       bullets: exp.bullets.filter((_, i) => i !== bi),
                     })
                   }
-                  aria-label="Punt verwijderen"
+                  aria-label={t("exp.bullet.removeAria")}
                 >
                   <Trash2 className="h-3.5 w-3.5 text-[#aaa]" />
                 </Button>
@@ -127,14 +129,14 @@ export function ExperienceSection() {
               onClick={() => update(exp.id, { bullets: [...exp.bullets, ""] })}
             >
               <Plus className="h-3.5 w-3.5" />
-              Punt toevoegen
+              {t("exp.bullet.add")}
             </Button>
           </div>
         </div>
       ))}
       <Button variant="outline" onClick={add}>
         <Plus className="h-4 w-4" />
-        Werkervaring toevoegen
+        {t("exp.add")}
       </Button>
     </div>
   );

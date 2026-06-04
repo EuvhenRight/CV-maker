@@ -15,13 +15,15 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useCVStore } from "@/lib/store";
-import { SECTION_LABELS, type SectionKey } from "@/lib/cv-types";
+import { useT } from "@/lib/i18n";
+import { type SectionKey } from "@/lib/cv-types";
 import { SectionShell } from "./SectionShell";
 import { PersonalSection } from "./sections/PersonalSection";
 import { SummarySection } from "./sections/SummarySection";
 import { ExperienceSection } from "./sections/ExperienceSection";
 import { EducationSection } from "./sections/EducationSection";
 import { SkillsSection } from "./sections/SkillsSection";
+import { StrengthsSection } from "./sections/StrengthsSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { LanguagesSection } from "./sections/LanguagesSection";
 import { CertificationsSection } from "./sections/CertificationsSection";
@@ -31,9 +33,21 @@ const SECTION_COMPONENTS: Record<SectionKey, React.ComponentType> = {
   experience: ExperienceSection,
   education: EducationSection,
   skills: SkillsSection,
+  strengths: StrengthsSection,
   projects: ProjectsSection,
   languages: LanguagesSection,
   certifications: CertificationsSection,
+};
+
+const SECTION_LABEL_KEYS: Record<SectionKey, string> = {
+  summary: "section.summary",
+  experience: "section.experience",
+  education: "section.education",
+  skills: "section.skills",
+  strengths: "section.strengths",
+  projects: "section.projects",
+  languages: "section.languages",
+  certifications: "section.certifications",
 };
 
 function useSectionCount(key: SectionKey) {
@@ -47,14 +61,16 @@ function useSectionCount(key: SectionKey) {
 function SortableSection({ id }: { id: SectionKey }) {
   const Comp = SECTION_COMPONENTS[id];
   const count = useSectionCount(id);
+  const t = useT();
   return (
-    <SectionShell id={id} title={SECTION_LABELS[id]} count={count}>
+    <SectionShell id={id} title={t(SECTION_LABEL_KEYS[id])} count={count}>
       <Comp />
     </SectionShell>
   );
 }
 
 export function EditorPanel() {
+  const t = useT();
   const sectionOrder = useCVStore((s) => s.cv.sectionOrder);
   const reorderSections = useCVStore((s) => s.reorderSections);
   const sensors = useSensors(
@@ -75,7 +91,7 @@ export function EditorPanel() {
       <div className="rounded-lg border border-neutral-200 bg-white shadow-sm">
         <div className="border-b border-neutral-100 px-4 py-3">
           <h2 className="text-sm font-semibold text-neutral-900">
-            Personal info
+            {t("section.personal")}
           </h2>
         </div>
         <div className="p-4">

@@ -1,6 +1,8 @@
 import type { CV, SectionKey } from "@/lib/cv-types";
+import { translate, type Locale } from "@/lib/i18n";
 import {
   CertificationsBlock,
+  ContactRows,
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
@@ -8,19 +10,29 @@ import {
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
+  StrengthsBlock,
   SummaryBlock,
   type BlockOpts,
 } from "../blocks";
+import { placeholderName } from "../shared";
 
-const SIDE: SectionKey[] = ["skills", "languages", "certifications"];
+const SIDE: SectionKey[] = ["skills", "strengths", "languages", "certifications"];
 
-export function HealthcareTemplate({ cv }: { cv: CV }) {
+export function HealthcareTemplate({
+  cv,
+  lang = "nl",
+}: {
+  cv: CV;
+  lang?: Locale;
+}) {
   const accent = cv.accentColor;
-  const opts: BlockOpts = { accent, heading: "underline" };
+  const t = (k: string) => translate(lang, k);
+  const opts: BlockOpts = { accent, heading: "underline", lang };
   const sideOpts: BlockOpts = {
     accent,
     heading: "side-bar",
     textColor: "#2a2a2a",
+    lang,
   };
   const main = cv.sectionOrder.filter((k) => !SIDE.includes(k));
   const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
@@ -29,29 +41,53 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
     <article className="grid flex-1 grid-cols-[1fr_210px] gap-6 p-10 text-[#1a1a1a]">
       <div className="flex flex-col space-y-4">
         <header>
-          <h1 className="font-display text-[26px] font-bold leading-tight">
-            {cv.personal.fullName || "Jouw naam"}
+          <h1 className="font-display text-[26px] font-bold leading-tight break-words">
+            {cv.personal.fullName || placeholderName(lang)}
           </h1>
           {cv.personal.title && (
-            <div className="text-[14px]" style={{ color: accent }}>
+            <div
+              className="text-[14px] break-words"
+              style={{ color: accent }}
+            >
               {cv.personal.title}
             </div>
           )}
-          <div className="mt-2 flex flex-wrap gap-x-3 text-[11px] text-[#555]">
-            {cv.personal.email && <span>{cv.personal.email}</span>}
-            {cv.personal.phone && <span>{cv.personal.phone}</span>}
-            {cv.personal.location && <span>{cv.personal.location}</span>}
-            {cv.personal.linkedin && <span>{cv.personal.linkedin}</span>}
+          <div className="mt-2">
+            <ContactRows
+              cv={cv}
+              lang={lang}
+              layout="inline"
+              color="#555"
+              accent={accent}
+            />
           </div>
         </header>
         {main.map((k) => {
-          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
-          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} title="Klinische werkervaring" />;
-          if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
-          if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+          if (k === "summary")
+            return (
+              <SummaryBlock
+                key={k}
+                cv={cv}
+                opts={opts}
+                title={t("tpl.section.profile")}
+              />
+            );
+          if (k === "experience")
+            return (
+              <ExperienceBlock
+                key={k}
+                cv={cv}
+                opts={opts}
+                title={t("tpl.section.clinical")}
+              />
+            );
+          if (k === "education")
+            return <EducationBlock key={k} cv={cv} opts={opts} />;
+          if (k === "projects")
+            return <ProjectsBlock key={k} cv={cv} opts={opts} />;
           return null;
         })}
-        <PageFooter accent={accent} />
+        <PageFooter accent={accent} lang={lang} />
       </div>
       <aside
         className="space-y-5 rounded-lg p-4"
@@ -63,18 +99,30 @@ export function HealthcareTemplate({ cv }: { cv: CV }) {
             size={130}
             shape="circle"
             borderColor={accent}
+            lang={lang}
           />
         </div>
         {side.map((k) => (
           <div key={k}>
             {k === "skills" && (
-              <SkillsBlock cv={cv} opts={sideOpts} title="Competenties" />
+              <SkillsBlock
+                cv={cv}
+                opts={sideOpts}
+                title={t("tpl.section.competencies")}
+              />
+            )}
+            {k === "strengths" && (
+              <StrengthsBlock cv={cv} opts={sideOpts} />
             )}
             {k === "languages" && (
               <LanguagesBlock cv={cv} opts={sideOpts} stacked />
             )}
             {k === "certifications" && (
-              <CertificationsBlock cv={cv} opts={sideOpts} title="Diplomas en licenties" />
+              <CertificationsBlock
+                cv={cv}
+                opts={sideOpts}
+                title={t("tpl.section.diplomas")}
+              />
             )}
           </div>
         ))}

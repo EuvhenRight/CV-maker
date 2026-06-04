@@ -1,6 +1,8 @@
 import type { CV, SectionKey } from "@/lib/cv-types";
+import { translate, type Locale } from "@/lib/i18n";
 import {
   CertificationsBlock,
+  ContactRows,
   EducationBlock,
   ExperienceBlock,
   LanguagesBlock,
@@ -8,19 +10,29 @@ import {
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
+  StrengthsBlock,
   SummaryBlock,
   type BlockOpts,
 } from "../blocks";
+import { placeholderName } from "../shared";
 
-const SIDE: SectionKey[] = ["skills", "languages", "certifications"];
+const SIDE: SectionKey[] = ["skills", "strengths", "languages", "certifications"];
 
-export function AdminTemplate({ cv }: { cv: CV }) {
+export function AdminTemplate({
+  cv,
+  lang = "nl",
+}: {
+  cv: CV;
+  lang?: Locale;
+}) {
   const accent = cv.accentColor;
-  const opts: BlockOpts = { accent, heading: "underline" };
+  const t = (k: string) => translate(lang, k);
+  const opts: BlockOpts = { accent, heading: "underline", lang };
   const sideOpts: BlockOpts = {
     accent,
     heading: "underline",
     textColor: "#1a1a1a",
+    lang,
   };
   const main = cv.sectionOrder.filter((k) => !SIDE.includes(k));
   const side = cv.sectionOrder.filter((k) => SIDE.includes(k));
@@ -34,41 +46,64 @@ export function AdminTemplate({ cv }: { cv: CV }) {
           shape="rounded"
           borderColor={accent}
           className="mx-auto"
+          lang={lang}
         />
-        <div className="space-y-0.5 text-[12px] text-[#444]">
-          {cv.personal.email && <div>{cv.personal.email}</div>}
-          {cv.personal.phone && <div>{cv.personal.phone}</div>}
-          {cv.personal.location && <div>{cv.personal.location}</div>}
-          {cv.personal.website && <div>{cv.personal.website}</div>}
-          {cv.personal.linkedin && <div>{cv.personal.linkedin}</div>}
-        </div>
+        <ContactRows
+          cv={cv}
+          lang={lang}
+          layout="iconRows"
+          color="#3a3a3a"
+          accent={accent}
+          iconSize={12}
+        />
         {side.map((k) => (
           <div key={k}>
             {k === "skills" && <SkillsBlock cv={cv} opts={sideOpts} />}
-            {k === "languages" && <LanguagesBlock cv={cv} opts={sideOpts} stacked />}
-            {k === "certifications" && <CertificationsBlock cv={cv} opts={sideOpts} />}
+            {k === "strengths" && (
+              <StrengthsBlock cv={cv} opts={sideOpts} />
+            )}
+            {k === "languages" && (
+              <LanguagesBlock cv={cv} opts={sideOpts} stacked />
+            )}
+            {k === "certifications" && (
+              <CertificationsBlock cv={cv} opts={sideOpts} />
+            )}
           </div>
         ))}
       </aside>
       <div className="flex flex-col space-y-5">
         <header className="border-b pb-2" style={{ borderColor: accent }}>
-          <h1 className="font-display text-[28px] font-bold leading-tight">
-            {cv.personal.fullName || "Jouw naam"}
+          <h1 className="font-display text-[28px] font-bold leading-tight break-words">
+            {cv.personal.fullName || placeholderName(lang)}
           </h1>
           {cv.personal.title && (
-            <div className="text-[14px]" style={{ color: accent }}>
+            <div
+              className="text-[14px] break-words"
+              style={{ color: accent }}
+            >
               {cv.personal.title}
             </div>
           )}
         </header>
         {main.map((k) => {
-          if (k === "summary") return <SummaryBlock key={k} cv={cv} opts={opts} title="Profiel" />;
-          if (k === "experience") return <ExperienceBlock key={k} cv={cv} opts={opts} />;
-          if (k === "education") return <EducationBlock key={k} cv={cv} opts={opts} />;
-          if (k === "projects") return <ProjectsBlock key={k} cv={cv} opts={opts} />;
+          if (k === "summary")
+            return (
+              <SummaryBlock
+                key={k}
+                cv={cv}
+                opts={opts}
+                title={t("tpl.section.profile")}
+              />
+            );
+          if (k === "experience")
+            return <ExperienceBlock key={k} cv={cv} opts={opts} />;
+          if (k === "education")
+            return <EducationBlock key={k} cv={cv} opts={opts} />;
+          if (k === "projects")
+            return <ProjectsBlock key={k} cv={cv} opts={opts} />;
           return null;
         })}
-        <PageFooter accent={accent} />
+        <PageFooter accent={accent} lang={lang} />
       </div>
     </article>
   );

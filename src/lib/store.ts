@@ -1,8 +1,12 @@
 "use client";
 
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { uid } from "./utils";
+import {
+  persist,
+  createJSONStorage,
+  type StateStorage,
+} from "zustand/middleware";
+import { ensureSessionFresh, touchSession } from "./session";
 import type {
   CV,
   CertificationItem,
@@ -12,9 +16,9 @@ import type {
   PersonalInfo,
   ProjectItem,
   SectionKey,
-  SkillGroup,
   TemplateId,
 } from "./cv-types";
+import { uid } from "./utils";
 import { makeEmptyCV, makeSampleCV } from "./sample-cv";
 
 interface CVStore {
@@ -37,9 +41,13 @@ interface CVStore {
   updateEducation: (id: string, patch: Partial<EducationItem>) => void;
   removeEducation: (id: string) => void;
 
-  addSkill: () => void;
-  updateSkill: (id: string, patch: Partial<SkillGroup>) => void;
+  addSkill: (id: string) => void;
   removeSkill: (id: string) => void;
+  setSkills: (items: string[]) => void;
+
+  addStrength: (id: string) => void;
+  removeStrength: (id: string) => void;
+  setStrengths: (items: string[]) => void;
 
   addProject: () => void;
   updateProject: (id: string, patch: Partial<ProjectItem>) => void;
@@ -67,6 +75,38 @@ function patchItem<T extends { id: string }>(
   patch: Partial<T>,
 ): T[] {
   return list.map((it) => (it.id === id ? { ...it, ...patch } : it));
+}
+
+const expiringLocalStorage: StateStorage = {
+  getItem: (name) => {
+    if (typeof window === "undefined") return null;
+    ensureSessionFresh();
+    try {
+      return window.localStorage.getItem(name);
+    } catch {
+      return null;
+    }
+  },
+  setItem: (name, value) => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(name, value);
+    } catch {}
+    touchSession();
+  },
+  removeItem: (name) => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(name);
+    } catch {}
+  },
+};
+
+function uniqueAppend(list: string[], next: string): string[] {
+  const trimmed = next.trim();
+  if (!trimmed) return list;
+  if (list.some((x) => x.toLowerCase() === trimmed.toLowerCase())) return list;
+  return [...list, trimmed];
 }
 
 export const useCVStore = create<CVStore>()(
@@ -153,24 +193,24 @@ export const useCVStore = create<CVStore>()(
           },
         })),
 
-      addSkill: () =>
-        set((s) => ({
-          cv: {
-            ...s.cv,
-            skills: [
-              ...s.cv.skills,
-              { id: uid("sk"), category: "", items: "" },
-            ],
-          },
-        })),
-      updateSkill: (id, patch) =>
-        set((s) => ({
-          cv: { ...s.cv, skills: patchItem(s.cv.skills, id, patch) },
-        })),
+      addSkill: (id) =>
+        set((s) => ({ cv: { ...s.cv, skills: uniqueAppend(s.cv.skills, id) } })),
       removeSkill: (id) =>
         set((s) => ({
-          cv: { ...s.cv, skills: s.cv.skills.filter((e) => e.id !== id) },
+          cv: { ...s.cv, skills: s.cv.skills.filter((x) => x !== id) },
         })),
+      setSkills: (items) => set((s) => ({ cv: { ...s.cv, skills: items } })),
+
+      addStrength: (id) =>
+        set((s) => ({
+          cv: { ...s.cv, strengths: uniqueAppend(s.cv.strengths, id) },
+        })),
+      removeStrength: (id) =>
+        set((s) => ({
+          cv: { ...s.cv, strengths: s.cv.strengths.filter((x) => x !== id) },
+        })),
+      setStrengths: (items) =>
+        set((s) => ({ cv: { ...s.cv, strengths: items } })),
 
       addProject: () =>
         set((s) => ({
@@ -261,20 +301,58 @@ export const useCVStore = create<CVStore>()(
     }),
     {
       name: "cybersoek:cv",
-      version: 2,
-      storage: createJSONStorage(() => localStorage),
+      version: 3,
+      storage: createJSONStorage<unknown>(() => expiringLocalStorage),
       partialize: (s) => ({ cv: s.cv }),
       migrate: (persisted: unknown, version) => {
-        const p = persisted as { cv?: Partial<CV> } | null;
-        if (!p?.cv) return { cv: makeEmptyCV() };
+        const empty = makeEmptyCV();
+        const p = persisted as { cv?: Record<string, unknown> } | null;
+        if (!p?.cv) return { cv: empty };
+
+        const raw = p.cv;
         const cv: CV = {
-          ...makeEmptyCV(),
-          ...p.cv,
-          personal: { ...makeEmptyCV().personal, ...(p.cv.personal ?? {}) },
+          ...empty,
+          ...(raw as Partial<CV>),
+          personal: {
+            ...empty.personal,
+            ...((raw.personal as Partial<PersonalInfo>) ?? {}),
+          },
+          strengths: Array.isArray(raw.strengths)
+            ? (raw.strengths as string[])
+            : [],
         };
+
+        // v2 → v3: skills was SkillGroup[] {category, items}; flatten to string[]
+        if (version < 3 && Array.isArray(raw.skills)) {
+          const flat: string[] = [];
+          for (const entry of raw.skills as Array<unknown>) {
+            if (typeof entry === "string") {
+              flat.push(entry);
+            } else if (entry && typeof entry === "object") {
+              const items =
+                (entry as { items?: string }).items?.split(",") ?? [];
+              for (const it of items) {
+                const trimmed = it.trim();
+                if (trimmed && !flat.includes(trimmed)) flat.push(trimmed);
+              }
+            }
+          }
+          cv.skills = flat;
+        }
+
         if (version < 2 && (cv.accentColor === "#4f46e5" || !cv.accentColor)) {
           cv.accentColor = "#A3CBA9";
         }
+
+        // ensure sectionOrder contains strengths
+        if (!cv.sectionOrder.includes("strengths")) {
+          const idx = cv.sectionOrder.indexOf("skills");
+          const next = [...cv.sectionOrder];
+          if (idx >= 0) next.splice(idx + 1, 0, "strengths");
+          else next.push("strengths");
+          cv.sectionOrder = next;
+        }
+
         return { cv };
       },
       onRehydrateStorage: () => (state) => {

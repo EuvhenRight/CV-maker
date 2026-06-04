@@ -1,6 +1,22 @@
 import * as React from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Link as LinkIcon,
+  type LucideIcon,
+} from "lucide-react";
 import type { CV, SectionKey } from "@/lib/cv-types";
-import { dateRange, nonEmpty } from "./shared";
+import { translate, type Locale } from "@/lib/i18n";
+import {
+  contactItems,
+  dateRange,
+  nonEmpty,
+  resolveSkills,
+  resolveStrengths,
+  type ContactKind,
+} from "./shared";
 
 export type HeadingStyle =
   | "uppercase-thin"
@@ -15,6 +31,11 @@ export interface BlockOpts {
   heading?: HeadingStyle;
   textColor?: string;
   mutedColor?: string;
+  lang?: Locale;
+}
+
+function langOf(opts: BlockOpts): Locale {
+  return opts.lang ?? "nl";
 }
 
 export function Heading({
@@ -29,7 +50,7 @@ export function Heading({
     case "bold-large":
       return (
         <h2
-          className="mb-2 text-[15px] font-extrabold"
+          className="mb-2 text-[15px] font-extrabold break-words"
           style={{ color: accent }}
         >
           {children}
@@ -38,7 +59,7 @@ export function Heading({
     case "underline":
       return (
         <h2
-          className="mb-2 border-b pb-1 text-[12px] font-bold uppercase tracking-[0.16em]"
+          className="mb-2 border-b pb-1 text-[12px] font-bold uppercase tracking-[0.16em] break-words"
           style={{ color: accent, borderColor: accent }}
         >
           {children}
@@ -47,7 +68,7 @@ export function Heading({
     case "side-bar":
       return (
         <h2
-          className="relative mb-2 pl-3 text-[12px] font-bold uppercase tracking-[0.14em]"
+          className="relative mb-2 pl-3 text-[12px] font-bold uppercase tracking-[0.14em] break-words"
           style={{ color: accent }}
         >
           <span
@@ -60,7 +81,7 @@ export function Heading({
     case "serif-caps":
       return (
         <h2
-          className="mb-2 text-[13px] font-bold uppercase tracking-[0.2em]"
+          className="mb-2 text-[13px] font-bold uppercase tracking-[0.2em] break-words"
           style={{
             color: accent,
             fontFamily: "Georgia, 'Times New Roman', serif",
@@ -81,7 +102,7 @@ export function Heading({
     default:
       return (
         <h2
-          className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.14em]"
+          className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.14em] break-words"
           style={{ color: accent }}
         >
           {children}
@@ -93,7 +114,7 @@ export function Heading({
 export function SummaryBlock({
   cv,
   opts,
-  title = "Samenvatting",
+  title,
 }: {
   cv: CV;
   opts: BlockOpts;
@@ -102,9 +123,11 @@ export function SummaryBlock({
   if (!nonEmpty(cv, "summary")) return null;
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(langOf(opts), "tpl.section.summary")}
+      </Heading>
       <p
-        className="text-[12px] leading-relaxed"
+        className="text-[12px] leading-relaxed whitespace-pre-wrap break-words"
         style={{ color: opts.textColor ?? "#3a3a3a" }}
       >
         {cv.summary}
@@ -116,7 +139,7 @@ export function SummaryBlock({
 export function ExperienceBlock({
   cv,
   opts,
-  title = "Werkervaring",
+  title,
   compact = false,
 }: {
   cv: CV;
@@ -125,15 +148,18 @@ export function ExperienceBlock({
   compact?: boolean;
 }) {
   if (!nonEmpty(cv, "experience")) return null;
+  const lang = langOf(opts);
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.experience")}
+      </Heading>
       <div className={compact ? "space-y-2" : "space-y-3"}>
         {cv.experience.map((e) => (
           <div key={e.id}>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
               <div
-                className="text-[13px] font-semibold"
+                className="text-[13px] font-semibold break-words"
                 style={{ color: opts.textColor }}
               >
                 {e.role}
@@ -142,15 +168,15 @@ export function ExperienceBlock({
                 )}
               </div>
               <div
-                className="text-[11px]"
+                className="text-[11px] whitespace-nowrap"
                 style={{ color: opts.mutedColor ?? "#6b6b6b" }}
               >
-                {dateRange(e.startDate, e.endDate, e.current)}
+                {dateRange(e.startDate, e.endDate, e.current, lang)}
               </div>
             </div>
             {e.location && (
               <div
-                className="text-[11px]"
+                className="text-[11px] break-words"
                 style={{ color: opts.mutedColor ?? "#6b6b6b" }}
               >
                 {e.location}
@@ -158,11 +184,13 @@ export function ExperienceBlock({
             )}
             {e.bullets.filter(Boolean).length > 0 && (
               <ul
-                className="mt-1 list-disc space-y-0.5 pl-4 text-[12px] leading-relaxed"
+                className="mt-1 list-disc space-y-0.5 pl-4 text-[12px] leading-relaxed break-words"
                 style={{ color: opts.textColor ?? "#3a3a3a" }}
               >
                 {e.bullets.filter(Boolean).map((b, i) => (
-                  <li key={i}>{b}</li>
+                  <li key={i} className="whitespace-pre-wrap">
+                    {b}
+                  </li>
                 ))}
               </ul>
             )}
@@ -176,41 +204,47 @@ export function ExperienceBlock({
 export function EducationBlock({
   cv,
   opts,
-  title = "Opleiding",
+  title,
 }: {
   cv: CV;
   opts: BlockOpts;
   title?: string;
 }) {
   if (!nonEmpty(cv, "education")) return null;
+  const lang = langOf(opts);
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.education")}
+      </Heading>
       <div className="space-y-2">
         {cv.education.map((ed) => (
           <div key={ed.id}>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3">
               <div
-                className="text-[13px] font-semibold"
+                className="text-[13px] font-semibold break-words"
                 style={{ color: opts.textColor }}
               >
                 {[ed.degree, ed.field].filter(Boolean).join(" · ") || ed.school}
               </div>
               <div
-                className="text-[11px]"
+                className="text-[11px] whitespace-nowrap"
                 style={{ color: opts.mutedColor ?? "#6b6b6b" }}
               >
-                {dateRange(ed.startDate, ed.endDate)}
+                {dateRange(ed.startDate, ed.endDate, undefined, lang)}
               </div>
             </div>
             <div
-              className="text-[12px]"
+              className="text-[12px] break-words"
               style={{ color: opts.mutedColor ?? "#6b6b6b" }}
             >
               {ed.school}
             </div>
             {ed.description && (
-              <div className="text-[11px] italic" style={{ color: opts.mutedColor }}>
+              <div
+                className="text-[11px] italic break-words"
+                style={{ color: opts.mutedColor }}
+              >
                 {ed.description}
               </div>
             )}
@@ -224,7 +258,7 @@ export function EducationBlock({
 export function SkillsBlock({
   cv,
   opts,
-  title = "Vaardigheden",
+  title,
   chips = false,
   inline = false,
 }: {
@@ -235,40 +269,91 @@ export function SkillsBlock({
   inline?: boolean;
 }) {
   if (!nonEmpty(cv, "skills")) return null;
+  const lang = langOf(opts);
+  const labels = resolveSkills(cv, lang);
   if (chips) {
     return (
       <section>
-        <Heading opts={opts}>{title}</Heading>
+        <Heading opts={opts}>
+          {title ?? translate(lang, "tpl.section.skills")}
+        </Heading>
         <div className="flex flex-wrap gap-1.5">
-          {cv.skills.flatMap((s) =>
-            s.items
-              .split(",")
-              .map((x) => x.trim())
-              .filter(Boolean)
-              .map((x, i) => (
-                <span
-                  key={`${s.id}-${i}`}
-                  className="rounded-full px-2 py-0.5 text-[11px] font-medium"
-                  style={{ background: `${opts.accent}18`, color: opts.accent }}
-                >
-                  {x}
-                </span>
-              )),
-          )}
+          {labels.map((label, i) => (
+            <span
+              key={`${label}-${i}`}
+              className="rounded-full px-2 py-0.5 text-[11px] font-medium break-words"
+              style={{ background: `${opts.accent}18`, color: opts.accent }}
+            >
+              {label}
+            </span>
+          ))}
         </div>
       </section>
     );
   }
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
-      <div className={inline ? "text-[12px]" : "space-y-1 text-[12px]"}>
-        {cv.skills.map((s) => (
-          <div key={s.id} style={{ color: opts.textColor ?? "#3a3a3a" }}>
-            {s.category && <strong>{s.category}: </strong>}
-            {s.items}
-          </div>
-        ))}
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.skills")}
+      </Heading>
+      <div
+        className={
+          inline
+            ? "text-[12px] break-words"
+            : "text-[12px] leading-relaxed break-words"
+        }
+        style={{ color: opts.textColor ?? "#3a3a3a" }}
+      >
+        {labels.join(" · ")}
+      </div>
+    </section>
+  );
+}
+
+export function StrengthsBlock({
+  cv,
+  opts,
+  title,
+  chips = false,
+}: {
+  cv: CV;
+  opts: BlockOpts;
+  title?: string;
+  chips?: boolean;
+}) {
+  if (!nonEmpty(cv, "strengths")) return null;
+  const lang = langOf(opts);
+  const labels = resolveStrengths(cv, lang);
+  if (chips) {
+    return (
+      <section>
+        <Heading opts={opts}>
+          {title ?? translate(lang, "tpl.section.strengths")}
+        </Heading>
+        <div className="flex flex-wrap gap-1.5">
+          {labels.map((label, i) => (
+            <span
+              key={`${label}-${i}`}
+              className="rounded-full px-2 py-0.5 text-[11px] font-medium break-words"
+              style={{ background: `${opts.accent}18`, color: opts.accent }}
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+      </section>
+    );
+  }
+  return (
+    <section>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.strengths")}
+      </Heading>
+      <div
+        className="text-[12px] leading-relaxed break-words"
+        style={{ color: opts.textColor ?? "#3a3a3a" }}
+      >
+        {labels.join(" · ")}
       </div>
     </section>
   );
@@ -277,27 +362,30 @@ export function SkillsBlock({
 export function ProjectsBlock({
   cv,
   opts,
-  title = "Projecten",
+  title,
 }: {
   cv: CV;
   opts: BlockOpts;
   title?: string;
 }) {
   if (!nonEmpty(cv, "projects")) return null;
+  const lang = langOf(opts);
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.projects")}
+      </Heading>
       <div className="space-y-2">
         {cv.projects.map((p) => (
           <div key={p.id}>
             <div
-              className="text-[13px] font-semibold"
+              className="text-[13px] font-semibold break-words"
               style={{ color: opts.textColor }}
             >
               {p.name}
               {p.link && (
                 <span
-                  className="ml-2 text-[11px] font-normal"
+                  className="ml-2 text-[11px] font-normal break-all"
                   style={{ color: opts.accent }}
                 >
                   {p.link}
@@ -306,7 +394,7 @@ export function ProjectsBlock({
             </div>
             {p.description && (
               <p
-                className="text-[12px]"
+                className="text-[12px] break-words"
                 style={{ color: opts.textColor ?? "#3a3a3a" }}
               >
                 {p.description}
@@ -322,7 +410,7 @@ export function ProjectsBlock({
 export function LanguagesBlock({
   cv,
   opts,
-  title = "Talen",
+  title,
   stacked = false,
 }: {
   cv: CV;
@@ -331,17 +419,21 @@ export function LanguagesBlock({
   stacked?: boolean;
 }) {
   if (!nonEmpty(cv, "languages")) return null;
+  const lang = langOf(opts);
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.languages")}
+      </Heading>
       {stacked ? (
-        <div className="space-y-0.5 text-[12px]">
+        <div className="space-y-0.5 text-[12px] break-words">
           {cv.languages.map((l) => (
             <div key={l.id}>
               <strong>{l.name}</strong>
               {l.level && (
                 <span style={{ color: opts.mutedColor ?? "#6b6b6b" }}>
-                  {" "}— {l.level}
+                  {" "}
+                  — {l.level}
                 </span>
               )}
             </div>
@@ -349,7 +441,7 @@ export function LanguagesBlock({
         </div>
       ) : (
         <div
-          className="text-[12px]"
+          className="text-[12px] break-words"
           style={{ color: opts.textColor ?? "#3a3a3a" }}
         >
           {cv.languages
@@ -364,21 +456,24 @@ export function LanguagesBlock({
 export function CertificationsBlock({
   cv,
   opts,
-  title = "Certificaten",
+  title,
 }: {
   cv: CV;
   opts: BlockOpts;
   title?: string;
 }) {
   if (!nonEmpty(cv, "certifications")) return null;
+  const lang = langOf(opts);
   return (
     <section>
-      <Heading opts={opts}>{title}</Heading>
+      <Heading opts={opts}>
+        {title ?? translate(lang, "tpl.section.certifications")}
+      </Heading>
       <div className="space-y-0.5 text-[12px]">
         {cv.certifications.map((c) => (
           <div
             key={c.id}
-            className="flex flex-wrap items-baseline justify-between gap-x-3"
+            className="flex flex-wrap items-baseline justify-between gap-x-3 break-words"
             style={{ color: opts.textColor ?? "#3a3a3a" }}
           >
             <span>
@@ -387,7 +482,7 @@ export function CertificationsBlock({
             </span>
             {c.date && (
               <span
-                className="text-[11px]"
+                className="text-[11px] whitespace-nowrap"
                 style={{ color: opts.mutedColor ?? "#6b6b6b" }}
               >
                 {c.date}
@@ -403,9 +498,11 @@ export function CertificationsBlock({
 export function PageFooter({
   accent,
   variant = "light",
+  lang = "nl",
 }: {
   accent: string;
   variant?: "light" | "dark";
+  lang?: Locale;
 }) {
   const lineColor = variant === "dark" ? "rgba(255,255,255,0.25)" : `${accent}55`;
   const textColor = variant === "dark" ? "rgba(255,255,255,0.55)" : "#a8a8a8";
@@ -416,7 +513,7 @@ export function PageFooter({
         className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.16em]"
         style={{ color: textColor }}
       >
-        <span>Gemaakt met MaakMijnCV</span>
+        <span>{translate(lang, "preview.footer.madeWith")}</span>
         <span>cybersoek.nl</span>
       </div>
     </div>
@@ -429,12 +526,14 @@ export function PhotoFrame({
   shape = "circle",
   borderColor,
   className = "",
+  lang = "nl",
 }: {
   src?: string;
   size?: number;
   shape?: "circle" | "square" | "rounded" | "wedge";
   borderColor?: string;
   className?: string;
+  lang?: Locale;
 }) {
   const radius =
     shape === "circle"
@@ -458,7 +557,7 @@ export function PhotoFrame({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
-          alt="Profile"
+          alt={translate(lang, "personal.photo.alt")}
           className="h-full w-full object-cover"
         />
       ) : (
@@ -466,6 +565,114 @@ export function PhotoFrame({
           Photo
         </div>
       )}
+    </div>
+  );
+}
+
+const ICONS: Record<ContactKind, LucideIcon> = {
+  email: Mail,
+  phone: Phone,
+  location: MapPin,
+  website: Globe,
+  linkedin: LinkIcon,
+};
+
+export type ContactLayout = "inline" | "rows" | "labeled-rows" | "iconRows";
+
+export function ContactRows({
+  cv,
+  lang = "nl",
+  layout = "labeled-rows",
+  color,
+  accent,
+  iconSize = 11,
+  className = "",
+}: {
+  cv: CV;
+  lang?: Locale;
+  layout?: ContactLayout;
+  color?: string;
+  accent?: string;
+  iconSize?: number;
+  className?: string;
+}) {
+  const items = contactItems(cv, lang);
+  if (items.length === 0) return null;
+
+  if (layout === "inline") {
+    return (
+      <div
+        className={`flex flex-wrap gap-x-3 gap-y-1 text-[11px] ${className}`}
+        style={{ color }}
+      >
+        {items.map((c) => {
+          const Icon = ICONS[c.kind];
+          return (
+            <span
+              key={c.kind}
+              className="inline-flex items-center gap-1 break-all"
+            >
+              <Icon
+                style={{ width: iconSize, height: iconSize, color: accent ?? color }}
+              />
+              <span>{c.value}</span>
+            </span>
+          );
+        })}
+      </div>
+    );
+  }
+
+  if (layout === "iconRows") {
+    return (
+      <div className={`space-y-1 text-[11px] ${className}`} style={{ color }}>
+        {items.map((c) => {
+          const Icon = ICONS[c.kind];
+          return (
+            <div
+              key={c.kind}
+              className="flex items-start gap-2 break-all"
+            >
+              <Icon
+                className="mt-0.5 shrink-0"
+                style={{ width: iconSize, height: iconSize, color: accent ?? color }}
+              />
+              <span>{c.value}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  if (layout === "rows") {
+    return (
+      <div className={`space-y-0.5 text-[11px] ${className}`} style={{ color }}>
+        {items.map((c) => (
+          <div key={c.kind} className="break-all">
+            {c.value}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`space-y-0.5 text-[11px] ${className}`} style={{ color }}>
+      {items.map((c) => (
+        <div
+          key={c.kind}
+          className="grid grid-cols-[auto_1fr] gap-x-1.5 break-all"
+        >
+          <span
+            className="font-semibold uppercase tracking-wider text-[10px]"
+            style={{ color: accent }}
+          >
+            {c.label}:
+          </span>
+          <span>{c.value}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -488,6 +695,8 @@ export function defaultRenderer(
       return <EducationBlock key={key} cv={cv} opts={opts} />;
     case "skills":
       return <SkillsBlock key={key} cv={cv} opts={opts} />;
+    case "strengths":
+      return <StrengthsBlock key={key} cv={cv} opts={opts} />;
     case "projects":
       return <ProjectsBlock key={key} cv={cv} opts={opts} />;
     case "languages":

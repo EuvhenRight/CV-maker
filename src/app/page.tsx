@@ -1,37 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
   Camera,
   FileText,
+  Languages,
   ShieldCheck,
   Sparkles,
   Zap,
 } from "lucide-react";
 import { TEMPLATE_IDS, TEMPLATE_META } from "@/components/templates";
-
-const FEATURES = [
-  {
-    icon: Zap,
-    title: "Klaar in 5 minuten",
-    body: "Kies een template, vul je gegevens in, download. Geen account, geen gedoe.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Recruiter & ATS-proof",
-    body: "Templates volgen de structuur die ATS-systemen verwachten — geen rare layouts.",
-  },
-  {
-    icon: Camera,
-    title: "Met of zonder foto",
-    body: "10 branche-templates met portret. 4 klassieke ATS-pure templates zonder foto.",
-  },
-  {
-    icon: FileText,
-    title: "Nette PDF",
-    body: "Print-naar-PDF in je browser. Wat je ziet is precies wat je verstuurt.",
-  },
-];
+import {
+  LOCALES,
+  LOCALE_LABELS,
+  useLocale,
+  type Locale,
+} from "@/lib/i18n";
 
 const INDUSTRY_TEMPLATES = TEMPLATE_IDS.filter(
   (id) => TEMPLATE_META[id].category === "industry",
@@ -41,10 +27,43 @@ const CLASSIC_TEMPLATES = TEMPLATE_IDS.filter(
 );
 
 export default function HomePage() {
+  const { t, locale, setLocale } = useLocale();
+  const features = [
+    {
+      icon: Zap,
+      title: t("features.fast.title"),
+      body: t("features.fast.body"),
+    },
+    {
+      icon: ShieldCheck,
+      title: t("features.ats.title"),
+      body: t("features.ats.body"),
+    },
+    {
+      icon: Camera,
+      title: t("features.photo.title"),
+      body: t("features.photo.body"),
+    },
+    {
+      icon: FileText,
+      title: t("features.pdf.title"),
+      body: t("features.pdf.body"),
+    },
+  ];
+
+  const usps = [
+    t("hero.usp.free"),
+    t("hero.usp.noAccount"),
+    t("hero.usp.autosave"),
+    t("hero.usp.atsFriendly"),
+    t("hero.usp.withPhoto"),
+    t("hero.usp.pdfExport"),
+  ];
+
   return (
     <div className="min-h-screen bg-[#F0EFEA] text-[#1A1919]">
       <header className="border-b border-[#e8e6df] bg-[#F0EFEA]/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
           <Link
             href="/"
             className="flex items-center gap-2 font-display text-lg font-bold tracking-tight"
@@ -55,70 +74,63 @@ export default function HomePage() {
             />
             Maak<span className="text-[#7FA689]">MijnCV</span>
           </Link>
-          <nav className="flex items-center gap-5 text-sm text-[#3a3a3a]">
+          <nav className="flex flex-wrap items-center gap-3 text-sm text-[#3a3a3a] sm:gap-5">
             <a
               href="#features"
               className="hidden hover:text-[#1A1919] sm:inline"
             >
-              Functies
+              {t("nav.features")}
             </a>
             <a
               href="#templates"
               className="hidden hover:text-[#1A1919] sm:inline"
             >
-              Templates
+              {t("nav.templates")}
             </a>
+            <LanguageSwitcher locale={locale} setLocale={setLocale} />
             <Link
               href="/builder"
               className="inline-flex items-center gap-1.5 rounded-full bg-[#A3CBA9] px-4 py-1.5 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
             >
-              Open editor
+              {t("nav.openEditor")}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </nav>
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[#e8e6df] bg-white px-3 py-1 text-xs font-medium text-[#3a3a3a]">
               <Sparkles className="h-3.5 w-3.5 text-[#7FA689]" />
-              Een CV waar recruiters bij stilstaan
+              {t("hero.badge")}
             </span>
-            <h1 className="font-display mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Een werk-klaar CV in{" "}
-              <span className="text-[#7FA689]">vijf minuten</span>.
+            <h1 className="font-display mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
+              {t("hero.title1")}
+              <span className="text-[#7FA689]">{t("hero.titleHighlight")}</span>
+              {t("hero.title2")}
             </h1>
             <p className="mt-4 max-w-xl text-base text-[#444]">
-              Kies uit 14 templates — van strak voor IT tot warm voor zorg en
-              horeca. Vul je gegevens in, voeg een foto toe en download een
-              professionele PDF.
+              {t("hero.subtitle")}
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link
                 href="/builder"
                 className="inline-flex items-center gap-2 rounded-full bg-[#A3CBA9] px-5 py-3 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
               >
-                Start gratis
+                {t("nav.startFree")}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="#templates"
                 className="inline-flex items-center gap-2 rounded-full border border-[#e8e6df] bg-white px-5 py-3 font-display text-sm font-semibold text-[#1A1919] hover:bg-white/70"
               >
-                Bekijk templates
+                {t("nav.viewTemplates")}
               </a>
             </div>
             <ul className="mt-7 flex max-w-2xl flex-wrap gap-x-5 gap-y-1 text-xs text-[#666]">
-              {[
-                "Gratis",
-                "Geen account",
-                "Auto-opslag",
-                "ATS-vriendelijk",
-                "Met foto",
-                "PDF-export",
-              ].map((x) => (
+              {usps.map((x) => (
                 <li key={x} className="inline-flex items-center gap-1.5">
                   <CheckCircle2 className="h-3.5 w-3.5 text-[#7FA689]" />
                   {x}
@@ -133,16 +145,15 @@ export default function HomePage() {
       </section>
 
       <section id="features" className="border-y border-[#e8e6df] bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <h2 className="font-display text-2xl font-bold tracking-tight">
-            Minder moeite. Meer kans op een baan.
+            {t("features.title")}
           </h2>
           <p className="mt-2 max-w-xl text-sm text-[#555]">
-            Elk onderdeel is bedacht om de afstand tussen jou en je volgende
-            baan te verkleinen.
+            {t("features.subtitle")}
           </p>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((f) => (
+            {features.map((f) => (
               <div
                 key={f.title}
                 className="rounded-2xl border border-[#e8e6df] bg-[#F0EFEA] p-5"
@@ -163,36 +174,35 @@ export default function HomePage() {
       </section>
 
       <section id="templates" className="border-b border-[#e8e6df]">
-        <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="flex items-end justify-between">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 className="font-display text-2xl font-bold tracking-tight">
-                Templates voor 10 branches.
+                {t("templates.title")}
               </h2>
               <p className="mt-2 max-w-xl text-sm text-[#555]">
-                Elk template volgt de standaard van die branche. Allemaal met
-                ruimte voor je foto.
+                {t("templates.subtitle")}
               </p>
             </div>
             <Link
               href="/builder"
               className="hidden text-sm font-semibold text-[#7FA689] hover:underline sm:inline"
             >
-              Open editor →
+              {t("nav.openEditorArrow")}
             </Link>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {INDUSTRY_TEMPLATES.map((id) => (
-              <TemplateCard key={id} id={id} />
+              <TemplateCard key={id} id={id} photoBadge={t("templates.photoBadge")} />
             ))}
           </div>
           <div className="mt-12">
             <h3 className="font-display text-base font-bold uppercase tracking-[0.16em] text-[#6b6b6b]">
-              Klassieke ATS-templates (zonder foto)
+              {t("templates.classicTitle")}
             </h3>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {CLASSIC_TEMPLATES.map((id) => (
-                <TemplateCard key={id} id={id} />
+                <TemplateCard key={id} id={id} photoBadge={t("templates.photoBadge")} />
               ))}
             </div>
           </div>
@@ -200,30 +210,27 @@ export default function HomePage() {
       </section>
 
       <section className="bg-[#1A1919] text-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-6 py-12 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-10 sm:px-6 sm:py-12 md:flex-row md:items-center md:justify-between">
           <div>
             <h3 className="font-display text-xl font-bold">
-              Klaar om je CV te versturen?
+              {t("cta.title")}
             </h3>
-            <p className="text-sm text-[#cbcbcb]">
-              Geen account. Lokale opslag. Print naar PDF wanneer je tevreden
-              bent.
-            </p>
+            <p className="text-sm text-[#cbcbcb]">{t("cta.subtitle")}</p>
           </div>
           <Link
             href="/builder"
             className="inline-flex items-center gap-2 rounded-full bg-[#A3CBA9] px-5 py-3 font-display text-sm font-semibold text-[#1A1919] shadow-sm transition-colors hover:bg-[#7fa689] hover:text-white"
           >
-            Open de editor
+            {t("cta.button")}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
 
       <footer className="border-t border-[#e8e6df] bg-[#F0EFEA]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-xs text-[#7a7a7a]">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-xs text-[#7a7a7a] sm:px-6">
           <div>
-            © {new Date().getFullYear()} MaakMijnCV · CV-tool voor{" "}
+            © {new Date().getFullYear()} MaakMijnCV · {t("footer.copy")}{" "}
             <a
               href="https://cybersoek.nl"
               target="_blank"
@@ -239,7 +246,39 @@ export default function HomePage() {
   );
 }
 
-function TemplateCard({ id }: { id: keyof typeof TEMPLATE_META }) {
+function LanguageSwitcher({
+  locale,
+  setLocale,
+}: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+}) {
+  return (
+    <label className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#e8e6df] bg-white px-3 py-1 text-xs font-medium text-[#3a3a3a]">
+      <Languages className="h-3.5 w-3.5 text-[#7FA689]" />
+      <span className="sr-only">Language</span>
+      <select
+        value={locale}
+        onChange={(e) => setLocale(e.target.value as Locale)}
+        className="bg-transparent text-xs font-medium focus:outline-none"
+      >
+        {LOCALES.map((l) => (
+          <option key={l} value={l}>
+            {LOCALE_LABELS[l]}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function TemplateCard({
+  id,
+  photoBadge,
+}: {
+  id: keyof typeof TEMPLATE_META;
+  photoBadge: string;
+}) {
   const meta = TEMPLATE_META[id];
   return (
     <Link
@@ -251,12 +290,12 @@ function TemplateCard({ id }: { id: keyof typeof TEMPLATE_META }) {
         {meta.hasPhoto && (
           <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#A3CBA9] px-2 py-0.5 text-[10px] font-semibold text-[#1A1919] shadow-sm">
             <Camera className="h-2.5 w-2.5" />
-            Foto
+            {photoBadge}
           </span>
         )}
       </div>
       <div className="px-3 py-2.5">
-        <div className="font-display text-sm font-semibold leading-tight">
+        <div className="font-display text-sm font-semibold leading-tight break-words">
           {meta.name}
         </div>
         {meta.industry && (

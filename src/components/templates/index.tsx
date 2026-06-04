@@ -1,4 +1,5 @@
 import type { CV, TemplateId } from "@/lib/cv-types";
+import type { Locale } from "@/lib/i18n";
 import { MinimalTemplate } from "./MinimalTemplate";
 import { ModernTemplate } from "./ModernTemplate";
 import { CorporateTemplate } from "./CorporateTemplate";
@@ -123,36 +124,36 @@ export const TEMPLATE_META: Record<TemplateId, TemplateMeta> = {
 
 export const TEMPLATE_IDS = Object.keys(TEMPLATE_META) as TemplateId[];
 
-export function CVTemplate({ cv }: { cv: CV }) {
+export function CVTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
   switch (cv.template) {
     case "modern":
-      return <ModernTemplate cv={cv} />;
+      return <ModernTemplate cv={cv} lang={lang} />;
     case "corporate":
-      return <CorporateTemplate cv={cv} />;
+      return <CorporateTemplate cv={cv} lang={lang} />;
     case "creative":
-      return <CreativeTemplate cv={cv} />;
+      return <CreativeTemplate cv={cv} lang={lang} />;
     case "tech":
-      return <TechTemplate cv={cv} />;
+      return <TechTemplate cv={cv} lang={lang} />;
     case "delivery":
-      return <DeliveryTemplate cv={cv} />;
+      return <DeliveryTemplate cv={cv} lang={lang} />;
     case "housekeeping":
-      return <HousekeepingTemplate cv={cv} />;
+      return <HousekeepingTemplate cv={cv} lang={lang} />;
     case "hospitality":
-      return <HospitalityTemplate cv={cv} />;
+      return <HospitalityTemplate cv={cv} lang={lang} />;
     case "healthcare":
-      return <HealthcareTemplate cv={cv} />;
+      return <HealthcareTemplate cv={cv} lang={lang} />;
     case "construction":
-      return <ConstructionTemplate cv={cv} />;
+      return <ConstructionTemplate cv={cv} lang={lang} />;
     case "retail":
-      return <RetailTemplate cv={cv} />;
+      return <RetailTemplate cv={cv} lang={lang} />;
     case "education":
-      return <EducationTemplate cv={cv} />;
+      return <EducationTemplate cv={cv} lang={lang} />;
     case "creative-bold":
-      return <CreativeBoldTemplate cv={cv} />;
+      return <CreativeBoldTemplate cv={cv} lang={lang} />;
     case "admin":
-      return <AdminTemplate cv={cv} />;
+      return <AdminTemplate cv={cv} lang={lang} />;
     case "minimal":
     default:
-      return <MinimalTemplate cv={cv} />;
+      return <MinimalTemplate cv={cv} lang={lang} />;
   }
 }

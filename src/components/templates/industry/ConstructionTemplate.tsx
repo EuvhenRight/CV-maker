@@ -1,19 +1,33 @@
 import type { CV } from "@/lib/cv-types";
-import { defaultRenderer, PageFooter, PhotoFrame, type BlockOpts } from "../blocks";
-import { contactLine } from "../shared";
+import type { Locale } from "@/lib/i18n";
+import {
+  ContactRows,
+  defaultRenderer,
+  PageFooter,
+  PhotoFrame,
+  type BlockOpts,
+} from "../blocks";
+import { placeholderName } from "../shared";
 
-export function ConstructionTemplate({ cv }: { cv: CV }) {
+export function ConstructionTemplate({
+  cv,
+  lang = "nl",
+}: {
+  cv: CV;
+  lang?: Locale;
+}) {
   const accent = cv.accentColor;
   const opts: BlockOpts = {
     accent,
     heading: "filled-pill",
     textColor: "#1a1a1a",
+    lang,
   };
 
   return (
     <article className="flex flex-1 flex-col text-[#1a1a1a]">
       <header
-        className="mb-5 flex items-center gap-5 px-10 py-8 text-white"
+        className="mb-5 flex flex-wrap items-center gap-5 px-10 py-8 text-white"
         style={{ background: "#1f2933" }}
       >
         <PhotoFrame
@@ -21,23 +35,28 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
           size={110}
           shape="square"
           borderColor={accent}
+          lang={lang}
         />
-        <div className="flex-1">
-          <h1 className="font-display text-[30px] font-extrabold uppercase leading-tight tracking-tight">
-            {cv.personal.fullName || "Jouw naam"}
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-[30px] font-extrabold uppercase leading-tight tracking-tight break-words">
+            {cv.personal.fullName || placeholderName(lang)}
           </h1>
           {cv.personal.title && (
             <div
-              className="text-[14px] font-semibold uppercase tracking-wide"
+              className="text-[14px] font-semibold uppercase tracking-wide break-words"
               style={{ color: accent }}
             >
               {cv.personal.title}
             </div>
           )}
-          <div className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-[#cdd5db]">
-            {contactLine(cv).map((c, i) => (
-              <span key={i}>{c}</span>
-            ))}
+          <div className="mt-2">
+            <ContactRows
+              cv={cv}
+              lang={lang}
+              layout="inline"
+              color="#cdd5db"
+              accent={accent}
+            />
           </div>
         </div>
       </header>
@@ -45,7 +64,7 @@ export function ConstructionTemplate({ cv }: { cv: CV }) {
         <div className="space-y-5">
           {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
         </div>
-        <PageFooter accent={accent} />
+        <PageFooter accent={accent} lang={lang} />
       </div>
     </article>
   );

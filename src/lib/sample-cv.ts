@@ -16,6 +16,7 @@ export function makeEmptyCV(): CV {
     experience: [],
     education: [],
     skills: [],
+    strengths: [],
     projects: [],
     languages: [],
     certifications: [],
@@ -80,18 +81,19 @@ export function makeSampleCV(): CV {
       },
     ],
     skills: [
-      {
-        id: "sk1",
-        category: "Ontwerp",
-        items:
-          "Figma, Design systems, Prototyping, Gebruikersonderzoek, Toegankelijkheid",
-      },
-      {
-        id: "sk2",
-        category: "Samenwerking",
-        items:
-          "Cross-functioneel leiderschap, Mentoring, Workshop-facilitatie",
-      },
+      "leadership",
+      "mentoring",
+      "communication",
+      "problem-solving",
+      "project-management",
+      "data-analysis",
+    ],
+    strengths: [
+      "responsible",
+      "creative",
+      "analytical",
+      "detail-oriented",
+      "goal-oriented",
     ],
     projects: [
       {
