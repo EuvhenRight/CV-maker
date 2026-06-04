@@ -15,33 +15,40 @@ interface SectionShellProps {
   children: React.ReactNode;
 }
 
-export function SectionShell({
-  id,
+interface SectionShellBaseProps extends SectionShellProps {
+  draggableAriaLabel: string;
+  toggleAriaLabel: string;
+  setNodeRef?: (node: HTMLElement | null) => void;
+  style?: React.CSSProperties;
+  attributes?: Record<string, unknown>;
+  listeners?: Record<string, unknown> | undefined;
+}
+
+function SectionShellBase({
   title,
   count,
   defaultOpen = true,
   children,
-}: SectionShellProps) {
+  draggableAriaLabel,
+  toggleAriaLabel,
+  setNodeRef,
+  style,
+  attributes,
+  listeners,
+}: SectionShellBaseProps) {
   const [open, setOpen] = React.useState(defaultOpen);
-  const t = useT();
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id });
 
   return (
     <div
       ref={setNodeRef}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-      }}
+      style={style}
       className="rounded-lg border border-[#e8e6df] bg-white shadow-sm"
     >
       <div className="flex items-center gap-1 px-2 py-2">
         <button
           type="button"
           className="cursor-grab touch-none rounded p-1 text-neutral-400 hover:bg-[#f0efea] hover:text-neutral-700 active:cursor-grabbing"
-          aria-label={t("section.dragAria")}
+          aria-label={draggableAriaLabel}
           {...attributes}
           {...listeners}
         >
@@ -50,7 +57,7 @@ export function SectionShell({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          aria-label={t("section.toggleAria")}
+          aria-label={toggleAriaLabel}
           aria-expanded={open}
           className="flex flex-1 items-center justify-between rounded px-2 py-1 text-left hover:bg-[#fafaf7]"
         >
@@ -78,5 +85,38 @@ export function SectionShell({
         {children}
       </div>
     </div>
+  );
+}
+
+export function SectionShell(props: SectionShellProps) {
+  const t = useT();
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: props.id });
+
+  return (
+    <SectionShellBase
+      {...props}
+      draggableAriaLabel={t("section.dragAria")}
+      toggleAriaLabel={t("section.toggleAria")}
+      setNodeRef={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+      }}
+      attributes={attributes as unknown as Record<string, unknown>}
+      listeners={listeners as unknown as Record<string, unknown>}
+    />
+  );
+}
+
+export function StaticSectionShell(props: SectionShellProps) {
+  const t = useT();
+  return (
+    <SectionShellBase
+      {...props}
+      draggableAriaLabel={t("section.dragAria")}
+      toggleAriaLabel={t("section.toggleAria")}
+    />
   );
 }

@@ -17,7 +17,7 @@ import {
 import { useCVStore } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { type SectionKey } from "@/lib/cv-types";
-import { SectionShell } from "./SectionShell";
+import { SectionShell, StaticSectionShell } from "./SectionShell";
 import { PersonalSection } from "./sections/PersonalSection";
 import { SummarySection } from "./sections/SummarySection";
 import { ExperienceSection } from "./sections/ExperienceSection";
@@ -69,8 +69,20 @@ function SortableSection({ id }: { id: SectionKey }) {
   );
 }
 
+function StaticSection({ id }: { id: SectionKey }) {
+  const Comp = SECTION_COMPONENTS[id];
+  const count = useSectionCount(id);
+  const t = useT();
+  return (
+    <StaticSectionShell id={id} title={t(SECTION_LABEL_KEYS[id])} count={count}>
+      <Comp />
+    </StaticSectionShell>
+  );
+}
+
 export function EditorPanel() {
   const t = useT();
+  const hydrated = useCVStore((s) => s.hydrated);
   const sectionOrder = useCVStore((s) => s.cv.sectionOrder);
   const reorderSections = useCVStore((s) => s.reorderSections);
   const sensors = useSensors(
@@ -99,22 +111,31 @@ export function EditorPanel() {
         </div>
       </div>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-      >
-        <SortableContext
-          items={sectionOrder}
-          strategy={verticalListSortingStrategy}
+      {hydrated ? (
+        <DndContext
+          id="editor-sections"
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={onDragEnd}
         >
-          <div className="space-y-3">
-            {sectionOrder.map((key) => (
-              <SortableSection key={key} id={key} />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+          <SortableContext
+            items={sectionOrder}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-3">
+              {sectionOrder.map((key) => (
+                <SortableSection key={key} id={key} />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+      ) : (
+        <div className="space-y-3">
+          {sectionOrder.map((key) => (
+            <StaticSection key={key} id={key} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
