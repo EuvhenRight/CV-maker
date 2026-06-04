@@ -10,17 +10,19 @@ interface CVPreviewProps {
   innerRef?: React.Ref<HTMLDivElement>;
 }
 
+const PAGE_W = 794;
+const PAGE_H = 1123;
+
 export function CVPreview({ scale, innerRef }: CVPreviewProps) {
   const cv = useCVStore((s) => s.cv);
   const { locale } = useLocale();
   return (
-    <div className="flex items-start justify-center">
+    <div className="flex justify-center">
       <div
-        className="origin-top"
+        className="relative max-w-full"
         style={{
-          transform: `scale(${scale})`,
-          width: `${794 * scale}px`,
-          height: `${1123 * scale}px`,
+          width: `${PAGE_W * scale}px`,
+          height: `${PAGE_H * scale}px`,
         }}
       >
         <div
@@ -28,11 +30,16 @@ export function CVPreview({ scale, innerRef }: CVPreviewProps) {
           id="cv-page"
           className="cv-page bg-white shadow-md"
           style={{
-            width: "794px",
-            minHeight: "1123px",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: `${PAGE_W}px`,
+            minHeight: `${PAGE_H}px`,
             color: "#171717",
             display: "flex",
             flexDirection: "column",
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
           }}
         >
           <CVTemplate cv={cv} lang={locale} />

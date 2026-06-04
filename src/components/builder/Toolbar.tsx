@@ -23,6 +23,7 @@ import {
   type Locale,
 } from "@/lib/i18n";
 import { downloadCVAsPdf } from "@/lib/pdf";
+import { ProfessionPicker } from "./ProfessionPicker";
 
 const ACCENTS = [
   "#A3CBA9",
@@ -44,7 +45,6 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
   const setTemplate = useCVStore((s) => s.setTemplate);
   const setAccent = useCVStore((s) => s.setAccent);
   const reset = useCVStore((s) => s.reset);
-  const loadSample = useCVStore((s) => s.loadSample);
   const { locale, setLocale, t } = useLocale();
   const [downloading, setDownloading] = React.useState(false);
 
@@ -73,19 +73,42 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
   }
 
   return (
-    <div className="no-print sticky top-0 z-30 flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-[#e8e6df] bg-[#F0EFEA]/90 px-3 py-3 backdrop-blur sm:px-4">
-      <Link
-        href="/"
-        className="flex shrink-0 items-center gap-2 font-display text-base font-bold tracking-tight text-[#1A1919] sm:text-lg"
-      >
-        <span
-          className="inline-block h-3 w-3 rounded-full"
-          style={{ background: "#A3CBA9" }}
-        />
-        Maak<span className="text-[#7FA689]">MijnCV</span>
-      </Link>
+    <div className="no-print sticky top-0 z-30 flex flex-col gap-2 border-b border-[#e8e6df] bg-[#F0EFEA]/90 px-3 py-2 backdrop-blur sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3 sm:gap-y-2 sm:px-4 sm:py-3">
+      <div className="flex items-center justify-between gap-2">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2 font-display text-base font-bold tracking-tight text-[#1A1919] sm:text-lg"
+        >
+          <span
+            className="inline-block h-3 w-3 rounded-full"
+            style={{ background: "#A3CBA9" }}
+          />
+          Maak<span className="text-[#7FA689]">MijnCV</span>
+        </Link>
 
-      <div className="flex min-w-0 items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:hidden">
+          <Select
+            value={locale}
+            onValueChange={(v) => setLocale(v as Locale)}
+          >
+            <SelectTrigger
+              className="h-8 w-[44px] rounded-full px-2"
+              aria-label={t("toolbar.language")}
+            >
+              <Languages className="h-3.5 w-3.5" />
+            </SelectTrigger>
+            <SelectContent>
+              {LOCALES.map((l) => (
+                <SelectItem key={l} value={l}>
+                  {LOCALE_LABELS[l]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <span className="hidden text-xs text-[#6b6b6b] sm:inline">
           {t("toolbar.template")}
         </span>
@@ -94,7 +117,7 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
           onValueChange={(v) => setTemplate(v as TemplateId)}
         >
           <SelectTrigger
-            className="h-9 w-[180px] rounded-full sm:w-[210px]"
+            className="h-9 w-full min-w-0 rounded-full sm:w-[210px]"
             aria-label={t("toolbar.template")}
           >
             <SelectValue />
@@ -124,14 +147,14 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
         <span className="hidden text-xs text-[#6b6b6b] sm:inline">
           {t("toolbar.accent")}
         </span>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           {ACCENTS.map((c) => (
             <button
               key={c}
               type="button"
               aria-label={`${t("toolbar.accent")} ${c}`}
               onClick={() => setAccent(c)}
-              className="h-6 w-6 shrink-0 rounded-full border border-[#e8e6df] transition-transform hover:scale-110"
+              className="h-5 w-5 shrink-0 rounded-full border border-[#e8e6df] transition-transform hover:scale-110 sm:h-6 sm:w-6"
               style={{
                 background: c,
                 outline: accent === c ? "2px solid #1A1919" : undefined,
@@ -142,36 +165,42 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
         </div>
       </div>
 
-      <div className="ml-auto flex flex-wrap items-center gap-2">
-        <Select
-          value={locale}
-          onValueChange={(v) => setLocale(v as Locale)}
-        >
-          <SelectTrigger
-            className="h-9 w-[120px] rounded-full"
-            aria-label={t("toolbar.language")}
+      <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+        <div className="hidden sm:block">
+          <Select
+            value={locale}
+            onValueChange={(v) => setLocale(v as Locale)}
           >
-            <Languages className="mr-1 h-3.5 w-3.5" />
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {LOCALES.map((l) => (
-              <SelectItem key={l} value={l}>
-                {LOCALE_LABELS[l]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectTrigger
+              className="h-9 w-[120px] rounded-full"
+              aria-label={t("toolbar.language")}
+            >
+              <Languages className="mr-1 h-3.5 w-3.5" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {LOCALES.map((l) => (
+                <SelectItem key={l} value={l}>
+                  {LOCALE_LABELS[l]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={loadSample}
-          className="hidden sm:inline-flex"
-        >
-          <Wand2 className="h-4 w-4" />
-          {t("toolbar.example")}
-        </Button>
+        <ProfessionPicker
+          trigger={
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label={t("toolbar.examples")}
+            >
+              <Wand2 className="h-4 w-4" />
+              <span className="hidden sm:inline">{t("toolbar.examples")}</span>
+            </Button>
+          }
+        />
+
         <Button
           variant="ghost"
           size="sm"
@@ -183,7 +212,12 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
           <RotateCcw className="h-4 w-4" />
           {t("toolbar.clear")}
         </Button>
-        <Button variant="outline" size="sm" onClick={() => window.print()}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => window.print()}
+          aria-label={t("toolbar.print")}
+        >
           <FilePlus className="h-4 w-4" />
           <span className="hidden sm:inline">{t("toolbar.print")}</span>
         </Button>
@@ -193,9 +227,13 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
           onClick={handleDownload}
           disabled={downloading}
           aria-busy={downloading}
+          aria-label={t("toolbar.download")}
+          className="ml-auto sm:ml-0"
         >
           <Download className="h-4 w-4" />
-          {downloading ? t("toolbar.downloading") : t("toolbar.download")}
+          <span className="hidden sm:inline">
+            {downloading ? t("toolbar.downloading") : t("toolbar.download")}
+          </span>
         </Button>
       </div>
     </div>

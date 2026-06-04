@@ -67,6 +67,7 @@ interface CVStore {
   reorderSections: (next: SectionKey[]) => void;
   reset: () => void;
   loadSample: () => void;
+  loadCV: (cv: CV) => void;
 }
 
 function patchItem<T extends { id: string }>(
@@ -298,6 +299,7 @@ export const useCVStore = create<CVStore>()(
 
       reset: () => set({ cv: makeEmptyCV() }),
       loadSample: () => set({ cv: makeSampleCV() }),
+      loadCV: (cv) => set({ cv }),
     }),
     {
       name: "cybersoek:cv",

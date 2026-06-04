@@ -70,6 +70,8 @@ const NL: Dict = {
   // Builder
   "builder.loading": "Je opgeslagen CV wordt geladen…",
   "builder.localStorage": "Lokaal opgeslagen · Geen account nodig",
+  "builder.tab.edit": "Bewerken",
+  "builder.tab.preview": "Voorbeeld",
 
   // Toolbar
   "toolbar.template": "Template",
@@ -77,6 +79,7 @@ const NL: Dict = {
   "toolbar.classicGroup": "Klassiek (zonder foto)",
   "toolbar.industryGroup": "Branche (met foto)",
   "toolbar.example": "Voorbeeld",
+  "toolbar.examples": "Voorbeelden",
   "toolbar.clear": "Wissen",
   "toolbar.confirmClear":
     "Alle CV-gegevens wissen? Dit kan niet ongedaan worden gemaakt.",
@@ -175,6 +178,36 @@ const NL: Dict = {
   "picker.search.ph": "Zoeken…",
   "picker.remove": "Verwijder",
   "picker.addCustom": "Voeg toe: \"{q}\"",
+
+  // Profession picker dialog
+  "prof.dialog.title": "Kies een beroep",
+  "prof.dialog.subtitle":
+    "Een ingevuld CV als startpunt. Pas alles aan zodat het bij jou past — naam, ervaring, vaardigheden, alles.",
+  "prof.dialog.close": "Sluiten",
+  "prof.dialog.confirmReplace":
+    "Hiermee vervang je het CV in de editor. Doorgaan?",
+  "prof.dialog.useTemplate": "Gebruik dit voorbeeld",
+
+  "prof.cleaner.name": "Schoonmaker",
+  "prof.cleaner.tagline": "Kantoren, scholen en zorglocaties",
+  "prof.warehouse.name": "Magazijnmedewerker",
+  "prof.warehouse.tagline": "Orderpicken, reachtruck, scanner en WMS",
+  "prof.retail.name": "Verkoopmedewerker",
+  "prof.retail.tagline": "Winkel, kassa en klantcontact",
+  "prof.housekeeper.name": "Huishoudelijke hulp",
+  "prof.housekeeper.tagline": "Particulieren en thuiszorg",
+  "prof.kitchen.name": "Keukenhulp",
+  "prof.kitchen.tagline": "Mise en place, afwas en HACCP",
+  "prof.logistics.name": "Logistiek medewerker",
+  "prof.logistics.tagline": "Pakkettendepot en distributiecentrum",
+  "prof.plumber.name": "Loodgieter",
+  "prof.plumber.tagline": "Sanitair, cv en lekkages",
+  "prof.construction.name": "Bouwvakker",
+  "prof.construction.tagline": "Nieuwbouw, metsel- en stukadoorwerk",
+  "prof.admin.name": "Administratief medewerker",
+  "prof.admin.tagline": "Facturatie, ERP en klantcontact",
+  "prof.production.name": "Productiemedewerker",
+  "prof.production.tagline": "Inpaklijn, ploegendienst en assemblage",
 
   // Projects
   "projects.entry": "Project",
@@ -308,12 +341,15 @@ const EN: Dict = {
 
   "builder.loading": "Loading your saved CV…",
   "builder.localStorage": "Saved locally · No account needed",
+  "builder.tab.edit": "Edit",
+  "builder.tab.preview": "Preview",
 
   "toolbar.template": "Template",
   "toolbar.accent": "Accent",
   "toolbar.classicGroup": "Classic (no photo)",
   "toolbar.industryGroup": "Industry (with photo)",
   "toolbar.example": "Example",
+  "toolbar.examples": "Examples",
   "toolbar.clear": "Clear",
   "toolbar.confirmClear":
     "Clear all CV data? This cannot be undone.",
@@ -404,6 +440,35 @@ const EN: Dict = {
   "picker.search.ph": "Search…",
   "picker.remove": "Remove",
   "picker.addCustom": "Add: \"{q}\"",
+
+  "prof.dialog.title": "Pick a profession",
+  "prof.dialog.subtitle":
+    "A filled-in CV to start from. Edit anything — your name, your experience, your skills, the lot.",
+  "prof.dialog.close": "Close",
+  "prof.dialog.confirmReplace":
+    "This will replace the CV in the editor. Continue?",
+  "prof.dialog.useTemplate": "Use this example",
+
+  "prof.cleaner.name": "Cleaner",
+  "prof.cleaner.tagline": "Offices, schools and care locations",
+  "prof.warehouse.name": "Warehouse worker",
+  "prof.warehouse.tagline": "Picking, reach truck, scanner and WMS",
+  "prof.retail.name": "Sales associate",
+  "prof.retail.tagline": "Shop floor, till and customer contact",
+  "prof.housekeeper.name": "Housekeeper",
+  "prof.housekeeper.tagline": "Private homes and home care",
+  "prof.kitchen.name": "Kitchen assistant",
+  "prof.kitchen.tagline": "Mise en place, dishwashing and HACCP",
+  "prof.logistics.name": "Logistics employee",
+  "prof.logistics.tagline": "Parcel depot and distribution centre",
+  "prof.plumber.name": "Plumber",
+  "prof.plumber.tagline": "Sanitary, central heating and leaks",
+  "prof.construction.name": "Construction worker",
+  "prof.construction.tagline": "New-build, bricklaying and plastering",
+  "prof.admin.name": "Administrative assistant",
+  "prof.admin.tagline": "Invoicing, ERP and customer contact",
+  "prof.production.name": "Production worker",
+  "prof.production.tagline": "Packing line, shift work and assembly",
 
   "projects.entry": "Project",
   "projects.name": "Name",
