@@ -2,6 +2,7 @@
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas-pro";
+import { trackAnalyticsEvent } from "./analytics-client";
 
 interface DownloadOptions {
   fileName?: string;
@@ -88,4 +89,5 @@ export async function downloadCVAsPdf(
   }
 
   pdf.save(`${sanitizeFileName(fileName)}.pdf`);
+  void trackAnalyticsEvent("download");
 }

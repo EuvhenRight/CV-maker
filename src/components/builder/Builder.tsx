@@ -5,6 +5,7 @@ import { Pencil, Eye } from "lucide-react";
 import { useCVStore } from "@/lib/store";
 import { useT } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { trackAnalyticsEvent } from "@/lib/analytics-client";
 import { Toolbar } from "./Toolbar";
 import { EditorPanel } from "@/components/editor/EditorPanel";
 import { CVPreview } from "@/components/preview/CVPreview";
@@ -19,6 +20,15 @@ export function Builder() {
   const [mobileView, setMobileView] = React.useState<MobileView>("edit");
   const previewWrapperRef = React.useRef<HTMLDivElement>(null);
   const printRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    function onAfterPrint() {
+      void trackAnalyticsEvent("print");
+    }
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => window.removeEventListener("afterprint", onAfterPrint);
+  }, []);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
