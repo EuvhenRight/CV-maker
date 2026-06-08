@@ -1,5 +1,4 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { Redis } from "@upstash/redis";
 
 export type AnalyticsEventType = "download" | "print";
 
@@ -9,7 +8,8 @@ export interface AnalyticsData {
   version: 1;
 }
 
-const DATA_FILE = path.join(process.cwd(), "data", "analytics.json");
+const TOTALS_KEY = "analytics:totals";
+const BYDAY_KEY = "analytics:byDay";
 
 const EMPTY_DATA: AnalyticsData = {
   totals: { download: 0, print: 0 },
@@ -17,59 +17,75 @@ const EMPTY_DATA: AnalyticsData = {
   version: 1,
 };
 
-let writeLock: Promise<unknown> = Promise.resolve();
-
-async function readData(): Promise<AnalyticsData> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf8");
-    const parsed = JSON.parse(raw) as Partial<AnalyticsData>;
-    return {
-      version: 1,
-      totals: {
-        download: parsed.totals?.download ?? 0,
-        print: parsed.totals?.print ?? 0,
-      },
-      byDay: parsed.byDay ?? {},
-    };
-  } catch {
-    await ensureFile();
-    return { ...EMPTY_DATA, byDay: {} };
-  }
-}
-
-async function ensureFile(): Promise<void> {
-  try {
-    await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-    await fs.access(DATA_FILE);
-  } catch {
-    await fs.writeFile(DATA_FILE, JSON.stringify(EMPTY_DATA, null, 2), "utf8");
-  }
-}
-
-async function writeData(data: AnalyticsData): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), "utf8");
-}
+const redis = (() => {
+  const url = process.env.KV_REST_API_URL;
+  const token = process.env.KV_REST_API_TOKEN;
+  if (!url || !token) return null;
+  return new Redis({ url, token });
+})();
 
 function todayKey(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+function toNumber(v: unknown): number {
+  if (typeof v === "number") return v;
+  if (typeof v === "string") {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  }
+  return 0;
+}
+
 export async function recordEvent(type: AnalyticsEventType): Promise<void> {
-  // Serialize concurrent writes to avoid lost updates on the JSON file.
-  const next = writeLock.then(async () => {
-    const data = await readData();
-    data.totals[type] = (data.totals[type] ?? 0) + 1;
-    const day = todayKey();
-    const slot = data.byDay[day] ?? { download: 0, print: 0 };
-    slot[type] = (slot[type] ?? 0) + 1;
-    data.byDay[day] = slot;
-    await writeData(data);
-  });
-  writeLock = next.catch(() => undefined);
-  await next;
+  if (!redis) {
+    // No KV configured (e.g. local dev without env vars). Silently no-op so the
+    // /api/analytics/track route does not 500.
+    return;
+  }
+  const day = todayKey();
+  try {
+    await Promise.all([
+      redis.hincrby(TOTALS_KEY, type, 1),
+      redis.hincrby(BYDAY_KEY, `${day}:${type}`, 1),
+    ]);
+  } catch (err) {
+    console.warn("analytics: recordEvent failed", err);
+  }
 }
 
 export async function readStats(): Promise<AnalyticsData> {
-  return readData();
+  if (!redis) return { ...EMPTY_DATA, byDay: {} };
+
+  try {
+    const [totalsRaw, byDayRaw] = await Promise.all([
+      redis.hgetall<Record<string, unknown>>(TOTALS_KEY),
+      redis.hgetall<Record<string, unknown>>(BYDAY_KEY),
+    ]);
+
+    const byDay: AnalyticsData["byDay"] = {};
+    if (byDayRaw) {
+      for (const [field, value] of Object.entries(byDayRaw)) {
+        const idx = field.lastIndexOf(":");
+        if (idx <= 0) continue;
+        const day = field.slice(0, idx);
+        const type = field.slice(idx + 1);
+        if (type !== "download" && type !== "print") continue;
+        if (!byDay[day]) byDay[day] = { download: 0, print: 0 };
+        byDay[day][type] = toNumber(value);
+      }
+    }
+
+    return {
+      version: 1,
+      totals: {
+        download: toNumber(totalsRaw?.download),
+        print: toNumber(totalsRaw?.print),
+      },
+      byDay,
+    };
+  } catch (err) {
+    console.warn("analytics: readStats failed", err);
+    return { ...EMPTY_DATA, byDay: {} };
+  }
 }
