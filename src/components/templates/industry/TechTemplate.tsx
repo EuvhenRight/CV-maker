@@ -58,6 +58,7 @@ export function TechTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
             shape="circle"
             borderColor={accent}
             lang={lang}
+            hidden={cv.photoHidden}
           />
         </div>
         <div>
@@ -95,12 +96,6 @@ export function TechTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
       </aside>
       <div className="flex flex-col p-8">
         <header className="mb-5">
-          <div
-            className="font-mono text-[11px] uppercase tracking-[0.2em]"
-            style={{ color: accent }}
-          >
-            {t("tpl.tech.whoami")}
-          </div>
           <h1 className="font-display text-[28px] font-extrabold leading-tight break-words">
             {cv.personal.fullName || placeholderName(lang)}
           </h1>
@@ -156,9 +151,7 @@ export function TechTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
         </div>
         {contactLine(cv).length === 0 && (
           <div className="mt-6 text-[11px] text-[#9a9a9a]">
-            {lang === "en"
-              ? "Fill in your contact details for the sidebar."
-              : "Vul je contactgegevens in voor de zijbalk."}
+            {t("tpl.tech.contactPrompt")}
           </div>
         )}
         <PageFooter accent={accent} lang={lang} />

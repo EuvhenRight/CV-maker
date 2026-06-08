@@ -23,6 +23,13 @@ export interface PersonalInfo {
   website: string;
   linkedin: string;
   photo: string;
+  // Optional NL-specific opt-in fields (CV for 2026)
+  dateOfBirth?: string;
+  nationality?: string;
+  workEligibility?: string;
+  drivingLicense?: string;
+  bigNumber?: string;
+  agbCode?: string;
 }
 
 export interface ExperienceItem {
@@ -54,10 +61,13 @@ export interface ProjectItem {
   bullets: string[];
 }
 
+export type CEFRLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "native";
+
 export interface LanguageItem {
   id: string;
   name: string;
   level: string;
+  cefr?: CEFRLevel;
 }
 
 export interface CertificationItem {
@@ -89,6 +99,20 @@ export const ALL_SECTIONS: SectionKey[] = [
   "certifications",
 ];
 
+export interface CoverLetter {
+  recipientCompany: string;
+  recipientName: string;
+  recipientAddress: string;
+  recipientCity: string;
+  jobTitle: string;
+  vacancyRef: string;
+  date: string;
+  subject: string;
+  opening: string;
+  body: string;
+  closing: string;
+}
+
 export interface CV {
   personal: PersonalInfo;
   summary: string;
@@ -102,4 +126,6 @@ export interface CV {
   sectionOrder: SectionKey[];
   template: TemplateId;
   accentColor: string;
+  photoHidden?: boolean;
+  coverLetter?: CoverLetter;
 }

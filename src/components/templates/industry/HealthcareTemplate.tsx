@@ -100,6 +100,7 @@ export function HealthcareTemplate({
             shape="circle"
             borderColor={accent}
             lang={lang}
+            hidden={cv.photoHidden}
           />
         </div>
         {side.map((k) => (

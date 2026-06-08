@@ -12,15 +12,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCVStore } from "@/lib/store";
-import { useT } from "@/lib/i18n";
+import { useT, translate, useLocale } from "@/lib/i18n";
+import type { CEFRLevel } from "@/lib/cv-types";
 
-const LEVEL_KEYS = [
-  "lang.level.native",
-  "lang.level.fluent",
-  "lang.level.professional",
-  "lang.level.intermediate",
-  "lang.level.basic",
-];
+const CEFR_KEYS: CEFRLevel[] = ["native", "C2", "C1", "B2", "B1", "A2", "A1"];
+
+const CEFR_LABEL_KEY: Record<CEFRLevel, string> = {
+  native: "lang.cefr.native",
+  C2: "lang.cefr.C2",
+  C1: "lang.cefr.C1",
+  B2: "lang.cefr.B2",
+  B1: "lang.cefr.B1",
+  A2: "lang.cefr.A2",
+  A1: "lang.cefr.A1",
+};
 
 export function LanguagesSection() {
   const items = useCVStore((s) => s.cv.languages);
@@ -28,7 +33,7 @@ export function LanguagesSection() {
   const update = useCVStore((s) => s.updateLanguage);
   const remove = useCVStore((s) => s.removeLanguage);
   const t = useT();
-  const levels = LEVEL_KEYS.map((k) => t(k));
+  const { locale } = useLocale();
 
   return (
     <div className="space-y-3">
@@ -46,18 +51,24 @@ export function LanguagesSection() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label>{t("lang.level")}</Label>
+            <Label>{t("lang.cefr")}</Label>
             <Select
-              value={ln.level}
-              onValueChange={(v) => update(ln.id, { level: v })}
+              value={ln.cefr ?? ""}
+              onValueChange={(v) => {
+                const cefr = v as CEFRLevel;
+                update(ln.id, {
+                  cefr,
+                  level: translate(locale, CEFR_LABEL_KEY[cefr]),
+                });
+              }}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t("lang.level.ph")} />
+                <SelectValue placeholder={t("lang.cefr.ph")} />
               </SelectTrigger>
               <SelectContent>
-                {levels.map((l) => (
-                  <SelectItem key={l} value={l}>
-                    {l}
+                {CEFR_KEYS.map((k) => (
+                  <SelectItem key={k} value={k}>
+                    {t(CEFR_LABEL_KEY[k])}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -71,6 +82,17 @@ export function LanguagesSection() {
           >
             <Trash2 className="h-4 w-4 text-[#7a7a7a]" />
           </Button>
+          <div className="col-span-3 space-y-1.5">
+            <Label className="text-[11px] text-[#7a7a7a]">
+              {t("lang.level")}
+            </Label>
+            <Input
+              value={ln.level}
+              onChange={(e) => update(ln.id, { level: e.target.value })}
+              placeholder={t("lang.level.ph")}
+            />
+            <p className="text-[11px] text-[#7a7a7a]">{t("lang.cefr.help")}</p>
+          </div>
         </div>
       ))}
       <Button variant="outline" onClick={add}>

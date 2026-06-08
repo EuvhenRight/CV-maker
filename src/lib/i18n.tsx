@@ -123,6 +123,87 @@ const NL: Dict = {
   "personal.photo.help": "Aanbevolen: vierkant, hoofd en schouders, < 1 MB.",
   "personal.photo.alt": "Profielfoto",
 
+  // Optional opt-in fields (NL 2026 — discreet, only show what you want)
+  "personal.optional.heading": "Aanvullende velden (optioneel)",
+  "personal.optional.help":
+    "Deze velden zijn in 2026 vrijwel altijd optioneel. Geboortedatum en nationaliteit worden vaak weggelaten in tech en bij internationale werkgevers.",
+  "personal.dateOfBirth": "Geboortedatum",
+  "personal.dateOfBirth.ph": "12-04-1990",
+  "personal.nationality": "Nationaliteit",
+  "personal.nationality.ph": "Nederlandse",
+  "personal.workEligibility": "Werkvergunning / status",
+  "personal.workEligibility.ph": "EU-burger · Kennismigrant · Werkvergunning…",
+  "personal.drivingLicense": "Rijbewijs",
+  "personal.drivingLicense.ph": "B · BE · C · CE · T · Code 95",
+  "personal.bigNumber": "BIG-nummer (zorg)",
+  "personal.bigNumber.ph": "BIG-nr 12345678901",
+  "personal.agbCode": "AGB-code",
+  "personal.agbCode.ph": "AGB 91123456",
+
+  // CEFR (Common European Framework of Reference for Languages)
+  "lang.cefr": "CEFR",
+  "lang.cefr.ph": "Niveau",
+  "lang.cefr.help":
+    "Steeds vaker gevraagd in Nederland. Vul ook een omschrijving in als je dat wilt.",
+  "lang.cefr.A1": "A1 — Beginner",
+  "lang.cefr.A2": "A2 — Basis",
+  "lang.cefr.B1": "B1 — Gemiddeld",
+  "lang.cefr.B2": "B2 — Goed",
+  "lang.cefr.C1": "C1 — Vergevorderd",
+  "lang.cefr.C2": "C2 — Bijna moedertaal",
+  "lang.cefr.native": "Moedertaal",
+
+  // Photo-off toggle (anti-discrimination friendly)
+  "toolbar.photo": "Foto",
+  "toolbar.photo.show": "Foto tonen",
+  "toolbar.photo.hide": "Foto verbergen",
+  "toolbar.photo.helpHidden":
+    "Foto verborgen — aanbevolen voor tech, gemeentes, ASML en GDPR-bewuste werkgevers.",
+
+  // Page-overflow warning
+  "warn.overflow.title": "Je CV is langer dan 2 pagina's",
+  "warn.overflow.body":
+    "Nederlandse recruiters lezen zelden meer dan 2 pagina's. Kort werkervaring in oude rollen in of verwijder secties.",
+
+  // Cover letter (sollicitatiebrief)
+  "tab.cv": "CV",
+  "tab.letter": "Brief",
+  "letter.section.recipient": "Geadresseerde",
+  "letter.section.meta": "Vacature & datum",
+  "letter.section.body": "Inhoud",
+  "letter.recipientCompany": "Bedrijfsnaam",
+  "letter.recipientCompany.ph": "Vector Studio",
+  "letter.recipientName": "T.a.v.",
+  "letter.recipientName.ph": "Hiring Team",
+  "letter.recipientAddress": "Adres",
+  "letter.recipientAddress.ph": "Keizersgracht 123",
+  "letter.recipientCity": "Postcode + plaats",
+  "letter.recipientCity.ph": "1015 CJ Amsterdam",
+  "letter.jobTitle": "Functietitel",
+  "letter.jobTitle.ph": "Senior Productontwerper",
+  "letter.vacancyRef": "Vacaturenummer (optioneel)",
+  "letter.vacancyRef.ph": "VS-2026-042",
+  "letter.date": "Datum & plaats",
+  "letter.date.ph": "Amsterdam, 12 juni 2026",
+  "letter.subject": "Betreft",
+  "letter.subject.ph":
+    "Sollicitatie naar de positie Senior Productontwerper",
+  "letter.salutation": "Geachte",
+  "letter.opening": "Openingszin",
+  "letter.opening.ph":
+    "Met veel interesse heb ik kennisgenomen van jullie vacature voor…",
+  "letter.body": "Kern van de brief",
+  "letter.body.ph":
+    "Wat je hebt geleverd, waarom dit bedrijf, en welke ervaring relevant is.",
+  "letter.closing": "Slot",
+  "letter.closing.ph":
+    "Graag licht ik mijn motivatie en aanpak verder toe in een persoonlijk gesprek.",
+  "letter.signoff": "Met vriendelijke groet,",
+  "letter.empty":
+    "De brief is nog leeg. Vul de geadresseerde, de functietitel en de inhoud in om een sollicitatiebrief te genereren.",
+  "letter.attached": "Bijlage: CV",
+  "toolbar.downloadLetter": "Brief downloaden",
+
   // Summary
   "summary.ph":
     "2–4 zinnen over wie je bent, wat je hebt opgeleverd en wat je wilt gaan doen.",
@@ -259,7 +340,10 @@ const NL: Dict = {
   "preview.contact.location": "Locatie",
   "preview.contact.website": "Website",
   "preview.contact.linkedin": "LinkedIn",
-  "preview.footer.madeWith": "Gemaakt met MaakMijnCV",
+  "preview.contact.label": "Contact",
+  "tpl.photo.placeholder": "Foto",
+  "tpl.tech.contactPrompt":
+    "Vul je contactgegevens in voor de zijbalk.",
 
   // Template-displayed section headings (rendered on the CV itself)
   "tpl.section.summary": "Samenvatting",
@@ -391,6 +475,82 @@ const EN: Dict = {
   "personal.photo.help": "Recommended: square, head and shoulders, < 1 MB.",
   "personal.photo.alt": "Profile photo",
 
+  "personal.optional.heading": "Optional fields",
+  "personal.optional.help":
+    "These fields are almost always optional in 2026. Date of birth and nationality are routinely omitted in tech and at international employers.",
+  "personal.dateOfBirth": "Date of birth",
+  "personal.dateOfBirth.ph": "12-04-1990",
+  "personal.nationality": "Nationality",
+  "personal.nationality.ph": "Dutch",
+  "personal.workEligibility": "Work eligibility / status",
+  "personal.workEligibility.ph": "EU citizen · Kennismigrant · Work permit…",
+  "personal.drivingLicense": "Driving licence",
+  "personal.drivingLicense.ph": "B · BE · C · CE · T · Code 95",
+  "personal.bigNumber": "BIG number (healthcare)",
+  "personal.bigNumber.ph": "BIG no. 12345678901",
+  "personal.agbCode": "AGB code",
+  "personal.agbCode.ph": "AGB 91123456",
+
+  "lang.cefr": "CEFR",
+  "lang.cefr.ph": "Level",
+  "lang.cefr.help":
+    "Increasingly expected in the Netherlands. You can also keep the free-text description.",
+  "lang.cefr.A1": "A1 — Beginner",
+  "lang.cefr.A2": "A2 — Elementary",
+  "lang.cefr.B1": "B1 — Intermediate",
+  "lang.cefr.B2": "B2 — Upper intermediate",
+  "lang.cefr.C1": "C1 — Advanced",
+  "lang.cefr.C2": "C2 — Near native",
+  "lang.cefr.native": "Native",
+
+  "toolbar.photo": "Photo",
+  "toolbar.photo.show": "Show photo",
+  "toolbar.photo.hide": "Hide photo",
+  "toolbar.photo.helpHidden":
+    "Photo hidden — recommended for tech, municipalities, ASML and GDPR-conscious employers.",
+
+  "warn.overflow.title": "Your CV runs longer than 2 pages",
+  "warn.overflow.body":
+    "Dutch recruiters rarely read more than 2 pages. Trim older roles or drop sections.",
+
+  "tab.cv": "CV",
+  "tab.letter": "Cover letter",
+  "letter.section.recipient": "Recipient",
+  "letter.section.meta": "Vacancy & date",
+  "letter.section.body": "Body",
+  "letter.recipientCompany": "Company",
+  "letter.recipientCompany.ph": "Vector Studio",
+  "letter.recipientName": "Attn.",
+  "letter.recipientName.ph": "Hiring Team",
+  "letter.recipientAddress": "Address",
+  "letter.recipientAddress.ph": "Keizersgracht 123",
+  "letter.recipientCity": "Postcode + city",
+  "letter.recipientCity.ph": "1015 CJ Amsterdam",
+  "letter.jobTitle": "Job title",
+  "letter.jobTitle.ph": "Senior Product Designer",
+  "letter.vacancyRef": "Vacancy reference (optional)",
+  "letter.vacancyRef.ph": "VS-2026-042",
+  "letter.date": "Date & place",
+  "letter.date.ph": "Amsterdam, 12 June 2026",
+  "letter.subject": "Subject",
+  "letter.subject.ph":
+    "Application for Senior Product Designer",
+  "letter.salutation": "Dear",
+  "letter.opening": "Opening",
+  "letter.opening.ph":
+    "I am writing to apply for the Senior Product Designer role…",
+  "letter.body": "Body",
+  "letter.body.ph":
+    "What you've delivered, why this company, what experience is relevant.",
+  "letter.closing": "Closing",
+  "letter.closing.ph":
+    "I would be glad to explain my motivation and approach further in a conversation.",
+  "letter.signoff": "Kind regards,",
+  "letter.empty":
+    "The letter is empty. Fill in the recipient, job title and body to generate a cover letter.",
+  "letter.attached": "Attached: CV",
+  "toolbar.downloadLetter": "Download letter",
+
   "summary.ph":
     "2–4 sentences about who you are, what you've delivered and where you're heading.",
   "summary.counter": "characters · aim for 300–600.",
@@ -515,7 +675,10 @@ const EN: Dict = {
   "preview.contact.location": "Location",
   "preview.contact.website": "Website",
   "preview.contact.linkedin": "LinkedIn",
-  "preview.footer.madeWith": "Made with MaakMijnCV",
+  "preview.contact.label": "Contact",
+  "tpl.photo.placeholder": "Photo",
+  "tpl.tech.contactPrompt":
+    "Fill in your contact details for the sidebar.",
 
   "tpl.section.summary": "Summary",
   "tpl.section.experience": "Work experience",

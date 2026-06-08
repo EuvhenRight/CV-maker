@@ -495,29 +495,12 @@ export function CertificationsBlock({
   );
 }
 
-export function PageFooter({
-  accent,
-  variant = "light",
-  lang = "nl",
-}: {
-  accent: string;
+export function PageFooter({}: {
+  accent?: string;
   variant?: "light" | "dark";
   lang?: Locale;
-}) {
-  const lineColor = variant === "dark" ? "rgba(255,255,255,0.25)" : `${accent}55`;
-  const textColor = variant === "dark" ? "rgba(255,255,255,0.55)" : "#a8a8a8";
-  return (
-    <div className="mt-auto pt-5">
-      <div className="h-px w-full" style={{ background: lineColor }} />
-      <div
-        className="mt-2 flex items-center justify-between text-[9px] uppercase tracking-[0.16em]"
-        style={{ color: textColor }}
-      >
-        <span>{translate(lang, "preview.footer.madeWith")}</span>
-        <span>cybersoek.nl</span>
-      </div>
-    </div>
-  );
+} = {}) {
+  return <div className="mt-auto" />;
 }
 
 export function PhotoFrame({
@@ -527,6 +510,7 @@ export function PhotoFrame({
   borderColor,
   className = "",
   lang = "nl",
+  hidden = false,
 }: {
   src?: string;
   size?: number;
@@ -534,7 +518,9 @@ export function PhotoFrame({
   borderColor?: string;
   className?: string;
   lang?: Locale;
+  hidden?: boolean;
 }) {
+  if (hidden) return null;
   const radius =
     shape === "circle"
       ? "9999px"
@@ -562,7 +548,7 @@ export function PhotoFrame({
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center text-[10px] font-medium uppercase tracking-wider text-[#bcbcbc]">
-          Photo
+          {translate(lang, "tpl.photo.placeholder")}
         </div>
       )}
     </div>

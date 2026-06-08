@@ -10,6 +10,7 @@ import { ensureSessionFresh, touchSession } from "./session";
 import type {
   CV,
   CertificationItem,
+  CoverLetter,
   EducationItem,
   ExperienceItem,
   LanguageItem,
@@ -19,7 +20,11 @@ import type {
   TemplateId,
 } from "./cv-types";
 import { uid } from "./utils";
-import { makeEmptyCV, makeSampleCV } from "./sample-cv";
+import {
+  makeEmptyCoverLetter,
+  makeEmptyCV,
+  makeSampleCV,
+} from "./sample-cv";
 
 interface CVStore {
   cv: CV;
@@ -28,6 +33,7 @@ interface CVStore {
 
   setTemplate: (t: TemplateId) => void;
   setAccent: (c: string) => void;
+  setPhotoHidden: (hidden: boolean) => void;
 
   updatePersonal: (patch: Partial<PersonalInfo>) => void;
   updateSummary: (s: string) => void;
@@ -65,6 +71,9 @@ interface CVStore {
   removeCertification: (id: string) => void;
 
   reorderSections: (next: SectionKey[]) => void;
+
+  updateCoverLetter: (patch: Partial<CoverLetter>) => void;
+
   reset: () => void;
   loadSample: () => void;
   loadCV: (cv: CV) => void;
@@ -119,6 +128,8 @@ export const useCVStore = create<CVStore>()(
 
       setTemplate: (t) => set((s) => ({ cv: { ...s.cv, template: t } })),
       setAccent: (c) => set((s) => ({ cv: { ...s.cv, accentColor: c } })),
+      setPhotoHidden: (hidden) =>
+        set((s) => ({ cv: { ...s.cv, photoHidden: hidden } })),
 
       updatePersonal: (patch) =>
         set((s) => ({
@@ -297,13 +308,24 @@ export const useCVStore = create<CVStore>()(
       reorderSections: (next) =>
         set((s) => ({ cv: { ...s.cv, sectionOrder: next } })),
 
+      updateCoverLetter: (patch) =>
+        set((s) => ({
+          cv: {
+            ...s.cv,
+            coverLetter: {
+              ...(s.cv.coverLetter ?? makeEmptyCoverLetter()),
+              ...patch,
+            },
+          },
+        })),
+
       reset: () => set({ cv: makeEmptyCV() }),
       loadSample: () => set({ cv: makeSampleCV() }),
       loadCV: (cv) => set({ cv }),
     }),
     {
       name: "cybersoek:cv",
-      version: 3,
+      version: 5,
       storage: createJSONStorage<unknown>(() => expiringLocalStorage),
       partialize: (s) => ({ cv: s.cv }),
       migrate: (persisted: unknown, version) => {
@@ -353,6 +375,17 @@ export const useCVStore = create<CVStore>()(
           if (idx >= 0) next.splice(idx + 1, 0, "strengths");
           else next.push("strengths");
           cv.sectionOrder = next;
+        }
+
+        // v3 → v4: photoHidden defaults to false; new optional personal
+        // fields are undefined which is fine.
+        if (version < 4 && cv.photoHidden === undefined) {
+          cv.photoHidden = false;
+        }
+
+        // v4 → v5: coverLetter slot — start blank for existing CVs.
+        if (version < 5 && !cv.coverLetter) {
+          cv.coverLetter = makeEmptyCoverLetter();
         }
 
         return { cv };

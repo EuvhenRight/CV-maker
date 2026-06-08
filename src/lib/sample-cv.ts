@@ -1,4 +1,20 @@
-import { ALL_SECTIONS, type CV } from "./cv-types";
+import { ALL_SECTIONS, type CoverLetter, type CV } from "./cv-types";
+
+export function makeEmptyCoverLetter(): CoverLetter {
+  return {
+    recipientCompany: "",
+    recipientName: "",
+    recipientAddress: "",
+    recipientCity: "",
+    jobTitle: "",
+    vacancyRef: "",
+    date: "",
+    subject: "",
+    opening: "",
+    body: "",
+    closing: "",
+  };
+}
 
 export function makeEmptyCV(): CV {
   return {
@@ -23,6 +39,7 @@ export function makeEmptyCV(): CV {
     sectionOrder: [...ALL_SECTIONS],
     template: "minimal",
     accentColor: "#A3CBA9",
+    coverLetter: makeEmptyCoverLetter(),
   };
 }
 
@@ -39,14 +56,14 @@ export function makeSampleCV(): CV {
       photo: "",
     },
     summary:
-      "Productontwerper met 7+ jaar ervaring in consumenten- en B2B SaaS. Bouwde design systems bij twee Series-B startups, leverde 30+ features op en werk nauw samen met engineering en product om meetbare resultaten te behalen.",
+      "Productontwerper met 8+ jaar ervaring in consumenten- en B2B SaaS. Bouwde design systems bij twee Series-B startups, leverde 30+ features op en werk nauw samen met engineering en product om meetbare resultaten te behalen.",
     experience: [
       {
         id: "exp1",
         company: "Northwind Labs",
         role: "Senior Productontwerper",
         location: "Amsterdam, NL",
-        startDate: "Jan 2023",
+        startDate: "Jan 2024",
         endDate: "",
         current: true,
         bullets: [
@@ -61,7 +78,7 @@ export function makeSampleCV(): CV {
         role: "Productontwerper",
         location: "Remote",
         startDate: "Jun 2020",
-        endDate: "Dec 2022",
+        endDate: "Dec 2023",
         current: false,
         bullets: [
           "Lanceerde onboarding-flow die activatie met 18% verhoogde en supporttickets met 22% verlaagde.",
@@ -106,20 +123,36 @@ export function makeSampleCV(): CV {
       },
     ],
     languages: [
-      { id: "ln1", name: "Nederlands", level: "Moedertaal" },
-      { id: "ln2", name: "Engels", level: "Vloeiend" },
+      { id: "ln1", name: "Nederlands", level: "Moedertaal", cefr: "native" },
+      { id: "ln2", name: "Engels", level: "C1 — Vergevorderd", cefr: "C1" },
     ],
     certifications: [
       {
         id: "ct1",
         name: "Nielsen Norman UX Master",
         issuer: "NN/g",
-        date: "2022",
+        date: "2023",
         link: "",
       },
     ],
     sectionOrder: [...ALL_SECTIONS],
     template: "tech",
     accentColor: "#A3CBA9",
+    coverLetter: {
+      recipientCompany: "Vector Studio",
+      recipientName: "Hiring Team",
+      recipientAddress: "Keizersgracht 123",
+      recipientCity: "1015 CJ Amsterdam",
+      jobTitle: "Senior Productontwerper",
+      vacancyRef: "VS-2026-042",
+      date: "Amsterdam, 12 juni 2026",
+      subject: "Sollicitatie naar de positie Senior Productontwerper",
+      opening:
+        "Met veel interesse heb ik kennisgenomen van jullie vacature voor Senior Productontwerper. De combinatie van een design-systems-cultuur en focus op meetbare productuitkomsten sluit aan bij wat ik bij Northwind Labs heb opgebouwd.",
+      body:
+        "In de afgelopen drie jaar leidde ik bij Northwind de redesign van het kerndashboard voor 40.000+ wekelijkse gebruikers, waarmee de taakvoltooiing met 28% steeg. Daarnaast beheerde ik het design system over 4 teams en verkortte de overdracht tussen design en development met circa 35%. Wat me bij Vector Studio aanspreekt, is de directe samenwerking tussen onderzoek en engineering — een werkwijze die ik in mijn huidige rol nu ook actief stimuleer.\n\nMijn ervaring met onboarding-flows bij Lumen SaaS, waar ik de activatie met 18% verhoogde, denk ik aan te kunnen sluiten op de productuitdagingen die jullie beschrijven.",
+      closing:
+        "Graag licht ik mijn motivatie en aanpak verder toe in een persoonlijk gesprek. Ik ben bereikbaar via sanne.devries@example.nl of +31 6 12 34 56 78.",
+    },
   };
 }

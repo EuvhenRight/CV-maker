@@ -1,4 +1,4 @@
-import { ALL_SECTIONS, type CV } from "./cv-types";
+import { ALL_SECTIONS, type CEFRLevel, type CV } from "./cv-types";
 import type { Locale } from "./i18n";
 
 export type ProfessionId =
@@ -83,7 +83,7 @@ interface BuilderInput {
   }>;
   skills: string[];
   strengths: string[];
-  languages: Array<{ name: LangText; level: LangText }>;
+  languages: Array<{ name: LangText; level: LangText; cefr?: CEFRLevel }>;
   certifications?: Array<{
     name: LangText;
     issuer: LangText;
@@ -122,6 +122,7 @@ function build(lang: Locale, input: BuilderInput): CV {
     id: `ln-${i}`,
     name: pick(lang, l.name),
     level: pick(lang, l.level),
+    cefr: l.cefr,
   }));
   cv.certifications = (input.certifications ?? []).map((c, i) => ({
     id: `ct-${i}`,
@@ -135,17 +136,20 @@ function build(lang: Locale, input: BuilderInput): CV {
   return cv;
 }
 
-const dutchNative: { name: LangText; level: LangText } = {
+const dutchNative: { name: LangText; level: LangText; cefr: CEFRLevel } = {
   name: { nl: "Nederlands", en: "Dutch" },
   level: { nl: "Moedertaal", en: "Native" },
+  cefr: "native",
 };
-const englishGood: { name: LangText; level: LangText } = {
+const englishGood: { name: LangText; level: LangText; cefr: CEFRLevel } = {
   name: { nl: "Engels", en: "English" },
-  level: { nl: "Goed", en: "Good" },
+  level: { nl: "B2 — Goed", en: "B2 — Upper intermediate" },
+  cefr: "B2",
 };
-const englishBasic: { name: LangText; level: LangText } = {
+const englishBasic: { name: LangText; level: LangText; cefr: CEFRLevel } = {
   name: { nl: "Engels", en: "English" },
-  level: { nl: "Basis", en: "Basic" },
+  level: { nl: "A2 — Basis", en: "A2 — Elementary" },
+  cefr: "A2",
 };
 
 // ----------------- Profession content -----------------
@@ -165,7 +169,7 @@ function cleaner(lang: Locale): CV {
         company: "Hago Nederland",
         role: { nl: "Schoonmaker kantoorpanden", en: "Office cleaner" },
         location: "Amsterdam",
-        startDate: "Mrt 2022",
+        startDate: "Mrt 2021",
         endDate: "",
         current: true,
         bullets: [
@@ -252,8 +256,8 @@ function warehouse(lang: Locale): CV {
             en: "Average 110 order lines per hour with scanner. Error rate under 0.3%.",
           },
           {
-            nl: "Rijd EPT en reachtruck, certificaat opnieuw afgegeven in 2024.",
-            en: "Drive EPT and reach truck, certification renewed in 2024.",
+            nl: "Rijd EPT en reachtruck, certificaat opnieuw afgegeven in 2025.",
+            en: "Drive EPT and reach truck, certification renewed in 2025.",
           },
           {
             nl: "Help de teamleider met inwerken van nieuwe collega's in de eerste twee weken.",
@@ -297,7 +301,7 @@ function warehouse(lang: Locale): CV {
       {
         name: { nl: "Reachtruck", en: "Reach truck" },
         issuer: { nl: "BMWT", en: "BMWT" },
-        date: "2024",
+        date: "2025",
       },
       {
         name: { nl: "Heftruck", en: "Forklift" },
@@ -327,7 +331,7 @@ function retail(lang: Locale): CV {
         company: "Albert Heijn",
         role: { nl: "Medewerker versafdeling", en: "Fresh-food assistant" },
         location: "Utrecht",
-        startDate: "Sep 2022",
+        startDate: "Sep 2023",
         endDate: "",
         current: true,
         bullets: [
@@ -398,7 +402,7 @@ function housekeeper(lang: Locale): CV {
         company: "Tzorg",
         role: { nl: "Medewerker huishoudelijke ondersteuning", en: "Home care assistant" },
         location: "Eindhoven",
-        startDate: "Feb 2021",
+        startDate: "Feb 2020",
         endDate: "",
         current: true,
         bullets: [
@@ -461,7 +465,7 @@ function kitchenAssistant(lang: Locale): CV {
         company: "Restaurant De Kade",
         role: { nl: "Keukenhulp", en: "Kitchen assistant" },
         location: "Rotterdam",
-        startDate: "Apr 2023",
+        startDate: "Apr 2024",
         endDate: "",
         current: true,
         bullets: [
@@ -607,7 +611,7 @@ function plumber(lang: Locale): CV {
         company: "Installatiebedrijf Van Dijk",
         role: { nl: "Allround loodgieter", en: "All-round plumber" },
         location: "Den Haag",
-        startDate: "Mei 2019",
+        startDate: "Mei 2018",
         endDate: "",
         current: true,
         bullets: [
@@ -686,7 +690,7 @@ function constructionWorker(lang: Locale): CV {
         company: "BAM Bouw",
         role: { nl: "Bouwvakker / metselaar", en: "Construction worker / bricklayer" },
         location: "Utrecht",
-        startDate: "Apr 2021",
+        startDate: "Apr 2020",
         endDate: "",
         current: true,
         bullets: [
@@ -834,7 +838,7 @@ function productionWorker(lang: Locale): CV {
         company: "Vion Food Group",
         role: { nl: "Productiemedewerker", en: "Production operative" },
         location: "Boxtel",
-        startDate: "Feb 2022",
+        startDate: "Feb 2021",
         endDate: "",
         current: true,
         bullets: [

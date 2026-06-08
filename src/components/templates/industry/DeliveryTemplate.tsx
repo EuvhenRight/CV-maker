@@ -33,6 +33,7 @@ export function DeliveryTemplate({
           shape="rounded"
           borderColor={headerText}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <div className="min-w-0 flex-1">
           <h1 className="font-display text-[28px] font-extrabold leading-tight break-words">

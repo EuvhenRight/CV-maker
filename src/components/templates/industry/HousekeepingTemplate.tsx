@@ -29,8 +29,9 @@ export function HousekeepingTemplate({
           src={cv.personal.photo}
           size={112}
           shape="circle"
-          borderColor="#A3CBA9"
+          borderColor={accent}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <div className="min-w-0 flex-1">
           <h1

@@ -47,6 +47,7 @@ export function AdminTemplate({
           borderColor={accent}
           className="mx-auto"
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <ContactRows
           cv={cv}

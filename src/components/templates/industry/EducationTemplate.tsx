@@ -39,6 +39,7 @@ export function EducationTemplate({
           shape="rounded"
           borderColor={accent}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <div className="min-w-0 flex-1">
           <h1 className="text-[26px] font-bold leading-tight break-words">

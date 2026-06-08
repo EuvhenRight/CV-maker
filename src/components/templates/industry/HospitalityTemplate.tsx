@@ -31,6 +31,7 @@ export function HospitalityTemplate({
           shape="circle"
           borderColor={accent}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <h1 className="mt-3 text-[28px] font-bold uppercase tracking-[0.12em] break-words">
           {cv.personal.fullName || placeholderName(lang)}

@@ -29,6 +29,7 @@ export function RetailTemplate({
           shape="rounded"
           borderColor={accent}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <div className="min-w-0">
           <div
@@ -58,13 +59,8 @@ export function RetailTemplate({
       </header>
       <div
         className="mb-5 h-1 w-full rounded-full"
-        style={{ background: `${accent}33` }}
-      >
-        <div
-          className="h-full rounded-full"
-          style={{ background: accent, width: "60%" }}
-        />
-      </div>
+        style={{ background: accent }}
+      />
       <div className="space-y-5">
         {cv.sectionOrder.map((k) => defaultRenderer(k, opts, cv))}
       </div>

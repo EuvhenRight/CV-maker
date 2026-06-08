@@ -36,6 +36,7 @@ export function ConstructionTemplate({
           shape="square"
           borderColor={accent}
           lang={lang}
+          hidden={cv.photoHidden}
         />
         <div className="min-w-0 flex-1">
           <h1 className="font-display text-[30px] font-extrabold uppercase leading-tight tracking-tight break-words">

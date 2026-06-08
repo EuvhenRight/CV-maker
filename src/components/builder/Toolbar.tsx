@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Download, FilePlus, Languages, RotateCcw, Wand2 } from "lucide-react";
+import {
+  Download,
+  FilePlus,
+  ImageOff,
+  Image as ImageOn,
+  Languages,
+  RotateCcw,
+  Wand2,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,8 +30,11 @@ import {
   useLocale,
   type Locale,
 } from "@/lib/i18n";
-import { downloadCVAsPdf } from "@/lib/pdf";
+import { cn } from "@/lib/utils";
+import { downloadCoverLetterAsPdf, downloadCVAsPdf } from "@/lib/pdf";
 import { ProfessionPicker } from "./ProfessionPicker";
+
+export type BuilderMode = "cv" | "letter";
 
 const ACCENTS = [
   "#A3CBA9",
@@ -36,17 +47,29 @@ const ACCENTS = [
 
 interface ToolbarProps {
   printTargetRef?: React.RefObject<HTMLDivElement | null>;
+  letterPrintRef?: React.RefObject<HTMLDivElement | null>;
   fileName?: string;
+  mode: BuilderMode;
+  onModeChange: (m: BuilderMode) => void;
 }
 
-export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
+export function Toolbar({
+  printTargetRef,
+  fileName,
+  mode,
+  onModeChange,
+}: ToolbarProps) {
   const template = useCVStore((s) => s.cv.template);
   const accent = useCVStore((s) => s.cv.accentColor);
+  const photoHidden = useCVStore((s) => s.cv.photoHidden ?? false);
   const setTemplate = useCVStore((s) => s.setTemplate);
   const setAccent = useCVStore((s) => s.setAccent);
+  const setPhotoHidden = useCVStore((s) => s.setPhotoHidden);
   const reset = useCVStore((s) => s.reset);
   const { locale, setLocale, t } = useLocale();
   const [downloading, setDownloading] = React.useState(false);
+  const templateHasPhoto = TEMPLATE_META[template]?.hasPhoto ?? false;
+  const isLetter = mode === "letter";
 
   const classic = TEMPLATE_IDS.filter(
     (id) => TEMPLATE_META[id].category === "classic",
@@ -56,16 +79,23 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
   );
 
   async function handleDownload() {
-    const node = printTargetRef?.current;
-    if (!node || downloading) {
-      window.print();
-      return;
-    }
+    if (downloading) return;
     const trimmed = fileName?.trim();
-    const downloadName = trimmed ? `CV_${trimmed}` : "CV";
     try {
       setDownloading(true);
-      await downloadCVAsPdf(node, { fileName: downloadName });
+      if (isLetter) {
+        const cv = useCVStore.getState().cv;
+        const downloadName = trimmed ? `Brief_${trimmed}` : "Brief";
+        await downloadCoverLetterAsPdf(cv, locale, { fileName: downloadName });
+      } else {
+        const node = printTargetRef?.current;
+        if (!node) {
+          window.print();
+          return;
+        }
+        const downloadName = trimmed ? `CV_${trimmed}` : "CV";
+        await downloadCVAsPdf(node, { fileName: downloadName });
+      }
     } catch (err) {
       console.error(err);
       alert(t("toolbar.downloadError"));
@@ -110,62 +140,97 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
         </div>
       </div>
 
-      <div className="flex min-w-0 flex-1 items-center gap-2">
-        <span className="hidden text-xs text-[#6b6b6b] sm:inline">
-          {t("toolbar.template")}
-        </span>
-        <Select
-          value={template}
-          onValueChange={(v) => setTemplate(v as TemplateId)}
+      <div className="flex shrink-0 items-center rounded-full border border-[#e8e6df] bg-white p-0.5 text-xs font-semibold">
+        <button
+          type="button"
+          onClick={() => onModeChange("cv")}
+          aria-pressed={!isLetter}
+          className={cn(
+            "rounded-full px-3 py-1 transition-colors",
+            !isLetter
+              ? "bg-[#1A1919] text-white"
+              : "text-[#3a3a3a] hover:bg-[#f4f3ee]",
+          )}
         >
-          <SelectTrigger
-            className="h-9 w-full min-w-0 rounded-full sm:w-[210px]"
-            aria-label={t("toolbar.template")}
-          >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>{t("toolbar.classicGroup")}</SelectLabel>
-              {classic.map((id) => (
-                <SelectItem key={id} value={id}>
-                  {TEMPLATE_META[id].name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-            <SelectGroup>
-              <SelectLabel>{t("toolbar.industryGroup")}</SelectLabel>
-              {industry.map((id) => (
-                <SelectItem key={id} value={id}>
-                  {TEMPLATE_META[id].name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+          {t("tab.cv")}
+        </button>
+        <button
+          type="button"
+          onClick={() => onModeChange("letter")}
+          aria-pressed={isLetter}
+          className={cn(
+            "rounded-full px-3 py-1 transition-colors",
+            isLetter
+              ? "bg-[#1A1919] text-white"
+              : "text-[#3a3a3a] hover:bg-[#f4f3ee]",
+          )}
+        >
+          {t("tab.letter")}
+        </button>
       </div>
 
-      <div className="flex items-center gap-2">
-        <span className="hidden text-xs text-[#6b6b6b] sm:inline">
-          {t("toolbar.accent")}
-        </span>
-        <div className="flex shrink-0 items-center gap-1">
-          {ACCENTS.map((c) => (
-            <button
-              key={c}
-              type="button"
-              aria-label={`${t("toolbar.accent")} ${c}`}
-              onClick={() => setAccent(c)}
-              className="h-5 w-5 shrink-0 rounded-full border border-[#e8e6df] transition-transform hover:scale-110 sm:h-6 sm:w-6"
-              style={{
-                background: c,
-                outline: accent === c ? "2px solid #1A1919" : undefined,
-                outlineOffset: 2,
-              }}
-            />
-          ))}
+
+
+      {!isLetter && (
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <span className="hidden text-xs text-[#6b6b6b] sm:inline">
+            {t("toolbar.template")}
+          </span>
+          <Select
+            value={template}
+            onValueChange={(v) => setTemplate(v as TemplateId)}
+          >
+            <SelectTrigger
+              className="h-9 w-full min-w-0 rounded-full sm:w-[210px]"
+              aria-label={t("toolbar.template")}
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>{t("toolbar.classicGroup")}</SelectLabel>
+                {classic.map((id) => (
+                  <SelectItem key={id} value={id}>
+                    {TEMPLATE_META[id].name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>{t("toolbar.industryGroup")}</SelectLabel>
+                {industry.map((id) => (
+                  <SelectItem key={id} value={id}>
+                    {TEMPLATE_META[id].name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
-      </div>
+      )}
+
+      {!isLetter && (
+        <div className="flex items-center gap-2">
+          <span className="hidden text-xs text-[#6b6b6b] sm:inline">
+            {t("toolbar.accent")}
+          </span>
+          <div className="flex shrink-0 items-center gap-1">
+            {ACCENTS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={`${t("toolbar.accent")} ${c}`}
+                onClick={() => setAccent(c)}
+                className="h-5 w-5 shrink-0 rounded-full border border-[#e8e6df] transition-transform hover:scale-110 sm:h-6 sm:w-6"
+                style={{
+                  background: c,
+                  outline: accent === c ? "2px solid #1A1919" : undefined,
+                  outlineOffset: 2,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
         <div className="hidden sm:block">
@@ -190,30 +255,58 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
           </Select>
         </div>
 
-        <ProfessionPicker
-          trigger={
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-label={t("toolbar.examples")}
-            >
-              <Wand2 className="h-4 w-4" />
-              <span className="hidden sm:inline">{t("toolbar.examples")}</span>
-            </Button>
-          }
-        />
+        {!isLetter && templateHasPhoto && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setPhotoHidden(!photoHidden)}
+            aria-pressed={photoHidden}
+            aria-label={
+              photoHidden ? t("toolbar.photo.show") : t("toolbar.photo.hide")
+            }
+            title={
+              photoHidden ? t("toolbar.photo.show") : t("toolbar.photo.hide")
+            }
+          >
+            {photoHidden ? (
+              <ImageOff className="h-4 w-4" />
+            ) : (
+              <ImageOn className="h-4 w-4" />
+            )}
+            <span className="hidden sm:inline">{t("toolbar.photo")}</span>
+          </Button>
+        )}
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            if (confirm(t("toolbar.confirmClear"))) reset();
-          }}
-          className="hidden sm:inline-flex"
-        >
-          <RotateCcw className="h-4 w-4" />
-          {t("toolbar.clear")}
-        </Button>
+        {!isLetter && (
+          <ProfessionPicker
+            trigger={
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label={t("toolbar.examples")}
+              >
+                <Wand2 className="h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {t("toolbar.examples")}
+                </span>
+              </Button>
+            }
+          />
+        )}
+
+        {!isLetter && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              if (confirm(t("toolbar.confirmClear"))) reset();
+            }}
+            className="hidden sm:inline-flex"
+          >
+            <RotateCcw className="h-4 w-4" />
+            {t("toolbar.clear")}
+          </Button>
+        )}
         <Button
           variant="outline"
           size="sm"
@@ -229,15 +322,22 @@ export function Toolbar({ printTargetRef, fileName }: ToolbarProps) {
           onClick={handleDownload}
           disabled={downloading}
           aria-busy={downloading}
-          aria-label={t("toolbar.download")}
+          aria-label={
+            isLetter ? t("toolbar.downloadLetter") : t("toolbar.download")
+          }
           className="ml-auto sm:ml-0"
         >
           <Download className="h-4 w-4" />
           <span className="hidden sm:inline">
-            {downloading ? t("toolbar.downloading") : t("toolbar.download")}
+            {downloading
+              ? t("toolbar.downloading")
+              : isLetter
+                ? t("toolbar.downloadLetter")
+                : t("toolbar.download")}
           </span>
         </Button>
       </div>
     </div>
   );
 }
+

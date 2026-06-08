@@ -53,9 +53,7 @@ export function ModernTemplate({ cv, lang = "nl" }: TemplateProps) {
               className="text-[10px] font-bold uppercase tracking-[0.14em]"
               style={{ color: accent }}
             >
-              {t("preview.contact.email").toLowerCase() === "email"
-                ? "Contact"
-                : "Contact"}
+              {t("preview.contact.label")}
             </h3>
             <ContactRows
               cv={cv}
