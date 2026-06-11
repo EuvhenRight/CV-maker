@@ -11,9 +11,11 @@ import { makeEmptyCoverLetter } from "@/lib/sample-cv";
 type Key = keyof CoverLetter;
 
 export function CoverLetterEditor() {
-  const letter = useCVStore(
-    (s) => s.cv.coverLetter ?? makeEmptyCoverLetter(),
-  );
+  // Select only the raw field — applying `??` *inside* the selector returns
+  // a fresh object on every call when coverLetter is undefined, which zustand
+  // sees as a state change and ends up in an infinite re-render loop.
+  const storedLetter = useCVStore((s) => s.cv.coverLetter);
+  const letter = storedLetter ?? makeEmptyCoverLetter();
   const update = useCVStore((s) => s.updateCoverLetter);
   const t = useT();
 
