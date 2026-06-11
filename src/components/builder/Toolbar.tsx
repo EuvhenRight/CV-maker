@@ -33,6 +33,7 @@ import {
 import { cn } from "@/lib/utils";
 import { downloadCoverLetterAsPdf, downloadCVAsPdf } from "@/lib/pdf";
 import { ProfessionPicker } from "./ProfessionPicker";
+import { BriefPicker } from "./BriefPicker";
 
 export type BuilderMode = "cv" | "letter";
 
@@ -277,7 +278,22 @@ export function Toolbar({
           </Button>
         )}
 
-        {!isLetter && (
+        {isLetter ? (
+          <BriefPicker
+            trigger={
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label={t("toolbar.examples")}
+              >
+                <Wand2 className="h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {t("toolbar.examples")}
+                </span>
+              </Button>
+            }
+          />
+        ) : (
           <ProfessionPicker
             trigger={
               <Button

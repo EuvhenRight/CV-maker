@@ -204,6 +204,14 @@ const NL: Dict = {
   "letter.attached": "Bijlage: CV",
   "toolbar.downloadLetter": "Brief downloaden",
 
+  // Brief picker dialog (parallel to ProfessionPicker for CV)
+  "brief.dialog.title": "Kies een voorbeeldbrief",
+  "brief.dialog.subtitle":
+    "Een ingevulde sollicitatiebrief als startpunt. Pas geadresseerde, ervaring en motivatie aan zodat het bij jou en de vacature past.",
+  "brief.dialog.confirmReplace":
+    "Hiermee vervang je de huidige brief. Doorgaan?",
+  "brief.dialog.useTemplate": "Gebruik dit voorbeeld",
+
   // Summary
   "summary.ph":
     "2–4 zinnen over wie je bent, wat je hebt opgeleverd en wat je wilt gaan doen.",
@@ -550,6 +558,13 @@ const EN: Dict = {
     "The letter is empty. Fill in the recipient, job title and body to generate a cover letter.",
   "letter.attached": "Attached: CV",
   "toolbar.downloadLetter": "Download letter",
+
+  "brief.dialog.title": "Pick a sample cover letter",
+  "brief.dialog.subtitle":
+    "A pre-filled cover letter as a starting point. Adjust the recipient, experience and motivation to match you and the role.",
+  "brief.dialog.confirmReplace":
+    "This will replace the current cover letter. Continue?",
+  "brief.dialog.useTemplate": "Use this example",
 
   "summary.ph":
     "2–4 sentences about who you are, what you've delivered and where you're heading.",

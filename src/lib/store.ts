@@ -73,6 +73,7 @@ interface CVStore {
   reorderSections: (next: SectionKey[]) => void;
 
   updateCoverLetter: (patch: Partial<CoverLetter>) => void;
+  loadCoverLetter: (letter: CoverLetter) => void;
 
   reset: () => void;
   loadSample: () => void;
@@ -318,6 +319,9 @@ export const useCVStore = create<CVStore>()(
             },
           },
         })),
+
+      loadCoverLetter: (letter) =>
+        set((s) => ({ cv: { ...s.cv, coverLetter: letter } })),
 
       reset: () => set({ cv: makeEmptyCV() }),
       loadSample: () => set({ cv: makeSampleCV() }),
