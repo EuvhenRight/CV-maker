@@ -7,6 +7,7 @@ import {
   ExperienceBlock,
   LanguagesBlock,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -61,6 +62,14 @@ export function HealthcareTemplate({
               accent={accent}
             />
           </div>
+          <PersonalDetails
+            cv={cv}
+            lang={lang}
+            layout="inline"
+            color="#555"
+            accent={accent}
+            className="mt-1"
+          />
         </header>
         {main.map((k) => {
           if (k === "summary")

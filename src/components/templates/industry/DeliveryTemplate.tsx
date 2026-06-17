@@ -4,6 +4,7 @@ import {
   ContactRows,
   defaultRenderer,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   type BlockOpts,
 } from "../blocks";
@@ -56,6 +57,14 @@ export function DeliveryTemplate({
               accent={headerMuted}
             />
           </div>
+          <PersonalDetails
+            cv={cv}
+            lang={lang}
+            layout="inline"
+            color={headerMuted}
+            accent={headerText}
+            className="mt-1"
+          />
         </div>
       </header>
       <div className="flex flex-1 flex-col px-10 pb-10">

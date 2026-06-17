@@ -13,6 +13,7 @@ import {
   contactItems,
   dateRange,
   nonEmpty,
+  personalDetailItems,
   resolveSkills,
   resolveStrengths,
   type ContactKind,
@@ -657,6 +658,67 @@ export function ContactRows({
             {c.label}:
           </span>
           <span>{c.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export type PersonalDetailsLayout = "inline" | "labeled-rows";
+
+export function PersonalDetails({
+  cv,
+  lang = "nl",
+  layout = "inline",
+  color,
+  accent,
+  className = "",
+}: {
+  cv: CV;
+  lang?: Locale;
+  layout?: PersonalDetailsLayout;
+  color?: string;
+  accent?: string;
+  className?: string;
+}) {
+  const items = personalDetailItems(cv, lang);
+  if (items.length === 0) return null;
+
+  if (layout === "inline") {
+    return (
+      <div
+        className={`flex flex-wrap gap-x-3 gap-y-1 text-[11px] ${className}`}
+        style={{ color }}
+      >
+        {items.map((it) => (
+          <span key={it.kind} className="inline-flex items-baseline gap-1 break-words">
+            <span
+              className="font-semibold"
+              style={{ color: accent ?? color }}
+            >
+              {it.label}:
+            </span>
+            <span>{it.value}</span>
+          </span>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`space-y-0.5 text-[11px] ${className}`} style={{ color }}>
+      {items.map((it) => (
+        <div
+          key={it.kind}
+          className="grid grid-cols-[auto_1fr] gap-x-1.5 break-words"
+        >
+          <span
+            className="font-semibold uppercase tracking-wider text-[10px]"
+            style={{ color: accent }}
+          >
+            {it.label}:
+          </span>
+          <span>{it.value}</span>
         </div>
       ))}
     </div>

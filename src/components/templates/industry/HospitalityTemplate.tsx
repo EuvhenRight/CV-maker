@@ -4,6 +4,7 @@ import {
   ContactRows,
   defaultRenderer,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   type BlockOpts,
 } from "../blocks";
@@ -47,6 +48,15 @@ export function HospitalityTemplate({
         <div className="mt-2 h-px w-24" style={{ background: accent }} />
         <div className="mt-2 flex justify-center">
           <ContactRows
+            cv={cv}
+            lang={lang}
+            layout="inline"
+            color="#555"
+            accent={accent}
+          />
+        </div>
+        <div className="mt-1 flex justify-center">
+          <PersonalDetails
             cv={cv}
             lang={lang}
             layout="inline"

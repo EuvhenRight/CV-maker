@@ -7,6 +7,7 @@ import {
   ExperienceBlock,
   LanguagesBlock,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -75,6 +76,14 @@ export function TechTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
             color="#e8eaed"
             accent={accent}
             iconSize={11}
+          />
+          <PersonalDetails
+            cv={cv}
+            lang={lang}
+            layout="labeled-rows"
+            color="#e8eaed"
+            accent={accent}
+            className="mt-2"
           />
         </div>
         {side.map((k) => (

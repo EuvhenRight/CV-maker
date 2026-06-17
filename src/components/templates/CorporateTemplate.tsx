@@ -8,7 +8,7 @@ import {
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter } from "./blocks";
+import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
 
 export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -188,6 +188,15 @@ export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
         )}
         <div className="mt-2 flex justify-center">
           <ContactRows
+            cv={cv}
+            lang={lang}
+            layout="inline"
+            color="#3a3a3a"
+            accent={accent}
+          />
+        </div>
+        <div className="mt-1 flex justify-center">
+          <PersonalDetails
             cv={cv}
             lang={lang}
             layout="inline"

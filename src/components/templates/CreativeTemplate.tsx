@@ -10,7 +10,7 @@ import {
   textOn,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter } from "./blocks";
+import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
 
 export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -208,6 +208,14 @@ export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
             accent={headerMuted}
           />
         </div>
+        <PersonalDetails
+          cv={cv}
+          lang={lang}
+          layout="inline"
+          color={headerMuted}
+          accent={headerText}
+          className="mt-1"
+        />
       </header>
       <div className="space-y-4 px-10">{cv.sectionOrder.map(render)}</div>
       <div className="px-10 pb-10">

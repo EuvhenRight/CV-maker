@@ -7,6 +7,7 @@ import {
   ExperienceBlock,
   LanguagesBlock,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -56,6 +57,13 @@ export function AdminTemplate({
           color="#3a3a3a"
           accent={accent}
           iconSize={12}
+        />
+        <PersonalDetails
+          cv={cv}
+          lang={lang}
+          layout="labeled-rows"
+          color="#3a3a3a"
+          accent={accent}
         />
         {side.map((k) => (
           <div key={k}>

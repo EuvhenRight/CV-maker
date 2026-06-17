@@ -8,7 +8,7 @@ import {
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter } from "./blocks";
+import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
 
 export function MinimalTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -215,6 +215,14 @@ export function MinimalTemplate({ cv, lang = "nl" }: TemplateProps) {
             accent={accent}
           />
         </div>
+        <PersonalDetails
+          cv={cv}
+          lang={lang}
+          layout="inline"
+          color="#6b6b6b"
+          accent={accent}
+          className="mt-1"
+        />
       </header>
       <div className="mt-4 space-y-4">
         {cv.sectionOrder.map((k) => renderSection(k))}

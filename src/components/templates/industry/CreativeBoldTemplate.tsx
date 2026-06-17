@@ -7,6 +7,7 @@ import {
   ExperienceBlock,
   LanguagesBlock,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   ProjectsBlock,
   SkillsBlock,
@@ -78,6 +79,14 @@ export function CreativeBoldTemplate({
                 accent={headerMuted}
               />
             </div>
+            <PersonalDetails
+              cv={cv}
+              lang={lang}
+              layout="inline"
+              color={headerMuted}
+              accent={headerText}
+              className="mt-1"
+            />
           </div>
         </div>
       </header>

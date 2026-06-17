@@ -8,7 +8,7 @@ import {
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter } from "./blocks";
+import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
 
 const SIDEBAR_KEYS = new Set<SectionKey>([
   "skills",
@@ -64,6 +64,13 @@ export function ModernTemplate({ cv, lang = "nl" }: TemplateProps) {
               iconSize={11}
             />
           </div>
+          <PersonalDetails
+            cv={cv}
+            lang={lang}
+            layout="labeled-rows"
+            color="#3a3a3a"
+            accent={accent}
+          />
           {side.map((k) => (
             <SideBlock key={k} k={k} cv={cv} accent={accent} lang={lang} t={t} />
           ))}

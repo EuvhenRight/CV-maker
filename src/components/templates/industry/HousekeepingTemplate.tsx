@@ -4,6 +4,7 @@ import {
   ContactRows,
   defaultRenderer,
   PageFooter,
+  PersonalDetails,
   PhotoFrame,
   type BlockOpts,
 } from "../blocks";
@@ -54,6 +55,14 @@ export function HousekeepingTemplate({
               accent={accent}
             />
           </div>
+          <PersonalDetails
+            cv={cv}
+            lang={lang}
+            layout="inline"
+            color="#666"
+            accent={accent}
+            className="mt-1"
+          />
         </div>
       </header>
       <div className="space-y-5">

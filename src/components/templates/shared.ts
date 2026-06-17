@@ -68,6 +68,41 @@ export interface ContactItem {
   value: string;
 }
 
+export type PersonalDetailKind =
+  | "dateOfBirth"
+  | "nationality"
+  | "workEligibility"
+  | "drivingLicense"
+  | "bigNumber"
+  | "agbCode";
+
+export interface PersonalDetailItem {
+  kind: PersonalDetailKind;
+  label: string;
+  value: string;
+}
+
+const PERSONAL_DETAIL_ORDER: PersonalDetailKind[] = [
+  "dateOfBirth",
+  "nationality",
+  "workEligibility",
+  "drivingLicense",
+  "bigNumber",
+  "agbCode",
+];
+
+export function personalDetailItems(
+  cv: CV,
+  lang: Locale = "nl",
+): PersonalDetailItem[] {
+  const p = cv.personal;
+  return PERSONAL_DETAIL_ORDER.flatMap<PersonalDetailItem>((kind) => {
+    const value = (p[kind] ?? "").trim();
+    if (!value) return [];
+    return [{ kind, label: translate(lang, `personal.${kind}`), value }];
+  });
+}
+
 export function contactItems(cv: CV, lang: Locale = "nl"): ContactItem[] {
   const p = cv.personal;
   const out: ContactItem[] = [];
