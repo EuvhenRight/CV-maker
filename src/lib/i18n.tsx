@@ -66,6 +66,8 @@ const NL: Dict = {
   "cta.button": "Open de editor",
 
   "footer.copy": "CV-tool voor",
+  "footer.craftedBy": "Gemaakt door",
+  "footer.viewGithub": "Bekijk GitHub-profiel van Yevhen Uhnivenko",
 
   // Builder
   "builder.loading": "Je opgeslagen CV wordt geladen…",
@@ -430,6 +432,8 @@ const EN: Dict = {
   "cta.button": "Open the editor",
 
   "footer.copy": "CV tool for",
+  "footer.craftedBy": "Crafted by",
+  "footer.viewGithub": "View Yevhen Uhnivenko's GitHub profile",
 
   "builder.loading": "Loading your saved CV…",
   "builder.localStorage": "Saved locally · No account needed",

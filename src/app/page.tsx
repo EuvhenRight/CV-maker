@@ -228,7 +228,7 @@ export default function HomePage() {
       </section>
 
       <footer className="border-t border-[#e8e6df] bg-[#F0EFEA]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-xs text-[#7a7a7a] sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-[#7a7a7a] sm:px-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3">
           <div>
             © {new Date().getFullYear()} MaakMijnCV · {t("footer.copy")}{" "}
             <a
@@ -240,9 +240,35 @@ export default function HomePage() {
               cybersoek.nl
             </a>
           </div>
+          <div className="flex items-center gap-1.5">
+            <span>{t("footer.craftedBy")}</span>
+            <a
+              href="https://github.com/EuvhenRight"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t("footer.viewGithub")}
+              className="inline-flex items-center gap-1 rounded-full border border-[#e8e6df] bg-white px-2.5 py-1 font-medium text-[#1A1919] transition-colors hover:border-[#A3CBA9] hover:text-[#7FA689]"
+            >
+              <GitHubMark className="h-3 w-3" />
+              Yevhen Uhnivenko
+            </a>
+          </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+function GitHubMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.78 1.19 1.78 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.77.12 3.06.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.26 5.69.41.35.78 1.05.78 2.12v3.14c0 .31.21.68.8.56C20.21 21.38 23.5 17.08 23.5 12 23.5 5.73 18.27.5 12 .5Z" />
+    </svg>
   );
 }
 
