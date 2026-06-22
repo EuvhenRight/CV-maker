@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Noto_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/i18n";
 
@@ -33,6 +34,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[#F0EFEA] text-[#1A1919]">
         <LocaleProvider>{children}</LocaleProvider>
+        <Analytics />
       </body>
     </html>
   );
