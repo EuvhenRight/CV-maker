@@ -2,13 +2,16 @@
 
 **A free, fast, ATS‑friendly CV builder built for jobseekers in the Cybersoek / CyberCafé Werk programme.**
 
-[![Live Demo](https://img.shields.io/badge/Live-cybersoek.nl-7FA689?style=for-the-badge&logo=safari&logoColor=white)](https://cybersoek.nl/ons-aanbod/cybercafe-werk/)
+[![Live Demo](https://img.shields.io/badge/Live_App-cv--maker.vercel.app-7FA689?style=for-the-badge&logo=vercel&logoColor=white)](https://cv-maker-red-sigma.vercel.app/)
+[![Programme](https://img.shields.io/badge/Programme-cybersoek.nl-1A1919?style=for-the-badge&logo=safari&logoColor=white)](https://cybersoek.nl/ons-aanbod/cybercafe-werk/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-[![MaakMijnCV — CV builder preview](public/screenshot.png)](https://cybersoek.nl/ons-aanbod/cybercafe-werk/)
+| [![Landing page](public/screenshot-home.png)](https://cv-maker-red-sigma.vercel.app/) | [![Editor & live preview](public/screenshot-editor.png)](https://cv-maker-red-sigma.vercel.app/builder) |
+| :---: | :---: |
+| **Landing page** | **Editor — live preview, accents, language & PDF export** |
 
 ---
 
@@ -43,26 +46,6 @@ The app lets candidates pick a recruiter‑approved template, fill in their deta
 | PDF        | jspdf, html2canvas-pro                          |
 | Storage    | Upstash Redis (shared links), browser autosave  |
 | Analytics  | Vercel Analytics                                |
-
-## Getting Started
-
-```bash
-git clone https://github.com/EuvhenRight/CV-maker.git
-cd CV-maker
-npm install
-npm run dev
-```
-
-Then open [http://localhost:3000](http://localhost:3000).
-
-### Scripts
-
-```bash
-npm run dev      # start the dev server
-npm run build    # production build
-npm run start    # serve the production build
-npm run lint     # eslint
-```
 
 ## Project Structure
 
