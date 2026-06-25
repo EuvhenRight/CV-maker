@@ -239,6 +239,15 @@ export default function HomePage() {
             >
               cybersoek.nl
             </a>
+            {" · "}
+            <a
+              href="https://github.com/EuvhenRight/CV-maker/blob/master/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#7FA689] hover:underline"
+            >
+              MIT
+            </a>
           </div>
           <div className="flex items-center gap-1.5">
             <span>{t("footer.craftedBy")}</span>
