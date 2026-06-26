@@ -17,7 +17,7 @@
 
 ## About
 
-**MaakMijnCV** is the CV builder behind the [CyberCafé Werk programme at Cybersoek](https://cybersoek.nl/ons-aanbod/cybercafe-werk/) — a Dutch initiative that helps people get back to work through digital skills, coaching and free tooling.
+**[MaakMijnCV](https://cv-maker-red-sigma.vercel.app)** is a free CV builder created to support jobseekers — originally built around the Cybersoek community in Amsterdam, where people work on getting back into the labour market through digital skills and coaching.
 
 The app lets candidates pick a recruiter‑approved template, fill in their details and download a polished PDF in under five minutes. No account, no paywall, autosave to the browser, full multilingual support.
 
