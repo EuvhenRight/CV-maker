@@ -85,7 +85,7 @@ flowchart LR
 
     UI <--> Store
     UI --> PDF
-    UI -->|"download / print event"| API
+    UI --> API
     API <--> Redis
 ```
 
