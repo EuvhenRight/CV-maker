@@ -43,13 +43,13 @@ interface ProfessionPickerProps {
 
 export function ProfessionPicker({ trigger }: ProfessionPickerProps) {
   const { locale, t } = useLocale();
-  const loadCV = useCVStore((s) => s.loadCV);
+  const loadExample = useCVStore((s) => s.loadExample);
   const hasContent = useCVStore((s) => hasMeaningfulContent(s));
   const [open, setOpen] = React.useState(false);
 
   function onPick(id: ProfessionId) {
     if (hasContent && !confirm(t("prof.dialog.confirmReplace"))) return;
-    loadCV(buildProfessionCV(id, locale));
+    loadExample(buildProfessionCV(id, locale));
     setOpen(false);
   }
 

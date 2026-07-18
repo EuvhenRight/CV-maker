@@ -78,6 +78,7 @@ interface CVStore {
   reset: () => void;
   loadSample: () => void;
   loadCV: (cv: CV) => void;
+  loadExample: (cv: CV) => void;
 }
 
 function patchItem<T extends { id: string }>(
@@ -326,6 +327,28 @@ export const useCVStore = create<CVStore>()(
       reset: () => set({ cv: makeEmptyCV() }),
       loadSample: () => set({ cv: makeSampleCV() }),
       loadCV: (cv) => set({ cv }),
+      // Examples carry a curated template+color pairing. Only apply it while
+      // the user is still on the untouched default design; otherwise their own
+      // picks win. Photo visibility, section order and the cover letter are
+      // never part of an example.
+      loadExample: (next) =>
+        set((s) => {
+          const defaults = makeEmptyCV();
+          const designTouched =
+            s.cv.template !== defaults.template ||
+            s.cv.accentColor !== defaults.accentColor;
+          return {
+            cv: {
+              ...next,
+              ...(designTouched
+                ? { template: s.cv.template, accentColor: s.cv.accentColor }
+                : {}),
+              photoHidden: s.cv.photoHidden,
+              sectionOrder: s.cv.sectionOrder,
+              coverLetter: s.cv.coverLetter,
+            },
+          };
+        }),
     }),
     {
       name: "cybersoek:cv",
