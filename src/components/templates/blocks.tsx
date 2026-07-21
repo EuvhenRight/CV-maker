@@ -146,6 +146,42 @@ export function Heading({
   }
 }
 
+// Renders a project's links as labelled, clickable marks — e.g.
+// "Live: myproject.com   GitHub: github.com/…" — so a reader can tell the live
+// site from the source repo. The URL text is the clickable target (and carries
+// the data-pdf-link marker); the label in front is a plain descriptor.
+export function ProjectLinks({
+  link,
+  github,
+  color,
+  className = "text-[11px] font-normal break-all",
+}: {
+  link?: string;
+  github?: string;
+  color?: string;
+  className?: string;
+}) {
+  const marks: Array<{ mark: string; url: string }> = [];
+  if (link) marks.push({ mark: "Live", url: link });
+  if (github) marks.push({ mark: "GitHub", url: github });
+  if (marks.length === 0) return null;
+  const colorStyle = color ? { color } : undefined;
+  return (
+    <>
+      {marks.map(({ mark, url }) => (
+        <span key={mark} className="ml-2">
+          <span className="font-semibold" style={colorStyle}>
+            {mark}:
+          </span>{" "}
+          <PdfLink href={normalizeUrl(url)} className={className} style={colorStyle}>
+            {linkLabel(url)}
+          </PdfLink>
+        </span>
+      ))}
+    </>
+  );
+}
+
 export function SummaryBlock({
   cv,
   opts,
@@ -418,24 +454,11 @@ export function ProjectsBlock({
               style={{ color: opts.textColor }}
             >
               {p.name}
-              {p.link && (
-                <PdfLink
-                  href={normalizeUrl(p.link)}
-                  className="ml-2 text-[11px] font-normal break-all"
-                  style={{ color: opts.accent }}
-                >
-                  {linkLabel(p.link)}
-                </PdfLink>
-              )}
-              {p.github && (
-                <PdfLink
-                  href={normalizeUrl(p.github)}
-                  className="ml-2 text-[11px] font-normal break-all"
-                  style={{ color: opts.accent }}
-                >
-                  {linkLabel(p.github)}
-                </PdfLink>
-              )}
+              <ProjectLinks
+                link={p.link}
+                github={p.github}
+                color={opts.accent}
+              />
             </div>
             {p.description && (
               <p

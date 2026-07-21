@@ -2,7 +2,6 @@ import type { SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
 import {
   dateRange,
-  linkLabel,
   nonEmpty,
   normalizeUrl,
   placeholderName,
@@ -10,7 +9,13 @@ import {
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter, PdfLink, PersonalDetails } from "./blocks";
+import {
+  ContactRows,
+  PageFooter,
+  PdfLink,
+  PersonalDetails,
+  ProjectLinks,
+} from "./blocks";
 
 export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -127,24 +132,12 @@ export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
                 <div key={p.id}>
                   <div className="font-bold">
                     {p.name}
-                    {p.link && (
-                      <PdfLink
-                        href={normalizeUrl(p.link)}
-                        className="ml-2 font-normal italic break-all"
-                        style={{ color: accent }}
-                      >
-                        {linkLabel(p.link)}
-                      </PdfLink>
-                    )}
-                    {p.github && (
-                      <PdfLink
-                        href={normalizeUrl(p.github)}
-                        className="ml-2 font-normal italic break-all"
-                        style={{ color: accent }}
-                      >
-                        {linkLabel(p.github)}
-                      </PdfLink>
-                    )}
+                    <ProjectLinks
+                      link={p.link}
+                      github={p.github}
+                      color={accent}
+                      className="font-normal italic break-all"
+                    />
                   </div>
                   {p.description && <div>{p.description}</div>}
                 </div>

@@ -2,7 +2,6 @@ import type { SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
 import {
   dateRange,
-  linkLabel,
   nonEmpty,
   normalizeUrl,
   placeholderName,
@@ -10,7 +9,13 @@ import {
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter, PdfLink, PersonalDetails } from "./blocks";
+import {
+  ContactRows,
+  PageFooter,
+  PdfLink,
+  PersonalDetails,
+  ProjectLinks,
+} from "./blocks";
 
 const SIDEBAR_KEYS = new Set<SectionKey>([
   "skills",
@@ -187,22 +192,11 @@ function MainBlock({
             <div key={p.id}>
               <div className="text-[13px] font-semibold break-words">
                 {p.name}
-                {p.link && (
-                  <PdfLink
-                    href={normalizeUrl(p.link)}
-                    className="ml-2 text-[11px] font-normal text-neutral-500 break-all"
-                  >
-                    {linkLabel(p.link)}
-                  </PdfLink>
-                )}
-                {p.github && (
-                  <PdfLink
-                    href={normalizeUrl(p.github)}
-                    className="ml-2 text-[11px] font-normal text-neutral-500 break-all"
-                  >
-                    {linkLabel(p.github)}
-                  </PdfLink>
-                )}
+                <ProjectLinks
+                  link={p.link}
+                  github={p.github}
+                  color="#737373"
+                />
               </div>
               {p.description && (
                 <p className="text-[12px] text-neutral-700 break-words">
