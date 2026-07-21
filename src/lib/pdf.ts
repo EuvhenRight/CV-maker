@@ -41,7 +41,6 @@ export async function downloadCVAsPdf(
   });
 
   const pageWidthPx = A4_WIDTH_PX * scale;
-  const pageHeightPx = A4_HEIGHT_PX * scale;
 
   const pdf = new jsPDF({
     orientation: "portrait",
@@ -50,16 +49,27 @@ export async function downloadCVAsPdf(
     compress: true,
   });
 
-  const totalPages = Math.max(1, Math.ceil(canvas.height / pageHeightPx));
+  // Split the tall capture into A4 pages, reserving a top+bottom margin at every
+  // internal page break so multi-page PDFs don't jam content against the page
+  // edges. Both the image slices and the link annotations below share this same
+  // page layout, so clickable regions stay aligned across pages.
+  const bands = computePageBands(canvas.height / scale);
+  const MM_PER_PX_Y = A4_HEIGHT_MM / A4_HEIGHT_PX;
 
-  for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
-    if (pageIndex > 0) pdf.addPage();
+  for (let i = 0; i < bands.length; i++) {
+    if (i > 0) pdf.addPage();
+    const band = bands[i];
+    const srcTopPx = Math.round(band.srcTop * scale);
+    const srcEndPx = Math.min(
+      canvas.height,
+      Math.round((band.srcTop + band.srcH) * scale),
+    );
+    const srcHeightPx = srcEndPx - srcTopPx;
+    if (srcHeightPx <= 0) continue;
 
     const sliceCanvas = document.createElement("canvas");
     sliceCanvas.width = pageWidthPx;
-    const remaining = canvas.height - pageIndex * pageHeightPx;
-    const sliceHeight = Math.min(pageHeightPx, remaining);
-    sliceCanvas.height = sliceHeight;
+    sliceCanvas.height = srcHeightPx;
     const ctx = sliceCanvas.getContext("2d");
     if (!ctx) throw new Error("Canvas 2D context unavailable");
     ctx.fillStyle = "#ffffff";
@@ -67,24 +77,24 @@ export async function downloadCVAsPdf(
     ctx.drawImage(
       canvas,
       0,
-      pageIndex * pageHeightPx,
+      srcTopPx,
       pageWidthPx,
-      sliceHeight,
+      srcHeightPx,
       0,
       0,
       pageWidthPx,
-      sliceHeight,
+      srcHeightPx,
     );
 
     const imgData = sliceCanvas.toDataURL("image/jpeg", 0.95);
-    const sliceHeightMm = (sliceHeight / pageHeightPx) * A4_HEIGHT_MM;
+    const destHeightMm = (srcHeightPx / scale) * MM_PER_PX_Y;
     pdf.addImage(
       imgData,
       "JPEG",
       0,
-      0,
+      band.destTopMm,
       A4_WIDTH_MM,
-      sliceHeightMm,
+      destHeightMm,
       undefined,
       "FAST",
     );
@@ -94,7 +104,7 @@ export async function downloadCVAsPdf(
   // invisible, clickable link annotations on top of them by mapping each marked
   // element's on-screen box into PDF millimetres. Never let this break the save.
   try {
-    addLinkAnnotations(pdf, element, totalPages);
+    addLinkAnnotations(pdf, element, bands);
   } catch (err) {
     console.error("PDF link annotations failed", err);
   }
@@ -103,15 +113,53 @@ export async function downloadCVAsPdf(
   void trackAnalyticsEvent("download");
 }
 
+// One rendered A4 page: a horizontal band of the capture (measured in unscaled
+// CSS px) drawn at `destTopMm` from the page top. PAGE_BREAK_MARGIN_PX of
+// whitespace is reserved on each side of every internal break — matching the
+// templates' own 40px (p-10) outer padding — while the document's very top and
+// very bottom keep the padding the template already bakes in.
+const PAGE_BREAK_MARGIN_PX = 40;
+
+interface PageBand {
+  srcTop: number;
+  srcH: number;
+  destTopMm: number;
+}
+
+function computePageBands(contentHeightCss: number): PageBand[] {
+  const MM_PER_PX_Y = A4_HEIGHT_MM / A4_HEIGHT_PX;
+  const bands: PageBand[] = [];
+  let srcTop = 0;
+  let pageIndex = 0;
+  while (srcTop < contentHeightCss - 0.5 || bands.length === 0) {
+    const topMargin = pageIndex === 0 ? 0 : PAGE_BREAK_MARGIN_PX;
+    const remaining = contentHeightCss - srcTop;
+    const maxWithoutBottom = A4_HEIGHT_PX - topMargin;
+    const maxWithBottom = A4_HEIGHT_PX - topMargin - PAGE_BREAK_MARGIN_PX;
+    let srcH: number;
+    let isLast: boolean;
+    if (remaining <= maxWithoutBottom) {
+      srcH = remaining;
+      isLast = true;
+    } else {
+      srcH = Math.max(maxWithBottom, 1);
+      isLast = false;
+    }
+    bands.push({ srcTop, srcH, destTopMm: topMargin * MM_PER_PX_Y });
+    srcTop += srcH;
+    pageIndex++;
+    if (isLast || pageIndex > 200) break;
+  }
+  return bands;
+}
+
 // Reads elements carrying a `data-pdf-link` marker (added by the PdfLink
-// component in the templates) and draws a jsPDF link annotation over each one.
-// The capture target renders at exactly A4_WIDTH_PX CSS pixels (scale 1), so
-// CSS pixels map linearly to millimetres and page N covers the CSS y-band
-// [N*A4_HEIGHT_PX, (N+1)*A4_HEIGHT_PX).
+// component in the templates) and draws a jsPDF link annotation over each one,
+// mapping the element's on-screen box into the paginated PDF via `bands`.
 function addLinkAnnotations(
   pdf: jsPDF,
   element: HTMLElement,
-  totalPages: number,
+  bands: PageBand[],
 ): void {
   const MM_PER_PX_X = A4_WIDTH_MM / A4_WIDTH_PX;
   const MM_PER_PX_Y = A4_HEIGHT_MM / A4_HEIGHT_PX;
@@ -129,16 +177,20 @@ function addLinkAnnotations(
       if (r.width <= 0 || r.height <= 0) continue;
       const relLeft = r.left - container.left;
       const relTop = r.top - container.top;
-      const pageIndex = Math.floor(relTop / A4_HEIGHT_PX);
-      if (pageIndex < 0 || pageIndex >= totalPages) continue;
+      const bandIndex = bands.findIndex(
+        (b) => relTop >= b.srcTop && relTop < b.srcTop + b.srcH,
+      );
+      if (bandIndex < 0) continue;
+      const band = bands[bandIndex];
 
       const x = relLeft * MM_PER_PX_X;
-      const y = (relTop - pageIndex * A4_HEIGHT_PX) * MM_PER_PX_Y;
+      const y = band.destTopMm + (relTop - band.srcTop) * MM_PER_PX_Y;
       const w = r.width * MM_PER_PX_X;
       let h = r.height * MM_PER_PX_Y;
-      if (y + h > A4_HEIGHT_MM) h = A4_HEIGHT_MM - y;
+      const bandBottomMm = band.destTopMm + band.srcH * MM_PER_PX_Y;
+      if (y + h > bandBottomMm) h = bandBottomMm - y;
 
-      pdf.setPage(pageIndex + 1);
+      pdf.setPage(bandIndex + 1);
       pdf.link(x, y, w, h, { url });
     }
   });

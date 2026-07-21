@@ -103,7 +103,7 @@ export function TechTemplate({ cv, lang = "nl" }: { cv: CV; lang?: Locale }) {
           </div>
         ))}
       </aside>
-      <div className="flex flex-col p-8">
+      <div className="flex flex-col p-10">
         <header className="mb-5">
           <h1 className="font-display text-[28px] font-extrabold leading-tight break-words">
             {cv.personal.fullName || placeholderName(lang)}
