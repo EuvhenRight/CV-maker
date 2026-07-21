@@ -93,11 +93,11 @@ export type SectionKey =
 
 export const ALL_SECTIONS: SectionKey[] = [
   "summary",
+  "projects",
   "experience",
   "education",
   "skills",
   "strengths",
-  "projects",
   "languages",
   "certifications",
 ];

@@ -353,7 +353,7 @@ export const useCVStore = create<CVStore>()(
     }),
     {
       name: "cybersoek:cv",
-      version: 5,
+      version: 6,
       storage: createJSONStorage<unknown>(() => expiringLocalStorage),
       partialize: (s) => ({ cv: s.cv }),
       migrate: (persisted: unknown, version) => {
@@ -414,6 +414,28 @@ export const useCVStore = create<CVStore>()(
         // v4 → v5: coverLetter slot — start blank for existing CVs.
         if (version < 5 && !cv.coverLetter) {
           cv.coverLetter = makeEmptyCoverLetter();
+        }
+
+        // v5 → v6: the default layout now places "projects" right after
+        // "summary". Only reflow CVs still on the previous default order —
+        // never override a section order the user arranged themselves.
+        if (version < 6) {
+          const prevDefault: SectionKey[] = [
+            "summary",
+            "experience",
+            "education",
+            "skills",
+            "strengths",
+            "projects",
+            "languages",
+            "certifications",
+          ];
+          const onPrevDefault =
+            cv.sectionOrder.length === prevDefault.length &&
+            cv.sectionOrder.every((k, i) => k === prevDefault[i]);
+          if (onPrevDefault) {
+            cv.sectionOrder = [...empty.sectionOrder];
+          }
         }
 
         return { cv };
