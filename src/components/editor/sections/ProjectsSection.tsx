@@ -52,6 +52,14 @@ export function ProjectsSection() {
                 placeholder={t("projects.link.ph")}
               />
             </div>
+            <div className="space-y-1.5">
+              <Label>{t("projects.github")}</Label>
+              <Input
+                value={pr.github ?? ""}
+                onChange={(e) => update(pr.id, { github: e.target.value })}
+                placeholder={t("projects.github.ph")}
+              />
+            </div>
           </div>
           <div className="space-y-1.5">
             <Label>{t("projects.description")}</Label>

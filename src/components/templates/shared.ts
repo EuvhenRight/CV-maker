@@ -103,6 +103,56 @@ export function personalDetailItems(
   });
 }
 
+// ---------------------------------------------------------------------------
+// Link helpers — used to turn contact details, project links and certificate
+// links into real, clickable hyperlinks (both on screen and in the exported
+// PDF, where lib/pdf.ts reads the `data-pdf-link` markers these produce).
+// ---------------------------------------------------------------------------
+
+export function normalizeUrl(raw: string): string {
+  const s = (raw ?? "").trim();
+  if (!s) return "";
+  if (/^(https?:|mailto:|tel:)/i.test(s)) return s;
+  return `https://${s.replace(/^\/+/, "")}`;
+}
+
+export function mailtoHref(email: string): string {
+  const s = (email ?? "").trim();
+  if (!s) return "";
+  return /^mailto:/i.test(s) ? s : `mailto:${s}`;
+}
+
+export function telHref(phone: string): string {
+  const s = (phone ?? "").trim();
+  if (!s) return "";
+  if (/^tel:/i.test(s)) return s;
+  const cleaned = s.replace(/[^\d+]/g, "");
+  return cleaned ? `tel:${cleaned}` : "";
+}
+
+// Compact display for a URL: drop the scheme, leading www. and trailing slash.
+export function linkLabel(raw: string): string {
+  return (raw ?? "")
+    .trim()
+    .replace(/^(https?:)?\/\//i, "")
+    .replace(/^www\./i, "")
+    .replace(/\/+$/, "");
+}
+
+export function contactHref(kind: ContactKind, value: string): string {
+  switch (kind) {
+    case "email":
+      return mailtoHref(value);
+    case "phone":
+      return telHref(value);
+    case "website":
+    case "linkedin":
+      return normalizeUrl(value);
+    default:
+      return "";
+  }
+}
+
 export function contactItems(cv: CV, lang: Locale = "nl"): ContactItem[] {
   const p = cv.personal;
   const out: ContactItem[] = [];

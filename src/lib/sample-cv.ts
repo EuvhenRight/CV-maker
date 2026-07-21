@@ -116,7 +116,8 @@ export function makeSampleCV(): CV {
       {
         id: "pr1",
         name: "Open Design Tokens",
-        link: "github.com/sanne/odt",
+        link: "opendesigntokens.dev",
+        github: "github.com/sanne/odt",
         description:
           "Open-source toolkit die Figma-variabelen omzet naar multi-platform design tokens. 1.2k sterren.",
         bullets: [],

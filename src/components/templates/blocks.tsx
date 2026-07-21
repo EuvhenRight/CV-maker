@@ -10,12 +10,16 @@ import {
 import type { CV, SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
 import {
+  contactHref,
   contactItems,
   dateRange,
+  linkLabel,
   nonEmpty,
+  normalizeUrl,
   personalDetailItems,
   resolveSkills,
   resolveStrengths,
+  type ContactItem,
   type ContactKind,
 } from "./shared";
 
@@ -37,6 +41,35 @@ export interface BlockOpts {
 
 function langOf(opts: BlockOpts): Locale {
   return opts.lang ?? "nl";
+}
+
+// A hyperlink that stays visually identical to surrounding text (colour and
+// decoration inherit unless overridden). The `data-pdf-link` attribute lets the
+// PDF exporter (lib/pdf.ts) overlay a real clickable annotation at this spot,
+// while the plain <a> keeps it clickable on screen and via browser print.
+export function PdfLink({
+  href,
+  children,
+  className,
+  style,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const external = /^https?:/i.test(href);
+  return (
+    <a
+      href={href}
+      data-pdf-link={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className={className}
+      style={{ color: "inherit", textDecoration: "none", ...style }}
+    >
+      {children}
+    </a>
+  );
 }
 
 export function Heading({
@@ -385,12 +418,22 @@ export function ProjectsBlock({
             >
               {p.name}
               {p.link && (
-                <span
+                <PdfLink
+                  href={normalizeUrl(p.link)}
                   className="ml-2 text-[11px] font-normal break-all"
                   style={{ color: opts.accent }}
                 >
-                  {p.link}
-                </span>
+                  {linkLabel(p.link)}
+                </PdfLink>
+              )}
+              {p.github && (
+                <PdfLink
+                  href={normalizeUrl(p.github)}
+                  className="ml-2 text-[11px] font-normal break-all"
+                  style={{ color: opts.accent }}
+                >
+                  {linkLabel(p.github)}
+                </PdfLink>
               )}
             </div>
             {p.description && (
@@ -478,7 +521,18 @@ export function CertificationsBlock({
             style={{ color: opts.textColor ?? "#3a3a3a" }}
           >
             <span>
-              <strong>{c.name}</strong>
+              <strong>
+                {c.link ? (
+                  <PdfLink
+                    href={normalizeUrl(c.link)}
+                    style={{ color: opts.accent }}
+                  >
+                    {c.name}
+                  </PdfLink>
+                ) : (
+                  c.name
+                )}
+              </strong>
               {c.issuer && ` · ${c.issuer}`}
             </span>
             {c.date && (
@@ -586,6 +640,12 @@ export function ContactRows({
   const items = contactItems(cv, lang);
   if (items.length === 0) return null;
 
+  // Email → mailto:, phone → tel:, website/linkedin → https:// — all clickable.
+  const renderValue = (c: ContactItem): React.ReactNode => {
+    const href = contactHref(c.kind, c.value);
+    return href ? <PdfLink href={href}>{c.value}</PdfLink> : c.value;
+  };
+
   if (layout === "inline") {
     return (
       <div
@@ -602,7 +662,7 @@ export function ContactRows({
               <Icon
                 style={{ width: iconSize, height: iconSize, color: accent ?? color }}
               />
-              <span>{c.value}</span>
+              <span>{renderValue(c)}</span>
             </span>
           );
         })}
@@ -624,7 +684,7 @@ export function ContactRows({
                 className="mt-0.5 shrink-0"
                 style={{ width: iconSize, height: iconSize, color: accent ?? color }}
               />
-              <span>{c.value}</span>
+              <span>{renderValue(c)}</span>
             </div>
           );
         })}
@@ -637,7 +697,7 @@ export function ContactRows({
       <div className={`space-y-0.5 text-[11px] ${className}`} style={{ color }}>
         {items.map((c) => (
           <div key={c.kind} className="break-all">
-            {c.value}
+            {renderValue(c)}
           </div>
         ))}
       </div>
@@ -657,7 +717,7 @@ export function ContactRows({
           >
             {c.label}:
           </span>
-          <span>{c.value}</span>
+          <span>{renderValue(c)}</span>
         </div>
       ))}
     </div>

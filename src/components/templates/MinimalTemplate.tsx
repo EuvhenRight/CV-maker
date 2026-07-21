@@ -2,13 +2,15 @@ import type { SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
 import {
   dateRange,
+  linkLabel,
   nonEmpty,
+  normalizeUrl,
   placeholderName,
   resolveSkills,
   resolveStrengths,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
+import { ContactRows, PageFooter, PdfLink, PersonalDetails } from "./blocks";
 
 export function MinimalTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -134,9 +136,20 @@ export function MinimalTemplate({ cv, lang = "nl" }: TemplateProps) {
                   <div className="text-[13px] font-semibold text-neutral-900 break-words">
                     {p.name}
                     {p.link && (
-                      <span className="ml-2 text-[11px] font-normal text-neutral-500 break-all">
-                        {p.link}
-                      </span>
+                      <PdfLink
+                        href={normalizeUrl(p.link)}
+                        className="ml-2 text-[11px] font-normal text-neutral-500 break-all"
+                      >
+                        {linkLabel(p.link)}
+                      </PdfLink>
+                    )}
+                    {p.github && (
+                      <PdfLink
+                        href={normalizeUrl(p.github)}
+                        className="ml-2 text-[11px] font-normal text-neutral-500 break-all"
+                      >
+                        {linkLabel(p.github)}
+                      </PdfLink>
                     )}
                   </div>
                   {p.description && (
@@ -178,7 +191,13 @@ export function MinimalTemplate({ cv, lang = "nl" }: TemplateProps) {
                 >
                   <span>
                     <span className="font-semibold text-neutral-900">
-                      {c.name}
+                      {c.link ? (
+                        <PdfLink href={normalizeUrl(c.link)} style={{ color: accent }}>
+                          {c.name}
+                        </PdfLink>
+                      ) : (
+                        c.name
+                      )}
                     </span>
                     {c.issuer && ` · ${c.issuer}`}
                   </span>

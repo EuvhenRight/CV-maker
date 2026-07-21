@@ -57,6 +57,7 @@ export interface ProjectItem {
   id: string;
   name: string;
   link: string;
+  github?: string;
   description: string;
   bullets: string[];
 }

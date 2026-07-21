@@ -90,8 +90,58 @@ export async function downloadCVAsPdf(
     );
   }
 
+  // The pages are flattened bitmaps, so hyperlinks are baked-in pixels. Overlay
+  // invisible, clickable link annotations on top of them by mapping each marked
+  // element's on-screen box into PDF millimetres. Never let this break the save.
+  try {
+    addLinkAnnotations(pdf, element, totalPages);
+  } catch (err) {
+    console.error("PDF link annotations failed", err);
+  }
+
   pdf.save(`${sanitizeFileName(fileName)}.pdf`);
   void trackAnalyticsEvent("download");
+}
+
+// Reads elements carrying a `data-pdf-link` marker (added by the PdfLink
+// component in the templates) and draws a jsPDF link annotation over each one.
+// The capture target renders at exactly A4_WIDTH_PX CSS pixels (scale 1), so
+// CSS pixels map linearly to millimetres and page N covers the CSS y-band
+// [N*A4_HEIGHT_PX, (N+1)*A4_HEIGHT_PX).
+function addLinkAnnotations(
+  pdf: jsPDF,
+  element: HTMLElement,
+  totalPages: number,
+): void {
+  const MM_PER_PX_X = A4_WIDTH_MM / A4_WIDTH_PX;
+  const MM_PER_PX_Y = A4_HEIGHT_MM / A4_HEIGHT_PX;
+  const container = element.getBoundingClientRect();
+  const nodes = element.querySelectorAll<HTMLElement>("[data-pdf-link]");
+
+  nodes.forEach((node) => {
+    const url = node.getAttribute("data-pdf-link");
+    if (!url) return;
+    // getClientRects() yields one box per line, so a wrapped link stays
+    // clickable across every line it spans instead of one loose bounding box.
+    const rects = node.getClientRects();
+    for (let i = 0; i < rects.length; i++) {
+      const r = rects[i];
+      if (r.width <= 0 || r.height <= 0) continue;
+      const relLeft = r.left - container.left;
+      const relTop = r.top - container.top;
+      const pageIndex = Math.floor(relTop / A4_HEIGHT_PX);
+      if (pageIndex < 0 || pageIndex >= totalPages) continue;
+
+      const x = relLeft * MM_PER_PX_X;
+      const y = (relTop - pageIndex * A4_HEIGHT_PX) * MM_PER_PX_Y;
+      const w = r.width * MM_PER_PX_X;
+      let h = r.height * MM_PER_PX_Y;
+      if (y + h > A4_HEIGHT_MM) h = A4_HEIGHT_MM - y;
+
+      pdf.setPage(pageIndex + 1);
+      pdf.link(x, y, w, h, { url });
+    }
+  });
 }
 
 // ---------------------------------------------------------------------------

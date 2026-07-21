@@ -236,6 +236,7 @@ export const useCVStore = create<CVStore>()(
                 id: uid("pr"),
                 name: "",
                 link: "",
+                github: "",
                 description: "",
                 bullets: [],
               },

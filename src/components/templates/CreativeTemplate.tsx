@@ -2,7 +2,9 @@ import type { SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
 import {
   dateRange,
+  linkLabel,
   nonEmpty,
+  normalizeUrl,
   placeholderName,
   resolveSkills,
   resolveStrengths,
@@ -10,7 +12,7 @@ import {
   textOn,
   type TemplateProps,
 } from "./shared";
-import { ContactRows, PageFooter, PersonalDetails } from "./blocks";
+import { ContactRows, PageFooter, PdfLink, PersonalDetails } from "./blocks";
 
 export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
   const accent = cv.accentColor;
@@ -128,12 +130,22 @@ export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
                   <div className="text-[13px] font-bold break-words">
                     {p.name}
                     {p.link && (
-                      <span
+                      <PdfLink
+                        href={normalizeUrl(p.link)}
                         className="ml-2 text-[11px] font-normal break-all"
                         style={{ color: accent }}
                       >
-                        {p.link}
-                      </span>
+                        {linkLabel(p.link)}
+                      </PdfLink>
+                    )}
+                    {p.github && (
+                      <PdfLink
+                        href={normalizeUrl(p.github)}
+                        className="ml-2 text-[11px] font-normal break-all"
+                        style={{ color: accent }}
+                      >
+                        {linkLabel(p.github)}
+                      </PdfLink>
                     )}
                   </div>
                   {p.description && (
@@ -167,7 +179,15 @@ export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
             <div className="space-y-0.5 text-[12px] break-words">
               {cv.certifications.map((c) => (
                 <div key={c.id}>
-                  <span className="font-bold">{c.name}</span>
+                  <span className="font-bold">
+                    {c.link ? (
+                      <PdfLink href={normalizeUrl(c.link)} style={{ color: accent }}>
+                        {c.name}
+                      </PdfLink>
+                    ) : (
+                      c.name
+                    )}
+                  </span>
                   {c.issuer && ` — ${c.issuer}`}
                   {c.date && (
                     <span className="text-neutral-500"> · {c.date}</span>
