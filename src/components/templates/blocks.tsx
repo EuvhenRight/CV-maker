@@ -671,26 +671,44 @@ export function ContactRows({
     return href ? <PdfLink href={href}>{c.value}</PdfLink> : c.value;
   };
 
+  // The leading mark before each contact. GitHub has no brand glyph in the icon
+  // set (only a generic </> code icon), so mark it with a clear "GitHub" text
+  // tag instead; every other contact keeps its icon.
+  const renderMark = (c: ContactItem, iconClassName = ""): React.ReactNode => {
+    if (c.kind === "github") {
+      return (
+        <span
+          className={`shrink-0 text-[10px] font-semibold ${iconClassName}`.trim()}
+          style={{ color: accent ?? color }}
+        >
+          GitHub
+        </span>
+      );
+    }
+    const Icon = ICONS[c.kind];
+    return (
+      <Icon
+        className={iconClassName || undefined}
+        style={{ width: iconSize, height: iconSize, color: accent ?? color }}
+      />
+    );
+  };
+
   if (layout === "inline") {
     return (
       <div
         className={`flex flex-wrap gap-x-3 gap-y-1 text-[11px] ${className}`}
         style={{ color }}
       >
-        {items.map((c) => {
-          const Icon = ICONS[c.kind];
-          return (
-            <span
-              key={c.kind}
-              className="inline-flex items-center gap-1 break-all"
-            >
-              <Icon
-                style={{ width: iconSize, height: iconSize, color: accent ?? color }}
-              />
-              <span>{renderValue(c)}</span>
-            </span>
-          );
-        })}
+        {items.map((c) => (
+          <span
+            key={c.kind}
+            className="inline-flex items-center gap-1 break-all"
+          >
+            {renderMark(c)}
+            <span>{renderValue(c)}</span>
+          </span>
+        ))}
       </div>
     );
   }
@@ -698,21 +716,12 @@ export function ContactRows({
   if (layout === "iconRows") {
     return (
       <div className={`space-y-1 text-[11px] ${className}`} style={{ color }}>
-        {items.map((c) => {
-          const Icon = ICONS[c.kind];
-          return (
-            <div
-              key={c.kind}
-              className="flex items-start gap-2 break-all"
-            >
-              <Icon
-                className="mt-0.5 shrink-0"
-                style={{ width: iconSize, height: iconSize, color: accent ?? color }}
-              />
-              <span>{renderValue(c)}</span>
-            </div>
-          );
-        })}
+        {items.map((c) => (
+          <div key={c.kind} className="flex items-start gap-2 break-all">
+            {renderMark(c, "mt-0.5 shrink-0")}
+            <span>{renderValue(c)}</span>
+          </div>
+        ))}
       </div>
     );
   }
