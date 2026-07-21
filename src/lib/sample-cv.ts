@@ -53,6 +53,7 @@ export function makeSampleCV(): CV {
       location: "Amsterdam, NL",
       website: "sannedevries.nl",
       linkedin: "linkedin.com/in/sannedevries",
+      github: "github.com/sannedevries",
       photo: "",
     },
     summary:

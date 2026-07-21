@@ -23,6 +23,8 @@ export interface PersonalInfo {
   website: string;
   linkedin: string;
   photo: string;
+  // Optional opt-in contact/detail fields
+  github?: string;
   // Optional NL-specific opt-in fields (CV for 2026)
   dateOfBirth?: string;
   nationality?: string;

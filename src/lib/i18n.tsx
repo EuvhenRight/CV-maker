@@ -118,6 +118,8 @@ const NL: Dict = {
   "personal.website.ph": "sannedevries.nl",
   "personal.linkedin": "LinkedIn",
   "personal.linkedin.ph": "linkedin.com/in/sannedevries",
+  "personal.github": "GitHub",
+  "personal.github.ph": "github.com/jouwnaam",
   "personal.photo.upload": "Foto uploaden",
   "personal.photo.replace": "Foto vervangen",
   "personal.photo.uploading": "Uploaden…",
@@ -352,6 +354,7 @@ const NL: Dict = {
   "preview.contact.location": "Locatie",
   "preview.contact.website": "Website",
   "preview.contact.linkedin": "LinkedIn",
+  "preview.contact.github": "GitHub",
   "preview.contact.label": "Contact",
   "tpl.photo.placeholder": "Foto",
   "tpl.tech.contactPrompt":
@@ -482,6 +485,8 @@ const EN: Dict = {
   "personal.website.ph": "sannedevries.nl",
   "personal.linkedin": "LinkedIn",
   "personal.linkedin.ph": "linkedin.com/in/sannedevries",
+  "personal.github": "GitHub",
+  "personal.github.ph": "github.com/yourname",
   "personal.photo.upload": "Upload photo",
   "personal.photo.replace": "Replace photo",
   "personal.photo.uploading": "Uploading…",
@@ -698,6 +703,7 @@ const EN: Dict = {
   "preview.contact.location": "Location",
   "preview.contact.website": "Website",
   "preview.contact.linkedin": "LinkedIn",
+  "preview.contact.github": "GitHub",
   "preview.contact.label": "Contact",
   "tpl.photo.placeholder": "Photo",
   "tpl.tech.contactPrompt":

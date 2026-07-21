@@ -19,6 +19,7 @@ type CoreKey =
   | "linkedin";
 
 type OptionalKey =
+  | "github"
   | "dateOfBirth"
   | "nationality"
   | "workEligibility"
@@ -33,6 +34,7 @@ export function PersonalSection() {
 
   const hasAnyOptional = (
     [
+      "github",
       "dateOfBirth",
       "nationality",
       "workEligibility",
@@ -111,6 +113,13 @@ export function PersonalSection() {
               {t("personal.optional.help")}
             </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                {optionalField(
+                  "github",
+                  "personal.github",
+                  "personal.github.ph",
+                )}
+              </div>
               {optionalField(
                 "dateOfBirth",
                 "personal.dateOfBirth",

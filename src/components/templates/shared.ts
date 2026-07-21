@@ -52,7 +52,14 @@ export function placeholderName(lang: Locale = "nl"): string {
 
 export function contactLine(cv: CV): string[] {
   const p = cv.personal;
-  return [p.email, p.phone, p.location, p.website, p.linkedin].filter(Boolean);
+  return [
+    p.email,
+    p.phone,
+    p.location,
+    p.website,
+    p.linkedin,
+    p.github,
+  ].filter(Boolean) as string[];
 }
 
 export type ContactKind =
@@ -60,7 +67,8 @@ export type ContactKind =
   | "phone"
   | "location"
   | "website"
-  | "linkedin";
+  | "linkedin"
+  | "github";
 
 export interface ContactItem {
   kind: ContactKind;
@@ -147,6 +155,7 @@ export function contactHref(kind: ContactKind, value: string): string {
       return telHref(value);
     case "website":
     case "linkedin":
+    case "github":
       return normalizeUrl(value);
     default:
       return "";
@@ -185,6 +194,12 @@ export function contactItems(cv: CV, lang: Locale = "nl"): ContactItem[] {
       kind: "linkedin",
       label: translate(lang, "preview.contact.linkedin"),
       value: p.linkedin,
+    });
+  if (p.github)
+    out.push({
+      kind: "github",
+      label: translate(lang, "preview.contact.github"),
+      value: p.github,
     });
   return out;
 }

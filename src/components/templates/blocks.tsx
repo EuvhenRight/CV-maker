@@ -5,6 +5,7 @@ import {
   MapPin,
   Globe,
   Link as LinkIcon,
+  Code as CodeIcon,
   type LucideIcon,
 } from "lucide-react";
 import type { CV, SectionKey } from "@/lib/cv-types";
@@ -616,6 +617,7 @@ const ICONS: Record<ContactKind, LucideIcon> = {
   location: MapPin,
   website: Globe,
   linkedin: LinkIcon,
+  github: CodeIcon,
 };
 
 export type ContactLayout = "inline" | "rows" | "labeled-rows" | "iconRows";
