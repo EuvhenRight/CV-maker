@@ -44,7 +44,7 @@ export const PRESET_SKILLS: Preset[] = [
 
   // Project / management
   { id: "project-management", nl: "Projectmanagement", en: "Project management", category: "leadership" },
-  { id: "agile-scrum", nl: "Agile / Scrum", en: "Agile / Scrum", category: "leadership" },
+  { id: "agile-scrum", nl: "Agile / Scrum", en: "Agile / Scrum", category: "technical" },
   { id: "stakeholder-management", nl: "Stakeholdermanagement", en: "Stakeholder management", category: "leadership" },
 
   // Office
@@ -65,6 +65,15 @@ export const PRESET_SKILLS: Preset[] = [
   { id: "nodejs", nl: "Node.js", en: "Node.js", category: "technical" },
   { id: "html-css", nl: "HTML / CSS", en: "HTML / CSS", category: "technical" },
   { id: "git", nl: "Git", en: "Git", category: "technical" },
+  { id: "nextjs", nl: "Next.js", en: "Next.js", category: "technical" },
+  { id: "vuejs", nl: "Vue.js", en: "Vue.js", category: "technical" },
+  { id: "rest-apis", nl: "REST API's", en: "REST APIs", category: "technical" },
+  { id: "graphql", nl: "GraphQL", en: "GraphQL", category: "technical" },
+  { id: "ci-cd", nl: "CI/CD", en: "CI/CD", category: "technical" },
+  { id: "automated-testing", nl: "Geautomatiseerd testen", en: "Automated testing", category: "technical" },
+  { id: "docker", nl: "Docker", en: "Docker", category: "technical" },
+  { id: "cloud", nl: "Cloud (AWS/Azure)", en: "Cloud (AWS/Azure)", category: "technical" },
+  { id: "firebase", nl: "Firebase", en: "Firebase", category: "technical" },
   { id: "technical-support", nl: "Technische ondersteuning", en: "Technical support", category: "technical" },
   { id: "troubleshooting", nl: "Probleemanalyse", en: "Troubleshooting", category: "technical" },
 

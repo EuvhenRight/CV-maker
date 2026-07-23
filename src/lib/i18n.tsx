@@ -255,10 +255,17 @@ const NL: Dict = {
 
   // Skills
   "skills.helper":
-    "Zoek of selecteer uit veelgevraagde vaardigheden. Niet gevonden? Type je eigen en druk op Enter.",
+    "Vaardigheden staan gesplitst in technisch en professioneel. Zoek en selecteer, of typ je eigen vaardigheid en druk op Enter.",
   "skills.empty":
     "Nog geen vaardigheden geselecteerd. Begin met typen om suggesties te zien.",
   "skills.search.ph": "Zoek of typ een vaardigheid…",
+  "skills.technical.label": "Technische vaardigheden",
+  "skills.technical.ph": "Zoek technische vaardigheden…",
+  "skills.technical.empty": "Nog geen technische vaardigheden geselecteerd.",
+  "skills.professional.label": "Professionele vaardigheden",
+  "skills.professional.ph": "Zoek of typ een vaardigheid…",
+  "skills.professional.empty":
+    "Nog geen professionele vaardigheden geselecteerd.",
 
   // Strengths
   "strengths.helper":
@@ -614,10 +621,16 @@ const EN: Dict = {
   "edu.removeAria": "Remove education",
 
   "skills.helper":
-    "Search or pick from common professional skills. Don't see yours? Type it and press Enter.",
+    "Skills are split into technical and professional. Search and pick, or type your own skill and press Enter.",
   "skills.empty":
     "No skills selected yet. Start typing to see suggestions.",
   "skills.search.ph": "Search or type a skill…",
+  "skills.technical.label": "Technical Skills",
+  "skills.technical.ph": "Search technical skills…",
+  "skills.technical.empty": "No technical skills selected yet.",
+  "skills.professional.label": "Professional Skills",
+  "skills.professional.ph": "Search or type a skill…",
+  "skills.professional.empty": "No professional skills selected yet.",
 
   "strengths.helper":
     "Pick personal qualities that describe you. You can also add custom ones.",

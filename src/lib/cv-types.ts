@@ -122,6 +122,9 @@ export interface CV {
   experience: ExperienceItem[];
   education: EducationItem[];
   skills: string[];
+  // Ids of custom (non-catalog) skills the user placed in the Technical group.
+  // Catalog skills are grouped by their category; this only overrides custom ones.
+  technicalCustom?: string[];
   strengths: string[];
   projects: ProjectItem[];
   languages: LanguageItem[];

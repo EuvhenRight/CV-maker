@@ -50,6 +50,7 @@ interface CVStore {
   addSkill: (id: string) => void;
   removeSkill: (id: string) => void;
   setSkills: (items: string[]) => void;
+  markSkillTechnical: (id: string, technical: boolean) => void;
 
   addStrength: (id: string) => void;
   removeStrength: (id: string) => void;
@@ -211,9 +212,25 @@ export const useCVStore = create<CVStore>()(
         set((s) => ({ cv: { ...s.cv, skills: uniqueAppend(s.cv.skills, id) } })),
       removeSkill: (id) =>
         set((s) => ({
-          cv: { ...s.cv, skills: s.cv.skills.filter((x) => x !== id) },
+          cv: {
+            ...s.cv,
+            skills: s.cv.skills.filter((x) => x !== id),
+            technicalCustom: (s.cv.technicalCustom ?? []).filter(
+              (x) => x !== id,
+            ),
+          },
         })),
       setSkills: (items) => set((s) => ({ cv: { ...s.cv, skills: items } })),
+      markSkillTechnical: (id, technical) =>
+        set((s) => {
+          const current = s.cv.technicalCustom ?? [];
+          const next = technical
+            ? current.includes(id)
+              ? current
+              : [...current, id]
+            : current.filter((x) => x !== id);
+          return { cv: { ...s.cv, technicalCustom: next } };
+        }),
 
       addStrength: (id) =>
         set((s) => ({

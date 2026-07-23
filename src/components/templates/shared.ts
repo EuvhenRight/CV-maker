@@ -39,6 +39,12 @@ export function resolveStrengths(cv: CV, lang: Locale = "nl"): string[] {
   return cv.strengths.map((id) => labelForStrength(id, lang));
 }
 
+// Whether a skill belongs to the Technical group: catalog skills by their
+// category, plus any custom skill the user explicitly placed in Technical.
+export function isSkillTechnical(cv: CV, id: string): boolean {
+  return isTechnicalSkill(id) || (cv.technicalCustom?.includes(id) ?? false);
+}
+
 // Splits the skills list into a technical and a professional group (labels
 // resolved for `lang`), preserving the user's ordering within each group.
 export function splitSkills(
@@ -48,7 +54,7 @@ export function splitSkills(
   const technical: string[] = [];
   const professional: string[] = [];
   for (const id of cv.skills) {
-    (isTechnicalSkill(id) ? technical : professional).push(
+    (isSkillTechnical(cv, id) ? technical : professional).push(
       labelForSkill(id, lang),
     );
   }
