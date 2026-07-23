@@ -87,6 +87,9 @@ const NL: Dict = {
     "Alle CV-gegevens wissen? Dit kan niet ongedaan worden gemaakt.",
   "toolbar.print": "Printen",
   "toolbar.download": "Download PDF",
+  "toolbar.downloadAts": "ATS-PDF",
+  "toolbar.downloadAts.hint":
+    "Platte-tekst PDF die ATS-systemen (recruitmentsoftware) kunnen lezen.",
   "toolbar.downloading": "Bezig…",
   "toolbar.downloadError":
     "PDF maken is mislukt. Gebruik anders de Printen-knop en kies “Opslaan als PDF”.",
@@ -465,6 +468,9 @@ const EN: Dict = {
     "Clear all CV data? This cannot be undone.",
   "toolbar.print": "Print",
   "toolbar.download": "Download PDF",
+  "toolbar.downloadAts": "ATS PDF",
+  "toolbar.downloadAts.hint":
+    "Plain-text PDF that applicant tracking systems can read.",
   "toolbar.downloading": "Working…",
   "toolbar.downloadError":
     "Generating the PDF failed. Try the Print button and choose “Save as PDF”.",

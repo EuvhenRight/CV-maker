@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Download,
   FilePlus,
+  FileText,
   ImageOff,
   Image as ImageOn,
   Languages,
@@ -31,7 +32,11 @@ import {
   type Locale,
 } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { downloadCoverLetterAsPdf, downloadCVAsPdf } from "@/lib/pdf";
+import {
+  downloadCoverLetterAsPdf,
+  downloadCVAsAtsPdf,
+  downloadCVAsPdf,
+} from "@/lib/pdf";
 import { ProfessionPicker } from "./ProfessionPicker";
 import { BriefPicker } from "./BriefPicker";
 
@@ -97,6 +102,22 @@ export function Toolbar({
         const downloadName = trimmed ? `CV_${trimmed}` : "CV";
         await downloadCVAsPdf(node, { fileName: downloadName });
       }
+    } catch (err) {
+      console.error(err);
+      alert(t("toolbar.downloadError"));
+    } finally {
+      setDownloading(false);
+    }
+  }
+
+  async function handleDownloadAts() {
+    if (downloading) return;
+    const trimmed = fileName?.trim();
+    try {
+      setDownloading(true);
+      const cv = useCVStore.getState().cv;
+      const downloadName = trimmed ? `CV_${trimmed}_ATS` : "CV_ATS";
+      await downloadCVAsAtsPdf(cv, locale, { fileName: downloadName });
     } catch (err) {
       console.error(err);
       alert(t("toolbar.downloadError"));
@@ -332,6 +353,19 @@ export function Toolbar({
           <FilePlus className="h-4 w-4" />
           <span className="hidden sm:inline">{t("toolbar.print")}</span>
         </Button>
+        {!isLetter && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadAts}
+            disabled={downloading}
+            aria-label={t("toolbar.downloadAts")}
+            title={t("toolbar.downloadAts.hint")}
+          >
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("toolbar.downloadAts")}</span>
+          </Button>
+        )}
         <Button
           variant="primary"
           size="sm"

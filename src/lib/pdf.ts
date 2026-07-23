@@ -5,6 +5,11 @@ import html2canvas from "html2canvas-pro";
 import { trackAnalyticsEvent } from "./analytics-client";
 import type { CV } from "./cv-types";
 import { translate, type Locale } from "./i18n";
+import {
+  dateRange,
+  resolveStrengths,
+  splitSkills,
+} from "@/components/templates/shared";
 
 interface DownloadOptions {
   fileName?: string;
@@ -349,6 +354,238 @@ export async function downloadCoverLetterAsPdf(
     doc.setFontSize(10);
     doc.setTextColor(80, 80, 80);
     doc.text(cv.personal.title, MARGIN_MM, ctx.y);
+  }
+
+  doc.save(`${sanitizeFileName(fileName)}.pdf`);
+  void trackAnalyticsEvent("download");
+}
+
+// ---------------------------------------------------------------------------
+// ATS-friendly CV — a single-column, plain-text PDF. Unlike downloadCVAsPdf
+// (which rasterises the styled preview to an image that scanners cannot read),
+// this emits real, selectable text that applicant tracking systems can parse.
+// ---------------------------------------------------------------------------
+
+function atsBody(
+  ctx: TextCtx,
+  text: string,
+  opts: {
+    size?: number;
+    style?: "normal" | "bold" | "italic";
+    color?: [number, number, number];
+    indent?: number;
+    gapAfter?: number;
+  } = {},
+): void {
+  const size = opts.size ?? 10;
+  const indent = opts.indent ?? 0;
+  ctx.doc.setFont("helvetica", opts.style ?? "normal");
+  ctx.doc.setFontSize(size);
+  const [r, g, b] = opts.color ?? [30, 30, 30];
+  ctx.doc.setTextColor(r, g, b);
+  const lineH = size * 0.3528 * 1.25;
+  const lines = ctx.doc.splitTextToSize(
+    text,
+    CONTENT_WIDTH_MM - indent,
+  ) as string[];
+  for (const ln of lines) {
+    ensureSpace(ctx, lineH);
+    ctx.doc.text(ln, MARGIN_MM + indent, ctx.y);
+    ctx.y += lineH;
+  }
+  if (opts.gapAfter) ctx.y += opts.gapAfter;
+}
+
+function atsSectionHeading(ctx: TextCtx, text: string): void {
+  ctx.y += 3.5;
+  ensureSpace(ctx, 9);
+  ctx.doc.setFont("helvetica", "bold");
+  ctx.doc.setFontSize(11);
+  ctx.doc.setTextColor(20, 20, 20);
+  ctx.doc.text(text.toUpperCase(), MARGIN_MM, ctx.y);
+  ctx.y += 1.6;
+  ctx.doc.setDrawColor(170, 170, 170);
+  ctx.doc.setLineWidth(0.3);
+  ctx.doc.line(MARGIN_MM, ctx.y, A4_WIDTH_MM - MARGIN_MM, ctx.y);
+  ctx.y += 4;
+}
+
+function atsBulletLine(ctx: TextCtx, text: string): void {
+  const size = 10;
+  const lineH = size * 0.3528 * 1.25;
+  ctx.doc.setFont("helvetica", "normal");
+  ctx.doc.setFontSize(size);
+  ctx.doc.setTextColor(30, 30, 30);
+  const lines = ctx.doc.splitTextToSize(text, CONTENT_WIDTH_MM - 6) as string[];
+  lines.forEach((ln, i) => {
+    ensureSpace(ctx, lineH);
+    if (i === 0) ctx.doc.text("-", MARGIN_MM + 1.5, ctx.y);
+    ctx.doc.text(ln, MARGIN_MM + 6, ctx.y);
+    ctx.y += lineH;
+  });
+}
+
+export async function downloadCVAsAtsPdf(
+  cv: CV,
+  lang: Locale,
+  options: { fileName?: string } = {},
+): Promise<void> {
+  const { fileName = "CV" } = options;
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+    compress: true,
+  });
+  const ctx: TextCtx = { doc, y: MARGIN_MM };
+  const p = cv.personal;
+  const tr = (k: string) => translate(lang, k);
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(20);
+  doc.setTextColor(15, 15, 15);
+  doc.text(p.fullName || tr("preview.placeholder.name"), MARGIN_MM, ctx.y);
+  ctx.y += 8;
+
+  if (p.title) atsBody(ctx, p.title, { size: 11.5, color: [70, 70, 70] });
+
+  const contact = [
+    p.email,
+    p.phone,
+    p.location,
+    p.website,
+    p.linkedin,
+    p.github,
+  ].filter(Boolean) as string[];
+  if (contact.length > 0)
+    atsBody(ctx, contact.join("   |   "), { size: 9.5, color: [55, 55, 55] });
+
+  const detailPairs: Array<[string | undefined, string]> = [
+    [p.dateOfBirth, "personal.dateOfBirth"],
+    [p.nationality, "personal.nationality"],
+    [p.workEligibility, "personal.workEligibility"],
+    [p.drivingLicense, "personal.drivingLicense"],
+    [p.bigNumber, "personal.bigNumber"],
+    [p.agbCode, "personal.agbCode"],
+  ];
+  const details = detailPairs
+    .filter(([v]) => v && v.trim())
+    .map(([v, k]) => `${tr(k)}: ${v}`);
+  if (details.length > 0)
+    atsBody(ctx, details.join("   |   "), { size: 9, color: [90, 90, 90] });
+
+  for (const key of cv.sectionOrder) {
+    switch (key) {
+      case "summary": {
+        if (!cv.summary.trim()) break;
+        atsSectionHeading(ctx, tr("tpl.section.summary"));
+        atsBody(ctx, cv.summary, { gapAfter: 1 });
+        break;
+      }
+      case "experience": {
+        if (cv.experience.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.experience"));
+        for (const e of cv.experience) {
+          const title = [e.role, e.company].filter(Boolean).join(" — ");
+          if (title) atsBody(ctx, title, { size: 10.5, style: "bold" });
+          const meta = [
+            e.location,
+            dateRange(e.startDate, e.endDate, e.current, lang),
+          ]
+            .filter(Boolean)
+            .join("   ·   ");
+          if (meta) atsBody(ctx, meta, { size: 9.5, color: [90, 90, 90] });
+          for (const b of e.bullets.filter(Boolean)) atsBulletLine(ctx, b);
+          ctx.y += 2.5;
+        }
+        break;
+      }
+      case "education": {
+        if (cv.education.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.education"));
+        for (const ed of cv.education) {
+          const hasDegree = [ed.degree, ed.field].filter(Boolean).length > 0;
+          const title = hasDegree
+            ? [ed.degree, ed.field].filter(Boolean).join(", ")
+            : ed.school;
+          if (title) atsBody(ctx, title, { size: 10.5, style: "bold" });
+          const meta = [
+            hasDegree ? ed.school : "",
+            dateRange(ed.startDate, ed.endDate, undefined, lang),
+          ]
+            .filter(Boolean)
+            .join("   ·   ");
+          if (meta) atsBody(ctx, meta, { size: 9.5, color: [90, 90, 90] });
+          if (ed.description)
+            atsBody(ctx, ed.description, { size: 9.5, color: [60, 60, 60] });
+          ctx.y += 2.5;
+        }
+        break;
+      }
+      case "skills": {
+        const { technical, professional } = splitSkills(cv, lang);
+        if (technical.length === 0 && professional.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.skills"));
+        if (technical.length > 0)
+          atsBody(ctx, `${tr("tpl.skills.technical")}: ${technical.join(", ")}`);
+        if (professional.length > 0)
+          atsBody(
+            ctx,
+            `${tr("tpl.skills.professional")}: ${professional.join(", ")}`,
+          );
+        ctx.y += 1;
+        break;
+      }
+      case "strengths": {
+        if (cv.strengths.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.strengths"));
+        atsBody(ctx, resolveStrengths(cv, lang).join(", "), { gapAfter: 1 });
+        break;
+      }
+      case "projects": {
+        if (cv.projects.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.projects"));
+        for (const pr of cv.projects) {
+          if (pr.name) atsBody(ctx, pr.name, { size: 10.5, style: "bold" });
+          const links = [
+            pr.link ? `Live: ${pr.link}` : "",
+            pr.github ? `GitHub: ${pr.github}` : "",
+          ]
+            .filter(Boolean)
+            .join("   ·   ");
+          if (links) atsBody(ctx, links, { size: 9.5, color: [70, 70, 70] });
+          if (pr.description)
+            atsBody(ctx, pr.description, { size: 9.5, color: [60, 60, 60] });
+          ctx.y += 2.5;
+        }
+        break;
+      }
+      case "languages": {
+        if (cv.languages.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.languages"));
+        atsBody(
+          ctx,
+          cv.languages
+            .map((l) => (l.level ? `${l.name} (${l.level})` : l.name))
+            .filter(Boolean)
+            .join(",   "),
+          { gapAfter: 1 },
+        );
+        break;
+      }
+      case "certifications": {
+        if (cv.certifications.length === 0) break;
+        atsSectionHeading(ctx, tr("tpl.section.certifications"));
+        for (const c of cv.certifications) {
+          const parts = [c.name, c.issuer].filter(Boolean).join(" — ");
+          const line = c.date ? `${parts} (${c.date})` : parts;
+          if (line) atsBody(ctx, line, { size: 10 });
+          if (c.link) atsBody(ctx, c.link, { size: 9, color: [70, 70, 70] });
+          ctx.y += 1;
+        }
+        break;
+      }
+    }
   }
 
   doc.save(`${sanitizeFileName(fileName)}.pdf`);
