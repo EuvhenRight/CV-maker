@@ -1,6 +1,10 @@
 import type { CV, SectionKey } from "@/lib/cv-types";
 import { translate, type Locale } from "@/lib/i18n";
-import { labelForSkill, labelForStrength } from "@/lib/skills-data";
+import {
+  isTechnicalSkill,
+  labelForSkill,
+  labelForStrength,
+} from "@/lib/skills-data";
 
 export interface TemplateProps {
   cv: CV;
@@ -33,6 +37,22 @@ export function resolveSkills(cv: CV, lang: Locale = "nl"): string[] {
 
 export function resolveStrengths(cv: CV, lang: Locale = "nl"): string[] {
   return cv.strengths.map((id) => labelForStrength(id, lang));
+}
+
+// Splits the skills list into a technical and a professional group (labels
+// resolved for `lang`), preserving the user's ordering within each group.
+export function splitSkills(
+  cv: CV,
+  lang: Locale = "nl",
+): { technical: string[]; professional: string[] } {
+  const technical: string[] = [];
+  const professional: string[] = [];
+  for (const id of cv.skills) {
+    (isTechnicalSkill(id) ? technical : professional).push(
+      labelForSkill(id, lang),
+    );
+  }
+  return { technical, professional };
 }
 
 export function dateRange(

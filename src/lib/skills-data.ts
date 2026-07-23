@@ -123,6 +123,13 @@ export function isPresetSkill(id: string): boolean {
   return SKILL_BY_ID.has(id);
 }
 
+// Whether a skill belongs to the "Technical" group (vs "Professional"). Only the
+// catalog's `technical` category counts; custom/unknown skills fall through to
+// the professional group.
+export function isTechnicalSkill(id: string): boolean {
+  return SKILL_BY_ID.get(id)?.category === "technical";
+}
+
 export function isPresetStrength(id: string): boolean {
   return STRENGTH_BY_ID.has(id);
 }

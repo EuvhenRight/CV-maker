@@ -5,8 +5,8 @@ import {
   nonEmpty,
   normalizeUrl,
   placeholderName,
-  resolveSkills,
   resolveStrengths,
+  splitSkills,
   type TemplateProps,
 } from "./shared";
 import {
@@ -15,6 +15,7 @@ import {
   PdfLink,
   PersonalDetails,
   ProjectLinks,
+  SkillGroups,
 } from "./blocks";
 
 const SIDEBAR_KEYS = new Set<SectionKey>([
@@ -227,20 +228,29 @@ function SideBlock({
 }) {
   if (!nonEmpty(cv, k)) return null;
   if (k === "skills") {
+    const { technical, professional } = splitSkills(cv, lang);
     return (
       <div className="space-y-1">
         <H accent={accent}>{t("tpl.section.skills")}</H>
-        <div className="flex flex-wrap gap-1">
-          {resolveSkills(cv, lang).map((label, i) => (
-            <span
-              key={`${label}-${i}`}
-              className="rounded-full px-1.5 py-0.5 text-[10px] font-medium break-words"
-              style={{ background: `${accent}1f`, color: accent }}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
+        <SkillGroups
+          technical={technical}
+          professional={professional}
+          lang={lang}
+          labelStyle={{ color: accent }}
+          renderList={(items) => (
+            <div className="flex flex-wrap gap-1">
+              {items.map((label, i) => (
+                <span
+                  key={`${label}-${i}`}
+                  className="rounded-full px-1.5 py-0.5 text-[10px] font-medium break-words"
+                  style={{ background: `${accent}1f`, color: accent }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          )}
+        />
       </div>
     );
   }

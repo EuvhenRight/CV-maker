@@ -5,8 +5,8 @@ import {
   nonEmpty,
   normalizeUrl,
   placeholderName,
-  resolveSkills,
   resolveStrengths,
+  splitSkills,
   type TemplateProps,
 } from "./shared";
 import {
@@ -15,6 +15,7 @@ import {
   PdfLink,
   PersonalDetails,
   ProjectLinks,
+  SkillGroups,
 } from "./blocks";
 
 export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
@@ -96,18 +97,28 @@ export function CorporateTemplate({ cv, lang = "nl" }: TemplateProps) {
             </div>
           </Block>
         );
-      case "skills":
+      case "skills": {
+        const { technical, professional } = splitSkills(cv, lang);
         return (
           <Block
             key={k}
             title={t("tpl.section.coreCompetencies")}
             accent={accent}
           >
-            <div className="text-[12px] leading-relaxed break-words">
-              {resolveSkills(cv, lang).join(" · ")}
-            </div>
+            <SkillGroups
+              technical={technical}
+              professional={professional}
+              lang={lang}
+              labelStyle={{ color: accent }}
+              renderList={(items) => (
+                <div className="text-[12px] leading-relaxed break-words">
+                  {items.join(" · ")}
+                </div>
+              )}
+            />
           </Block>
         );
+      }
       case "strengths":
         return (
           <Block

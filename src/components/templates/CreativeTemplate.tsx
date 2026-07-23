@@ -5,9 +5,9 @@ import {
   nonEmpty,
   normalizeUrl,
   placeholderName,
-  resolveSkills,
   resolveStrengths,
   softTextOn,
+  splitSkills,
   textOn,
   type TemplateProps,
 } from "./shared";
@@ -17,6 +17,7 @@ import {
   PdfLink,
   PersonalDetails,
   ProjectLinks,
+  SkillGroups,
 } from "./blocks";
 
 export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
@@ -94,22 +95,32 @@ export function CreativeTemplate({ cv, lang = "nl" }: TemplateProps) {
             </div>
           </Block>
         );
-      case "skills":
+      case "skills": {
+        const { technical, professional } = splitSkills(cv, lang);
         return (
           <Block key={k} title={t("tpl.section.skills")} accent={accent}>
-            <div className="flex flex-wrap gap-1.5">
-              {resolveSkills(cv, lang).map((label, i) => (
-                <span
-                  key={`${label}-${i}`}
-                  className="rounded-full px-2 py-0.5 text-[11px] font-medium break-words"
-                  style={{ background: `${accent}18`, color: accent }}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
+            <SkillGroups
+              technical={technical}
+              professional={professional}
+              lang={lang}
+              labelStyle={{ color: accent }}
+              renderList={(items) => (
+                <div className="flex flex-wrap gap-1.5">
+                  {items.map((label, i) => (
+                    <span
+                      key={`${label}-${i}`}
+                      className="rounded-full px-2 py-0.5 text-[11px] font-medium break-words"
+                      style={{ background: `${accent}18`, color: accent }}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              )}
+            />
           </Block>
         );
+      }
       case "strengths":
         return (
           <Block key={k} title={t("tpl.section.strengths")} accent={accent}>

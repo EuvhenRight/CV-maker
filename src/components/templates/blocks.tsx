@@ -18,8 +18,8 @@ import {
   nonEmpty,
   normalizeUrl,
   personalDetailItems,
-  resolveSkills,
   resolveStrengths,
+  splitSkills,
   type ContactItem,
   type ContactKind,
 } from "./shared";
@@ -326,6 +326,51 @@ export function EducationBlock({
   );
 }
 
+// Renders skills split into "Technical" / "Professional" groups. When only one
+// group has items the sub-labels are hidden, so single-category CVs look exactly
+// as before. `renderList` lets each template keep its own chip/joined styling.
+export function SkillGroups({
+  technical,
+  professional,
+  lang,
+  labelStyle,
+  renderList,
+}: {
+  technical: string[];
+  professional: string[];
+  lang: Locale;
+  labelStyle?: React.CSSProperties;
+  renderList: (items: string[]) => React.ReactNode;
+}) {
+  const groups = [
+    { key: "t", label: translate(lang, "tpl.skills.technical"), items: technical },
+    {
+      key: "p",
+      label: translate(lang, "tpl.skills.professional"),
+      items: professional,
+    },
+  ].filter((g) => g.items.length > 0);
+  if (groups.length === 0) return null;
+  const showLabels = groups.length > 1;
+  return (
+    <div className="space-y-1.5">
+      {groups.map((g) => (
+        <div key={g.key}>
+          {showLabels && (
+            <div
+              className="mb-0.5 text-[10px] font-semibold uppercase tracking-wide"
+              style={labelStyle}
+            >
+              {g.label}
+            </div>
+          )}
+          {renderList(g.items)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function SkillsBlock({
   cv,
   opts,
@@ -341,15 +386,11 @@ export function SkillsBlock({
 }) {
   if (!nonEmpty(cv, "skills")) return null;
   const lang = langOf(opts);
-  const labels = resolveSkills(cv, lang);
-  if (chips) {
-    return (
-      <section>
-        <Heading opts={opts}>
-          {title ?? translate(lang, "tpl.section.skills")}
-        </Heading>
+  const { technical, professional } = splitSkills(cv, lang);
+  const renderList = chips
+    ? (items: string[]) => (
         <div className="flex flex-wrap gap-1.5">
-          {labels.map((label, i) => (
+          {items.map((label, i) => (
             <span
               key={`${label}-${i}`}
               className="rounded-full px-2 py-0.5 text-[11px] font-medium break-words"
@@ -359,24 +400,31 @@ export function SkillsBlock({
             </span>
           ))}
         </div>
-      </section>
-    );
-  }
+      )
+    : (items: string[]) => (
+        <div
+          className={
+            inline
+              ? "text-[12px] break-words"
+              : "text-[12px] leading-relaxed break-words"
+          }
+          style={{ color: opts.textColor ?? "#3a3a3a" }}
+        >
+          {items.join(" · ")}
+        </div>
+      );
   return (
     <section>
       <Heading opts={opts}>
         {title ?? translate(lang, "tpl.section.skills")}
       </Heading>
-      <div
-        className={
-          inline
-            ? "text-[12px] break-words"
-            : "text-[12px] leading-relaxed break-words"
-        }
-        style={{ color: opts.textColor ?? "#3a3a3a" }}
-      >
-        {labels.join(" · ")}
-      </div>
+      <SkillGroups
+        technical={technical}
+        professional={professional}
+        lang={lang}
+        labelStyle={{ color: opts.mutedColor ?? opts.accent }}
+        renderList={renderList}
+      />
     </section>
   );
 }
