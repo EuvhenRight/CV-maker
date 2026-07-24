@@ -7,6 +7,8 @@ import type { CV } from "./cv-types";
 import { translate, type Locale } from "./i18n";
 import {
   dateRange,
+  linkLabel,
+  normalizeUrl,
   resolveStrengths,
   splitSkills,
 } from "@/components/templates/shared";
@@ -425,6 +427,22 @@ function atsBulletLine(ctx: TextCtx, text: string): void {
   });
 }
 
+// Renders `text` as a clickable link instead of dumping a raw (often long) URL
+// as visible text — keeps the credential reachable without an ugly URL blob.
+function atsLink(ctx: TextCtx, text: string, url: string): void {
+  const size = 10;
+  const lineH = size * 0.3528 * 1.25;
+  ctx.doc.setFont("helvetica", "normal");
+  ctx.doc.setFontSize(size);
+  ctx.doc.setTextColor(30, 30, 30);
+  const lines = ctx.doc.splitTextToSize(text, CONTENT_WIDTH_MM) as string[];
+  for (const ln of lines) {
+    ensureSpace(ctx, lineH);
+    ctx.doc.textWithLink(ln, MARGIN_MM, ctx.y, { url });
+    ctx.y += lineH;
+  }
+}
+
 export async function downloadCVAsAtsPdf(
   cv: CV,
   lang: Locale,
@@ -548,8 +566,8 @@ export async function downloadCVAsAtsPdf(
         for (const pr of cv.projects) {
           if (pr.name) atsBody(ctx, pr.name, { size: 10.5, style: "bold" });
           const links = [
-            pr.link ? `Live: ${pr.link}` : "",
-            pr.github ? `GitHub: ${pr.github}` : "",
+            pr.link ? `Live: ${linkLabel(pr.link)}` : "",
+            pr.github ? `GitHub: ${linkLabel(pr.github)}` : "",
           ]
             .filter(Boolean)
             .join("   ·   ");
@@ -579,8 +597,11 @@ export async function downloadCVAsAtsPdf(
         for (const c of cv.certifications) {
           const parts = [c.name, c.issuer].filter(Boolean).join(" — ");
           const line = c.date ? `${parts} (${c.date})` : parts;
-          if (line) atsBody(ctx, line, { size: 10 });
-          if (c.link) atsBody(ctx, c.link, { size: 9, color: [70, 70, 70] });
+          if (!line) continue;
+          // A link becomes a clickable credential on the title, rather than a
+          // long raw URL printed as visible text.
+          if (c.link.trim()) atsLink(ctx, line, normalizeUrl(c.link));
+          else atsBody(ctx, line, { size: 10 });
           ctx.y += 1;
         }
         break;

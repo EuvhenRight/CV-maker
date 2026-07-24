@@ -7,6 +7,7 @@ import { useT } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { trackAnalyticsEvent } from "@/lib/analytics-client";
 import { Toolbar, type BuilderMode } from "./Toolbar";
+import { CvScore } from "./CvScore";
 import { EditorPanel } from "@/components/editor/EditorPanel";
 import { CVPreview } from "@/components/preview/CVPreview";
 import { CoverLetterEditor } from "@/components/coverletter/CoverLetterEditor";
@@ -141,6 +142,7 @@ export function Builder() {
                 </div>
               </div>
             )}
+            {hydrated && mode === "cv" && <CvScore />}
             {mode === "cv" ? <EditorPanel /> : <CoverLetterEditor />}
             <p className="pt-3 text-center text-xs text-[#9a9a9a]">
               {t("builder.localStorage")}
